@@ -18,6 +18,30 @@ namespace BggApi
     public class BggApiClient
     {
         private const string BASE_URL = "http://www.boardgamegeek.com/xmlapi2";
+        public async Task<IEnumerable<HotItem>> LoadHotItems()
+        {
+            try
+            {
+                Uri teamDataURI = new Uri(BASE_URL + "/hot?type=boardgame");
+                XDocument xDoc = await ReadData(teamDataURI);
+
+                // LINQ to XML.
+                IEnumerable<HotItem> hotBoardGamesCollection = from Boardgame in xDoc.Descendants("item")
+                                                               select new HotItem
+                                                               {
+                                                                   Name = Boardgame.Element("name").Attribute("value").Value,
+                                                                   YearPublished = Boardgame.Element("yearpublished") != null ? int.Parse(Boardgame.Element("yearpublished").Attribute("value").Value) : 0,
+                                                                   ThumbnailWeb = "http:" + Boardgame.Element("thumbnail").Attribute("value").Value,
+                                                                   BoardGameId = int.Parse(Boardgame.Attribute("id").Value),
+                                                                   Rank = int.Parse(Boardgame.Attribute("rank").Value)
+                                                               };
+                return hotBoardGamesCollection;
+            }
+            catch
+            {
+                return new List<HotItem>();
+            }
+        }
 
         private async Task<XDocument> ReadData(Uri requestUrl)
         {
