@@ -110,6 +110,15 @@
     <Compile Include="BggApiClient.cs" />
     <Compile Include="Models\Abstract\BasicBoardGame.cs" />
     <Compile Include="Models\Abstract\BasicItem.cs" />
+    <Compile Include="Models\Abstract\BoardGame.cs" />
+    <Compile Include="Models\Abstract\CollectionItem.cs" />
+    <Compile Include="Models\Abstract\HotItem.cs" />
+    <Compile Include="Models\Abstract\Play.cs" />
+    <Compile Include="Models\Abstract\Player.cs" />
+    <Compile Include="Models\Abstract\PlayerPollResult.cs" />
+    <Compile Include="Models\Abstract\RulesItem.cs" />
+    <Compile Include="Models\Abstract\SearchResult.cs" />
+    <Compile Include="Models\Abstract\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\BggApi.rd.xml" />
   </ItemGroup>
