@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BggApiClient.cs" />
+    <Compile Include="Models\Abstract\BasicBoardGame.cs" />
+    <Compile Include="Models\Abstract\BasicItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\BggApi.rd.xml" />
   </ItemGroup>
