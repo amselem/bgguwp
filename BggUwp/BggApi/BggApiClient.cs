@@ -10,6 +10,11 @@ using BGGAPI.Models;
 
 namespace BggApi
 {
+    // Adapted from the BoardBoardGameGeek client library created by WebKoala
+    // See this post for more information: http://boardgamegeek.com/thread/972785/c-async-api-client
+    // Original source at https://github.com/WebKoala/W8BggApp
+    // ReadData function based on https://github.com/ervwalter/bgg-json
+
     public class BggApiClient
     {
         private const string BASE_URL = "http://www.boardgamegeek.com/xmlapi2";
