@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -116,6 +117,67 @@ namespace BggApi
                 rank = -1;
 
             return rank;
+        }
+        #endregion
+
+        #region Converters
+        private string GetStringValue(XElement element, string attribute = null, string defaultValue = "")
+        {
+            if (element == null)
+                return defaultValue;
+
+            if (attribute == null)
+                return element.Value;
+
+            XAttribute xatt = element.Attribute(attribute);
+            if (xatt == null)
+                return defaultValue;
+
+            return xatt.Value;
+        }
+        private int GetIntValue(XElement element, string attribute = null, int defaultValue = -1)
+        {
+            string val = GetStringValue(element, attribute, null);
+            if (val == null)
+                return defaultValue;
+
+            int retVal;
+            if (!int.TryParse(val, out retVal))
+                retVal = defaultValue;
+            return retVal;
+        }
+        private bool GetBoolValue(XElement element, string attribute = null, bool defaultValue = false)
+        {
+            string val = GetStringValue(element, attribute, null);
+            if (val == null)
+                return defaultValue;
+
+            int retVal;
+            if (!int.TryParse(val, out retVal))
+                return defaultValue;
+
+            return retVal == 1;
+        }
+        private decimal GetDecimalValue(XElement element, string attribute = null, decimal defaultValue = -1)
+        {
+            string val = GetStringValue(element, attribute, null);
+            if (val == null)
+                return defaultValue;
+
+            decimal retVal;
+            if (!decimal.TryParse(val, out retVal))
+                return defaultValue;
+
+            return retVal;
+        }
+        private DateTime safeParseDateTime(string date)
+        {
+            DateTime dt;
+            if (!DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            {
+                dt = DateTime.MinValue;
+            }
+            return dt;
         }
         #endregion
 
