@@ -16,9 +16,37 @@ namespace BggApi
     // Original source at https://github.com/WebKoala/W8BggApp
     // ReadData function based on https://github.com/ervwalter/bgg-json
 
-    public class BggApiClient
+    public class BggApiClient : IBggApiClient
     {
         private const string BASE_URL = "http://www.boardgamegeek.com/xmlapi2";
+        public async Task<User> LoadUserDetails(string username)
+        {
+            try
+            {
+                Uri teamDataURI = new Uri(string.Format(BASE_URL + "/user?name={0}", username));
+
+                XDocument xDoc = await ReadData(teamDataURI);
+
+                // LINQ to XML.
+                IEnumerable<User> users = from Boardgame in xDoc.Descendants("user")
+                                          select new User
+                                          {
+                                              UserId = int.Parse(Boardgame.Attribute("id").Value),
+                                              Username = Boardgame.Attribute("name").Value,
+                                              Avatar = GetStringValue(Boardgame.Element("avatarlink"), "value"),
+                                              FirstName = GetStringValue(Boardgame.Element("firstname"), "value"),
+                                              LastName = GetStringValue(Boardgame.Element("lastname"), "value"),
+                                              YearRegistered = GetStringValue(Boardgame.Element("yearregistered"), "value"),
+                                          };
+                return users.FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                return new User();
+            }
+        }
+
         public async Task<IEnumerable<HotItem>> LoadHotItems()
         {
             try
@@ -38,9 +66,104 @@ namespace BggApi
                                                                };
                 return hotBoardGamesCollection;
             }
-            catch
+            catch (Exception ex)
             {
+
                 return new List<HotItem>();
+            }
+        }
+
+        public async Task<IEnumerable<CollectionItem>> LoadCollection(string Username)
+        {
+            IEnumerable<CollectionItem> baseBoardGames = await LoadBoardGamesFromCollection(Username, false);
+            IEnumerable<CollectionItem> expansions = await LoadBoardGamesFromCollection(Username, true);
+
+            return baseBoardGames.Concat(expansions);
+        }
+        private async Task<IEnumerable<CollectionItem>> LoadBoardGamesFromCollection(string Username, bool GetExpansions)
+        {
+            try
+            {
+
+                Uri teamDataURI = new Uri(string.Format(BASE_URL + "/collection?username={0}&stats=1&{1}",
+                    Username,
+                    GetExpansions ? "subtype=boardgameexpansion" : "excludesubtype=boardgameexpansion"));
+
+
+                XDocument xDoc = await ReadData(teamDataURI);
+
+                // LINQ to XML.
+                IEnumerable<CollectionItem> baseBoardGames = from colItem in xDoc.Descendants("item")
+                                                             select new CollectionItem
+                                                             {
+                                                                 Name = GetStringValue(colItem.Element("name")),
+                                                                 NumberOfPlays = GetIntValue(colItem.Element("numplays")),
+                                                                 YearPublished = GetIntValue(colItem.Element("yearpublished")),
+                                                                 ThumbnailWeb = "http:" + GetStringValue(colItem.Element("thumbnail")),
+                                                                 BoardGameId = GetIntValue(colItem, "objectid"),
+                                                                 CollectionItemId = GetIntValue(colItem, "collid"),
+                                                                 ForTrade = GetBoolValue(colItem.Element("status"), "fortrade"),
+                                                                 Owned = GetBoolValue(colItem.Element("status"), "own"),
+                                                                 PreviousOwned = GetBoolValue(colItem.Element("status"), "prevowned"),
+                                                                 Want = GetBoolValue(colItem.Element("status"), "want"),
+                                                                 WantToBuy = GetBoolValue(colItem.Element("status"), "wanttobuy"),
+                                                                 WantToPlay = GetBoolValue(colItem.Element("status"), "wanttoplay"),
+                                                                 Wishlist = GetBoolValue(colItem.Element("status"), "wishlist"),
+                                                                 WishlistPriority = GetIntValue(colItem.Element("status"), "wishlistpriority"),
+                                                                 PreOrdered = GetBoolValue(colItem.Element("status"), "preordered"),
+                                                                 UserRating = GetDecimalValue(colItem.Element("stats").Element("rating"), "value", 0),
+                                                                 AverageRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("average"), "value", 0),
+                                                                 GeekRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("bayesaverage"), "value", 0),
+                                                                 ImageWeb = "http:" + GetStringValue(colItem.Element("image")),
+                                                                 MaxPlayers = GetIntValue(colItem.Element("stats"), "maxplayers"),
+                                                                 MinPlayers = GetIntValue(colItem.Element("stats"), "minplayers"),
+                                                                 PlayingTime = GetIntValue(colItem.Element("stats"), "playingtime"),
+                                                                 Rank = GetRanking(colItem.Element("stats").Element("rating").Element("ranks")),
+                                                                 IsExpansion = GetExpansions,
+                                                                 UserComment = GetStringValue(colItem.Element("comment"))
+                                                             };
+                return baseBoardGames;
+            }
+            catch (Exception ex)
+            {
+                //ExceptionHandler(ex);
+                return new List<CollectionItem>();
+            }
+        }
+        public async Task<BoardGame> LoadBoardGame(int BoardGameId)
+        {
+            try
+            {
+                Uri teamDataURI = new Uri(string.Format(BASE_URL + "/thing?id={0}&stats=1", BoardGameId));
+                XDocument xDoc = await ReadData(teamDataURI);
+                // LINQ to XML.
+                IEnumerable<BoardGame> gameCollection = from Boardgame in xDoc.Descendants("items")
+                                                        select new BoardGame
+                                                        {
+                                                            Name = (from p in Boardgame.Element("item").Elements("name") where p.Attribute("type").Value == "primary" select p.Attribute("value").Value).SingleOrDefault(),
+                                                            BoardGameId = int.Parse(Boardgame.Element("item").Attribute("id").Value),
+                                                            ImageWeb = "http:" + Boardgame.Element("item").Element("image") != null ? Boardgame.Element("item").Element("image").Value : string.Empty,
+                                                            ThumbnailWeb = "http:" + Boardgame.Element("item").Element("thumbnail") != null ? Boardgame.Element("item").Element("thumbnail").Value : string.Empty,
+                                                            Description = WebUtility.HtmlDecode(Boardgame.Element("item").Element("description").Value),
+                                                            MaxPlayers = int.Parse(Boardgame.Element("item").Element("maxplayers").Attribute("value").Value),
+                                                            MinPlayers = int.Parse(Boardgame.Element("item").Element("minplayers").Attribute("value").Value),
+                                                            YearPublished = int.Parse(Boardgame.Element("item").Element("yearpublished").Attribute("value").Value),
+                                                            PlayingTime = int.Parse(Boardgame.Element("item").Element("playingtime").Attribute("value").Value),
+                                                            AverageRating = decimal.Parse(Boardgame.Element("item").Element("statistics").Element("ratings").Element("average").Attribute("value").Value),
+                                                            GeekRating = decimal.Parse(Boardgame.Element("item").Element("statistics").Element("ratings").Element("bayesaverage").Attribute("value").Value),
+                                                            Rank = GetRanking(Boardgame.Element("item").Element("statistics").Element("ratings").Element("ranks")),
+                                                            Publishers = (from p in Boardgame.Element("item").Elements("link") where p.Attribute("type").Value == "boardgamepublisher" select p.Attribute("value").Value).ToList(),
+                                                            Designers = (from p in Boardgame.Element("item").Elements("link") where p.Attribute("type").Value == "boardgamedesigner" select p.Attribute("value").Value).ToList(),
+                                                            Artists = (from p in Boardgame.Element("item").Elements("link") where p.Attribute("type").Value == "boardgameartist" select p.Attribute("value").Value).ToList(),
+                                                            PlayerPollResults = LoadPlayerPollResults(Boardgame.Element("item").Element("poll")),
+                                                            IsExpansion = SetIsExpansion(Boardgame)
+                                                        };
+
+                return gameCollection.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return new BoardGame();
             }
         }
 
@@ -119,6 +242,84 @@ namespace BggApi
             return rank;
         }
         #endregion
+
+        public async Task<IEnumerable<Play>> LoadLastPlays(string Username)
+        {
+            try
+            {
+                Uri teamDataURI = new Uri(string.Format(BASE_URL + "/plays?username={0}", Username));
+                XDocument xDoc = await ReadData(teamDataURI);
+
+                // LINQ to XML.
+                IEnumerable<Play> gameCollection = from Boardgame in xDoc.Descendants("play")
+                                                   select new Play
+                                                   {
+                                                       PlayId = int.Parse(Boardgame.Attribute("id").Value),
+                                                       BoardGameName = Boardgame.Element("item").Attribute("name").Value,
+                                                       BoardGameId = int.Parse(Boardgame.Element("item").Attribute("objectid").Value),
+                                                       PlayDate = safeParseDateTime(Boardgame.Attribute("date").Value),
+                                                       NumberOfPlays = int.Parse(Boardgame.Attribute("quantity").Value),
+                                                       Length = int.Parse(Boardgame.Attribute("length").Value),
+                                                       UserComment = GetStringValue(Boardgame.Element("comments")),
+                                                       Players = LoadPlayersList(Boardgame.Element("players"))
+                                                   };
+
+                return gameCollection;
+            }
+            catch (Exception ex)
+            {
+                return new List<Play>();
+            }
+        }
+        private List<Player> LoadPlayersList(XElement xElement)
+        {
+            List<Player> players = new List<Player>();
+
+            if (xElement != null)
+            {
+                foreach (XElement p in xElement.Elements("player"))
+                {
+                    Player pResult = new Player()
+                    {
+                        Username = p.Attribute("username").Value,
+                        UserId = int.Parse(p.Attribute("userid").Value),
+                        Name = p.Attribute("name").Value,
+                        StartPosition = p.Attribute("startposition").Value,
+                        Color = p.Attribute("username").Value,
+                        Score = GetIntValue(p, "score", 0),
+                        IsNewPlayer = GetBoolValue(p, "new"),
+                        IsWinner = GetBoolValue(p, "win")
+                    };
+                    players.Add(pResult);
+                }
+            }
+
+            return players;
+        }
+
+        public async Task<IEnumerable<BoardGame>> Search(string query)
+        {
+            try
+            {
+                query = query.Replace(" ", "+");
+                Uri teamDataURI = new Uri(string.Format(BASE_URL + "/search?query={0}&type=boardgame", query));
+
+                XDocument xDoc = await ReadData(teamDataURI);
+
+                // LINQ to XML.
+                IEnumerable<BoardGame> searchResults = from Boardgame in xDoc.Descendants("item")
+                                                       select new BoardGame
+                                                       {
+                                                           Name = GetStringValue(Boardgame.Element("name"), "value"),
+                                                           BoardGameId = GetIntValue(Boardgame, "id")
+                                                       };
+                return searchResults;
+            }
+            catch (Exception ex)
+            {
+                return new List<BoardGame>();
+            }
+        }
 
         #region Converters
         private string GetStringValue(XElement element, string attribute = null, string defaultValue = "")
