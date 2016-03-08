@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BGGAPI.Models.Abstract
+namespace BggApi.Models.Abstract
 {
     public abstract class BasicItem 
     {

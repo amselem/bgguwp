@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BGGAPI.Models.Abstract;
+using BggApi.Models.Abstract;
 
-namespace BGGAPI.Models
+namespace BggApi.Models
 {
     public class Play 
     {
