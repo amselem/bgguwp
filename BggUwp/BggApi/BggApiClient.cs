@@ -43,6 +43,82 @@ namespace BggApi
             }
         }
 
+        #region Boardgame helpers
+        private bool SetIsExpansion(XElement Boardgame)
+        {
+            const string IsExpansionLinkId = "1042";
+            return (from p in Boardgame.Element("item").Elements("link")
+                    where p.Attribute("type").Value == "boardgamecategory" && p.Attribute("id").Value == IsExpansionLinkId
+                    select p.Attribute("value").Value).FirstOrDefault() != null;
+        }
+        private List<PlayerPollResult> LoadPlayerPollResults(XElement xElement)
+        {
+            List<PlayerPollResult> playerPollResult = new List<PlayerPollResult>();
+
+            if (xElement != null)
+            {
+                foreach (XElement results in xElement.Elements("results"))
+                {
+                    PlayerPollResult pResult = new PlayerPollResult()
+                    {
+                        Best = GetIntResultScore(results, "Best"),
+                        Recommended = GetIntResultScore(results, "Recommended"),
+                        NotRecommended = GetIntResultScore(results, "Not Recommended")
+                    };
+                    SetNumberOfPlayers(pResult, results);
+                    playerPollResult.Add(pResult);
+                }
+            }
+
+            return playerPollResult;
+        }
+        private void SetNumberOfPlayers(PlayerPollResult pResult, XElement results)
+        {
+            string value = results.Attribute("numplayers").Value;
+            if (value.Contains("+"))
+            {
+                pResult.NumberOfPlayersIsAndHigher = true;
+            }
+            value = value.Replace("+", string.Empty);
+
+            int res = 0;
+            int.TryParse(value, out res);
+
+            pResult.NumberOfPlayers = res;
+        }
+        private int GetIntResultScore(XElement results, string selector)
+        {
+            int res = 0;
+            try
+            {
+                string value = (from p in results.Elements("result") where p.Attribute("value").Value == selector select p.Attribute("numvotes").Value).FirstOrDefault();
+
+                if (value != null)
+                    int.TryParse(value, out res);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+
+            return res;
+        }
+        private int GetRanking(XElement rankingElement)
+        {
+            string val = (from p in rankingElement.Elements("rank") where p.Attribute("id").Value == "1" select p.Attribute("value").Value).SingleOrDefault();
+            int rank;
+
+            if (val == null)
+                rank = -1;
+            else if (val.ToLower().Trim() == "not ranked")
+                rank = -1;
+            else if (!int.TryParse(val, out rank))
+                rank = -1;
+
+            return rank;
+        }
+        #endregion
+
         private async Task<XDocument> ReadData(Uri requestUrl)
         {
             // Due to malformed header I cannot use GetContentAsync and ReadAsStringAsync
