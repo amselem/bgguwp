@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{E8F29913-1356-4777-AFEC-E466B7013E4E}</ProjectGuid>
+    <ProjectGuid>{602D42D1-DE53-4E95-971D-F1C0069CC9D5}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BggUwp</RootNamespace>
