@@ -298,7 +298,7 @@ namespace BggApi
             return players;
         }
 
-        public async Task<IEnumerable<BoardGame>> Search(string query)
+        public async Task<IEnumerable<SearchResult>> Search(string query)
         {
             try
             {
@@ -308,8 +308,8 @@ namespace BggApi
                 XDocument xDoc = await ReadData(teamDataURI);
 
                 // LINQ to XML.
-                IEnumerable<BoardGame> searchResults = from Boardgame in xDoc.Descendants("item")
-                                                       select new BoardGame
+                IEnumerable<SearchResult> searchResults = from Boardgame in xDoc.Descendants("item")
+                                                       select new SearchResult
                                                        {
                                                            Name = GetStringValue(Boardgame.Element("name"), "value"),
                                                            BoardGameId = GetIntValue(Boardgame, "id")
@@ -318,7 +318,7 @@ namespace BggApi
             }
             catch (Exception ex)
             {
-                return new List<BoardGame>();
+                return new List<SearchResult>();
             }
         }
 
