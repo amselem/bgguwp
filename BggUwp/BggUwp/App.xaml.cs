@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using BggUwp.Data;
 
 namespace BggUwp
 {
@@ -13,7 +14,9 @@ namespace BggUwp
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
 Microsoft.ApplicationInsights.WindowsCollectors.Session);
-            InitializeComponent(); }
+            InitializeComponent();
+            StorageService.CreateDatabaseIfThereisNone();
+        }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)
         {
