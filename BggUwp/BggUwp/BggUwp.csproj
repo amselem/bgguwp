@@ -101,6 +101,13 @@
     </Compile>
     <Compile Include="Data\Models\Abstract\BaseItem.cs" />
     <Compile Include="Data\Models\Abstract\BoardGameItem.cs" />
+    <Compile Include="Data\Models\BoardGameDataItem.cs" />
+    <Compile Include="Data\Models\CollectionDataItem.cs" />
+    <Compile Include="Data\Models\HotDataItem.cs" />
+    <Compile Include="Data\Models\PlayDataItem.cs" />
+    <Compile Include="Data\Models\PlayerDataItem.cs" />
+    <Compile Include="Data\Models\PlayerPollResultDataItem.cs" />
+    <Compile Include="Data\Models\UserDataItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
