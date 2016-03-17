@@ -2,6 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using BggUwp.Data;
+using System.Globalization;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace BggUwp
 {
@@ -26,6 +29,15 @@ Microsoft.ApplicationInsights.WindowsCollectors.Session);
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
             NavigationService.Navigate(typeof(Views.MainPage));
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                statusBar.BackgroundColor = ((SolidColorBrush)App.Current.Resources["BGGHeaderBlue"]).Color;
+                statusBar.BackgroundOpacity = 1;
+                //statusBar.ProgressIndicator.Text = "BGG Uwp";
+                //statusBar.ProgressIndicator.ShowAsync();
+                //statusBar.ProgressIndicator.ProgressValue = 0;
+            }
             await Task.CompletedTask;
         }
     }
