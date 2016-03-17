@@ -13,9 +13,21 @@
         <vm:MainPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter" Visibility="Collapsed">
+
+            </AppBarButton>
+            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search">
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance local:DesignDataService, IsDesignTimeCreatable=True}">
         <Pivot x:Name="Menu" SelectionChanged="Menu_SelectionChanged" >
-            
             <PivotItem x:Name="HotItems" Header="Home">
                 <Grid>
                     <ListView x:Name="HotItemsItems" VerticalAlignment="Top"
@@ -32,7 +44,14 @@
                     </ListView>
                 </Grid>
             </PivotItem>
+            
+            <PivotItem x:Name="Collection" Header="Games">
+                
+            </PivotItem>
+            
+            <PivotItem x:Name="Plays" Header="Plays">
 
+            </PivotItem>
         </Pivot>
     </Grid>
 </Page>
