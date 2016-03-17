@@ -3,7 +3,7 @@ using Template10.Mvvm;
 
 namespace BggUwp.Data.Models.Abstract
 {
-    public abstract class BaseItem : ViewModelBase
+    public abstract class BaseItem : BindableBase
     {
         private string _Name = "";
         public string Name

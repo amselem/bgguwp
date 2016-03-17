@@ -17,7 +17,6 @@ namespace BggUwp.Data.Models
         }
 
         private int _Ranking = 0;
-        // [Indexed]
         public int Rank
         {
             get
