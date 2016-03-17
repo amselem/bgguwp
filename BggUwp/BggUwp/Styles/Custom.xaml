@@ -13,6 +13,17 @@
 
     <cnv:ImagePathToUri x:Key="ImagePathToUri" />
 
+    <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
+        <Setter Property="FontSize" Value="{StaticResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontFamily" Value="{StaticResource ContentControlThemeFontFamily}"/>
+        <Setter Property="TextTrimming" Value="WordEllipsis"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Typography.StylisticSet20" Value="True"/>
+        <Setter Property="Typography.DiscretionaryLigatures" Value="True"/>
+        <Setter Property="Typography.CaseSensitiveForms" Value="True"/>
+    </Style>
+
     <DataTemplate x:Key="HotItemsItemTemplate">
         <Grid Height="80" Margin="0,0,0,20" >
             <Grid.ColumnDefinitions>
@@ -26,7 +37,7 @@
                     <RowDefinition Height="2*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="1" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding Name}" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="1" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding Name}" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
                 <Grid Grid.Row="2">
                     <Border  Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
                         <Grid >
