@@ -9,6 +9,19 @@ namespace BggUwp.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        public MainPageViewModel()
+        {
+
+        }
+
+        private HotItemsViewModel _HotItemsVM = new HotItemsViewModel();
+        public HotItemsViewModel HotItemsVM
+        {
+            get
+            {
+                return _HotItemsVM;
+            }
+        }
     }
 }
 
