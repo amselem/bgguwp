@@ -26,6 +26,15 @@ namespace BggUwp.ViewModels
             }
         }
 
+        private CollectionViewModel _CollectionVM = new CollectionViewModel();
+        public CollectionViewModel CollectionVM
+        {
+            get
+            {
+                return _CollectionVM;
+            }
+        }
+
         public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>
     NavigationService.Navigate(typeof(Views.BoardGamePage), ((BaseItem)e.ClickedItem).BoardGameId);
     }

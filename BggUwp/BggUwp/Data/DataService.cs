@@ -52,7 +52,7 @@ namespace BggUwp.Data
             ObservableCollection<HotDataItem> hotItems = new ObservableCollection<HotDataItem>();
             if (CheckInternetAccess()) // && has not download for X hours
             {
-                // update collection in background    
+                // update hotItems in background    
                 await Task.Run(async () =>
                 {
                     var apihotItems = await Client.LoadHotItems();
@@ -73,6 +73,35 @@ namespace BggUwp.Data
             }
 
             return hotItems;
+        }
+
+        internal async Task<ObservableCollection<CollectionDataItem>> LoadCollection()
+        {
+            ObservableCollection<CollectionDataItem> tmpCollection = new ObservableCollection<CollectionDataItem>();
+            if (CheckInternetAccess()) // && has not download for X hours
+            {
+                // update collection in background    
+                await Task.Run(async () =>
+                {
+                    var apiCollection = await Client.LoadCollection(BGGUsername);
+                    if (apiCollection != null)
+                    {
+                        var rootFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("CoverPics", CreationCollisionOption.OpenIfExists);
+                        foreach (var item in apiCollection)
+                        {
+                            var temp = new CollectionDataItem(item);
+                            await SaveImage(rootFolder, item.ThumbnailWeb, temp.Thumbnail);
+                            // await SaveImage(item.ImageWeb, temp.Image);
+                            tmpCollection.Add(temp);
+                        }
+
+                    StorageService.SaveAllCollectionItems(tmpCollection);
+                    }
+                });
+            }
+
+            return tmpCollection;
+            ;
         }
 
         private bool CheckInternetAccess()
