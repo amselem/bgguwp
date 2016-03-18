@@ -21,7 +21,7 @@ namespace BggUwp.Data
 
         public DataService()
         {
-            BGGUsername = "Belash";
+            BGGUsername = "UWPTester";
             BGGPassword = "";
         }
 

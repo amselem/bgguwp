@@ -102,6 +102,7 @@
     <Compile Include="Common\Converters\ImagePathToUri.cs" />
     <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\DesignDataService.cs" />
+    <Compile Include="Data\Filters.cs" />
     <Compile Include="Data\Models\Abstract\BaseItem.cs" />
     <Compile Include="Data\Models\Abstract\BoardGameItem.cs" />
     <Compile Include="Data\Models\BoardGameDataItem.cs" />

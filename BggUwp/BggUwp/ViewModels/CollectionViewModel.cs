@@ -24,6 +24,7 @@ namespace BggUwp.ViewModels
                 LoadCollection();
             }
 
+            CurrentTextFilter.FilterTextChanged += CurrentTextFilter_FilterTextChanged;
             this.Collection.CollectionChanged += Collection_CollectionChanged;
         }
 
@@ -64,12 +65,199 @@ namespace BggUwp.ViewModels
             RepopulateFilteredCollection();
         }
 
+        #region Filtering methods
+        private StatusFilter _CurrentStatusFilter { get; set; }
+        public StatusFilter CurrentStatusFilter
+        {
+            get
+            {
+                if (_CurrentStatusFilter == null)
+                    _CurrentStatusFilter = StatusFilters.First(x => x.StatusToFilterOn == BoardGameCollectionStatus.Owned);
+                return _CurrentStatusFilter;
+            }
+            set
+            {
+                if (_CurrentStatusFilter != value)
+                {
+                    _CurrentStatusFilter = value;
+                    RaisePropertyChanged("CurrentStatusFilter");
+                    RepopulateFilteredCollection();
+                }
+            }
+        }
+
+        private PlayerFilter _CurrentPlayerFilter { get; set; }
+        public PlayerFilter CurrentPlayerFilter
+        {
+            get
+            {
+                if (_CurrentPlayerFilter == null)
+                    _CurrentPlayerFilter = PlayerFilters.First(x => x.Amount == 10);
+                return _CurrentPlayerFilter;
+            }
+            set
+            {
+                if (_CurrentPlayerFilter != value)
+                {
+                    _CurrentPlayerFilter = value;
+                    RaisePropertyChanged("CurrentPlayerFilter");
+                    RepopulateFilteredCollection();
+                }
+            }
+        }
+
+        private PlayTimeFilter _CurrentPlayTimeFilter { get; set; }
+        public PlayTimeFilter CurrentPlayTimeFilter
+        {
+            get
+            {
+                if (_CurrentPlayTimeFilter == null)
+                    _CurrentPlayTimeFilter = PlayTimeFilters.First();
+
+                return _CurrentPlayTimeFilter;
+            }
+            set
+            {
+                if (_CurrentPlayTimeFilter != value)
+                {
+                    _CurrentPlayTimeFilter = value;
+                    RaisePropertyChanged("CurrentPlayTimeFilter");
+                    RepopulateFilteredCollection();
+                }
+            }
+        }
+
+        private ExpansionFilter _CurrentExpansionFilter { get; set; }
+        public ExpansionFilter CurrentExpansionFilter
+        {
+            get
+            {
+                if (_CurrentExpansionFilter == null)
+                    _CurrentExpansionFilter = ExpansionFilters.First();
+
+                return _CurrentExpansionFilter;
+            }
+            set
+            {
+                if (_CurrentExpansionFilter != value)
+                {
+                    _CurrentExpansionFilter = value;
+                    RaisePropertyChanged("CurrentExpansionFilter");
+                    RepopulateFilteredCollection();
+                }
+            }
+        }
+
+        private BoardgameSorter _CurrentCollectionSorter { get; set; }
+        public BoardgameSorter CurrentCollectionSorter
+        {
+            get
+            {
+                if (_CurrentCollectionSorter == null)
+                    CurrentCollectionSorter = CollectionSorters.First();
+
+                return _CurrentCollectionSorter;
+            }
+            set
+            {
+                if (_CurrentCollectionSorter != value)
+                {
+                    _CurrentCollectionSorter = value;
+                    RaisePropertyChanged("CurrentCollectionSorter");
+                    RepopulateFilteredCollection();
+                }
+            }
+        }
+
+        private TextFilter _CurrentTextFilter = new TextFilter();
+        public TextFilter CurrentTextFilter
+        {
+            get
+            {
+                if (_CurrentTextFilter == null)
+                    _CurrentTextFilter = new TextFilter();
+
+                return _CurrentTextFilter;
+            }
+            set
+            {
+                if (_CurrentTextFilter != value)
+                {
+                    _CurrentTextFilter = value;
+                    RaisePropertyChanged("CurrentTextFilter");
+                    RepopulateFilteredCollection();
+                }
+            }
+        }
+
+        public int NumberItemsDisplayed
+        {
+            get { return FilteredCollection.Count; }
+        }
+
+        public List<PlayerFilter> PlayerFilters
+        {
+            get { return PlayerFilter.DefaultFilters; }
+        }
+
+        public List<PlayTimeFilter> PlayTimeFilters
+        {
+            get { return PlayTimeFilter.DefaultFilters; }
+        }
+
+        public List<StatusFilter> StatusFilters
+        {
+            get { return StatusFilter.DefaultFilters; }
+        }
+
+        public List<ExpansionFilter> ExpansionFilters
+        {
+            get { return ExpansionFilter.DefaultFilters; }
+        }
+
+        public List<BoardgameSorter> CollectionSorters
+        {
+            get { return BoardgameSorter.DefaultSorters; }
+        }
+
+        private void CurrentTextFilter_FilterTextChanged(object sender, EventArgs e)
+        {
+            RepopulateFilteredCollection();
+        }
+
         private void RepopulateFilteredCollection()
         {
-            FilteredCollection.Clear();
+            var filtered = new List<CollectionDataItem>();
+            foreach (var ci in Collection)
+            {
+                var ShowMe = true;
+                if (CurrentPlayerFilter != null)
+                    ShowMe = CurrentPlayerFilter.Matches(ci);
 
-            foreach (var item in Collection)
+                if (ShowMe && CurrentPlayTimeFilter != null)
+                    ShowMe = CurrentPlayTimeFilter.Matches(ci);
+
+                if (ShowMe && CurrentStatusFilter != null)
+                    ShowMe = CurrentStatusFilter.Matches(ci);
+
+                if (ShowMe && CurrentExpansionFilter != null)
+                    ShowMe = CurrentExpansionFilter.Matches(ci);
+
+                if (ShowMe && CurrentTextFilter != null)
+                    ShowMe = CurrentTextFilter.Matches(ci);
+
+                if (ShowMe)
+                    filtered.Add(ci);
+            }
+
+            IOrderedEnumerable<CollectionDataItem> sortedList = CurrentCollectionSorter.Sort(filtered);
+
+            FilteredCollection.Clear();
+            foreach (var item in sortedList)
                 FilteredCollection.Add(item);
+
+            RaisePropertyChanged("NumberItemsDisplayed");
         }
+        #endregion
     }
 }

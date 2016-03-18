@@ -18,15 +18,27 @@
         <vm:MainPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
+    <Page.Resources>
+
+    </Page.Resources>
+
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter" Visibility="Collapsed"/>
-            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search"/>
+            <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter">
+                <Button.Flyout>
+                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutPresenterCustom}" Placement="Full">
+                        <MenuFlyoutItem Template="{StaticResource FiltersControlTemplate}"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </AppBarButton>
+            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search">
+            </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
+
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot x:Name="Menu" SelectionChanged="Menu_SelectionChanged" >
