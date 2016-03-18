@@ -190,5 +190,16 @@ namespace BggUwp.Data.Models
                 Set(ref _UserRating, value);
             }
         }
+        public string UserRatingDisplay
+        {
+            get
+            {
+                string str = UserRating.ToString();
+                if (str == "0")
+                    return "N/A";
+                else
+                    return str;
+            }
+        }
     }
 }
