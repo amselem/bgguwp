@@ -1,4 +1,4 @@
-<Page x:Class="BggUwp.Views.MainPage"
+<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
@@ -7,7 +7,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:BggUwp.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:vm="using:BggUwp.ViewModels" mc:Ignorable="d">
+      xmlns:vm="using:BggUwp.ViewModels" 
+      xmlns:Behaviors="using:Template10.Behaviors" 
+      x:Class="BggUwp.Views.MainPage"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance local:DesignDataService, IsDesignTimeCreatable=True}"
+    >
 
     <Page.DataContext>
         <vm:MainPageViewModel x:Name="ViewModel" />
@@ -18,24 +23,21 @@
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter" Visibility="Collapsed">
-
-            </AppBarButton>
-            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search">
-            </AppBarButton>
+            <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter" Visibility="Collapsed"/>
+            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search"/>
         </CommandBar>
     </Page.BottomAppBar>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance local:DesignDataService, IsDesignTimeCreatable=True}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot x:Name="Menu" SelectionChanged="Menu_SelectionChanged" >
             <PivotItem x:Name="HotItems" Header="Home">
                 <Grid>
                     <ListView x:Name="HotItemsItems" VerticalAlignment="Top"
-                              ItemsSource="{Binding HotItemsVM.HotItemsList}" 
-                              ItemTemplate="{StaticResource HotItemsItemTemplate}"
-                              ItemClick="HotItems_ItemClick"
-                              IsItemClickEnabled="True"
-                              Margin="0,20,0,0">
+						ItemsSource="{Binding HotItemsVM.HotItemsList}" 
+						ItemTemplate="{StaticResource HotItemsItemTemplate}"
+                        ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
+						IsItemClickEnabled="True"
+						Margin="0,20,0,0">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -44,14 +46,10 @@
                     </ListView>
                 </Grid>
             </PivotItem>
-            
-            <PivotItem x:Name="Collection" Header="Games">
-                
-            </PivotItem>
-            
-            <PivotItem x:Name="Plays" Header="Plays">
 
-            </PivotItem>
+            <PivotItem x:Name="Collection" Header="Games"/>
+
+            <PivotItem x:Name="Plays" Header="Plays"/>
         </Pivot>
     </Grid>
 </Page>
