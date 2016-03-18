@@ -33,11 +33,11 @@
             <PivotItem x:Name="HotItems" Header="Home">
                 <Grid>
                     <ListView x:Name="HotItemsItems" VerticalAlignment="Top"
-						ItemsSource="{Binding HotItemsVM.HotItemsList}" 
-						ItemTemplate="{StaticResource HotItemsItemTemplate}"
-                        ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
-						IsItemClickEnabled="True"
-						Margin="0,20,0,0">
+                              ItemsSource="{Binding HotItemsVM.HotItemsList}" 
+                              ItemTemplate="{StaticResource HotItemsItemTemplate}"
+                              ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
+                              IsItemClickEnabled="True"
+                              Margin="0,10,0,0">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -47,7 +47,25 @@
                 </Grid>
             </PivotItem>
 
-            <PivotItem x:Name="Collection" Header="Games"/>
+            <PivotItem x:Name="Collection" Header="Games">
+                <Grid>
+                    <ListView x:Name="CollectionItems" VerticalAlignment="Top"
+                              ItemsSource="{Binding CollectionVM.FilteredCollection}" 
+                              ItemTemplate="{StaticResource CollectionItemTemplate}"
+                              ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
+                              IsItemClickEnabled="True"
+                              Margin="0,10,0,0">
+                        <ListView.ItemContainerTransitions>
+                            <TransitionCollection/>
+                        </ListView.ItemContainerTransitions>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
+            </PivotItem>
 
             <PivotItem x:Name="Plays" Header="Plays"/>
         </Pivot>

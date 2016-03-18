@@ -53,6 +53,64 @@
             </Grid>
         </Grid>
     </DataTemplate>
+    <DataTemplate x:Key="CollectionItemTemplate">
+        <Grid Height="80" Margin="0,0,0,20" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUri}}" Stretch="UniformToFill" HorizontalAlignment="Left" />
+            <Grid Grid.Column="1" Margin="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding Name}" TextWrapping="NoWrap"/>
+
+                <Grid Grid.Row="1">
+                    <Border Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}" Text="BGG Rank" />
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontSize="10.667" Text="{Binding Rank, Mode=OneWay}" Foreground="Black" FontWeight="Bold" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="* "></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" HorizontalAlignment="Left" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}" Text="# of players" />
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontSize="10.667" Text="{Binding MinPlayers}" Foreground="Black" FontWeight="Bold" />
+                        <TextBlock Grid.Column="2" HorizontalAlignment="Right" FontSize="10.667" Text="-" Foreground="Black" Margin="2,0" FontWeight="Bold" />
+                        <TextBlock Grid.Column="3" HorizontalAlignment="Right" FontSize="10.667" Text="{Binding MaxPlayers}" Foreground="Black" FontWeight="Bold" />
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Border Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}" Text="Rating" />
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontSize="10.667" Text="{Binding UserRating, Mode=OneWay}" Foreground="Black" FontWeight="Bold" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </DataTemplate>
 
 </ResourceDictionary>
 
