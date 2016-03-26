@@ -36,7 +36,7 @@ namespace BggUwp.Data
                 if (_DefaultFilters == null)
                 {
                     _DefaultFilters = new List<ExpansionFilter>();
-                    _DefaultFilters.Add(new ExpansionFilter { RequestedStatus = ExpansionStatus.All, DisplayName = "All" });
+                    _DefaultFilters.Add(new ExpansionFilter { RequestedStatus = ExpansionStatus.All, DisplayName = "All types" });
                     _DefaultFilters.Add(new ExpansionFilter
                     {
                         RequestedStatus = ExpansionStatus.BaseBoardGame,
