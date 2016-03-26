@@ -122,13 +122,12 @@
             <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUri}}" Stretch="UniformToFill" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="1" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding BoardGameName}" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
-                <Grid Grid.Row="2">
+                <TextBlock Grid.Row="0" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding BoardGameName}" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
+                <Grid Grid.Row="1">
                     <Border  Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
                         <Grid >
                             <Grid.ColumnDefinitions>
@@ -140,7 +139,7 @@
                         </Grid>
                     </Border>
                 </Grid>
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="2">
                     <Border  Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
                         <Grid >
                             <Grid.ColumnDefinitions>
