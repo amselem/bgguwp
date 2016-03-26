@@ -55,8 +55,12 @@ namespace BggUwp.ViewModels
             await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
             {
                 // TODO Display loading bar
-                Collection = await dataService.LoadCollection();
-                RepopulateFilteredCollection(); // Required because previous lines do not fire Collection_CollectionChanged
+                ObservableCollection<CollectionDataItem> tmp = await dataService.LoadCollection();
+                if (tmp.Count() > 0)
+                {
+                    Collection = tmp;
+                    RepopulateFilteredCollection(); // Required because previous lines do not fire Collection_CollectionChanged
+                }
             });
         }
 

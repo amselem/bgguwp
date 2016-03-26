@@ -47,7 +47,9 @@ namespace BggUwp.ViewModels
 
             await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
             {
-                HotItemsList = await dataService.LoadHotItemsList();
+                ObservableCollection<HotDataItem> tmp = await dataService.LoadHotItemsList();
+                if (tmp.Count() > 0)
+                    HotItemsList = tmp;
             });
         }
     }
