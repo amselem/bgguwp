@@ -15,6 +15,7 @@ namespace BggUwp.Views
         {
             LoadHotItemsList();
             LoadCollection();
+            LoadPlays();
         }
 
         private HotItemsViewModel _HotItemsVM = new HotItemsViewModel();
@@ -103,6 +104,16 @@ namespace BggUwp.Views
             play.UserComment = "DULL!";
             play.NumberOfPlays = 1;
             play.Players = new List<PlayerDataItem>();
+            PlaysVM.PlaysList.Add(play);
+
+            PlayDataItem play2 = new PlayDataItem();
+            play2.BoardGameId = 1255;
+            play2.BoardGameName = "Arkham Horror";
+            play2.Length = 15;
+            play2.PlayDate = DateTime.Today;
+            play2.UserComment = "Terryfying experience in dark enivroment.";
+            play2.NumberOfPlays = 1;
+            play2.Players = new List<PlayerDataItem>();
             PlaysVM.PlaysList.Add(play);
         }
     }
