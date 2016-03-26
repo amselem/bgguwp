@@ -110,11 +110,11 @@ namespace BggUwp.Views
             play2.BoardGameId = 1255;
             play2.BoardGameName = "Arkham Horror";
             play2.Length = 15;
-            play2.PlayDate = DateTime.Today;
-            play2.UserComment = "Terryfying experience in dark enivroment.";
-            play2.NumberOfPlays = 1;
+            play2.PlayDate = DateTime.Now;
+            play2.UserComment = "Terryfying experience in dark environment.";
+            play2.NumberOfPlays = 12;
             play2.Players = new List<PlayerDataItem>();
-            PlaysVM.PlaysList.Add(play);
+            PlaysVM.PlaysList.Add(play2);
         }
     }
 }
