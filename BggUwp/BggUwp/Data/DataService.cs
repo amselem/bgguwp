@@ -104,6 +104,11 @@ namespace BggUwp.Data
             ;
         }
 
+        public Task<IEnumerable<Play>> LoadPlays()
+        {
+            return Client.LoadLastPlays(BGGUsername);
+        }
+
         private bool CheckInternetAccess()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();

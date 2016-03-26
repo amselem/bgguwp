@@ -35,6 +35,15 @@ namespace BggUwp.Views
             }
         }
 
+        private PlaysViewModel _PlaysVM = new PlaysViewModel();
+        public PlaysViewModel PlaysVM
+        {
+            get
+            {
+                return _PlaysVM;
+            }
+        }
+
         public void LoadHotItemsList()
         {
             HotDataItem item = new HotDataItem();
@@ -81,6 +90,20 @@ namespace BggUwp.Views
             item3.Rank = 58;
             item3.Owned = true;
             CollectionVM.FilteredCollection.Add(item3);
+        }
+
+        public void LoadPlays()
+        {
+            List<PlayDataItem> playsList = new List<PlayDataItem>();
+            PlayDataItem play = new PlayDataItem();
+            play.BoardGameId = 253648;
+            play.BoardGameName = "Imperial Design Data BoardGame Name";
+            play.Length = 120;
+            play.PlayDate = DateTime.Today;
+            play.UserComment = "DULL!";
+            play.NumberOfPlays = 1;
+            play.Players = new List<PlayerDataItem>();
+            PlaysVM.PlaysList.Add(play);
         }
     }
 }

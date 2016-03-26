@@ -35,6 +35,15 @@ namespace BggUwp.ViewModels
             }
         }
 
+        private PlaysViewModel _PlaysVM = new PlaysViewModel();
+        public PlaysViewModel PlaysVM
+        {
+            get
+            {
+                return _PlaysVM;
+            }
+        }
+
         public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>
     NavigationService.Navigate(typeof(Views.BoardGamePage), ((BaseItem)e.ClickedItem).BoardGameId);
     }
