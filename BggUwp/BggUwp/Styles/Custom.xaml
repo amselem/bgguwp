@@ -12,7 +12,8 @@
     <SolidColorBrush x:Key="LightBackgroundBorder" Color="#FFF2F2F2"/>
 
     <cnv:ImagePathToUri x:Key="ImagePathToUri" />
-
+    <cnv:StringFormatConverter x:Key="StrFormatConverter" />
+    
     <Style x:Key="TitleTextStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
         <Setter Property="FontSize" Value="{StaticResource ControlContentThemeFontSize}"/>
@@ -24,6 +25,7 @@
         <Setter Property="Typography.CaseSensitiveForms" Value="True"/>
     </Style>
 
+    <!-- Data Templates -->
     <DataTemplate x:Key="HotItemsItemTemplate">
         <Grid Height="80" Margin="0,0,0,20" >
             <Grid.ColumnDefinitions>
@@ -111,7 +113,50 @@
             </Grid>
         </Grid>
     </DataTemplate>
+    <DataTemplate x:Key="PlaysItemTemplate">
+        <Grid Height="80" Margin="0,0,0,20" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUri}}" Stretch="UniformToFill" />
+            <Grid Grid.Column="1" Margin="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="1" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding BoardGameName}" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
+                <Grid Grid.Row="2">
+                    <Border  Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="number of plays" FontSize="10.667"/>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding NumberOfPlays}" FontSize="10.667" FontWeight="Bold"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Border  Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="last played" FontSize="10.667" />
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding PlayDate, Mode=OneWay, Converter={StaticResource StrFormatConverter}, ConverterParameter=\{0:d\}}" FontSize="10.667" FontWeight="Bold"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </DataTemplate>
 
+    <!-- Filters flyout -->
     <Style x:Key="MenuFlyoutPresenterCustom" TargetType="MenuFlyoutPresenter">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}"/>
