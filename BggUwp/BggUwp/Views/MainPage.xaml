@@ -35,6 +35,29 @@
                 </Button.Flyout>
             </AppBarButton>
             <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search">
+                <Button.Flyout>
+                    <Flyout Placement="Full">
+                        <StackPanel Padding="10,20,10,0">
+                            <AutoSuggestBox HorizontalAlignment="Stretch"
+                            PlaceholderText="Search games in BGG database"
+                            Text="{Binding SearchQuery, Mode=TwoWay}"             
+                            QueryIcon="Find"
+                            BorderThickness="1" />
+                            <ListView 
+                                ItemTemplate="{StaticResource SearchResultsItemTemplate}"
+                                ItemsSource="{Binding SearchResultsList, Mode=TwoWay}" 
+                                ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
+                                IsItemClickEnabled="True"
+                                Margin="0,10,0,0">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
