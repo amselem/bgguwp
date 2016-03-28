@@ -16,6 +16,7 @@ namespace BggUwp.Views
             LoadHotItemsList();
             LoadCollection();
             LoadPlays();
+            LoadSearchResults();
         }
 
         private HotItemsViewModel _HotItemsVM = new HotItemsViewModel();
@@ -45,7 +46,9 @@ namespace BggUwp.Views
             }
         }
 
-        public void LoadHotItemsList()
+        public ObservableCollection<SearchResultDataItem> SearchResultsList = new ObservableCollection<SearchResultDataItem>();
+
+        private void LoadHotItemsList()
         {
             HotDataItem item = new HotDataItem();
             item.Name = "Design time HotItems item";
@@ -63,7 +66,7 @@ namespace BggUwp.Views
             HotItemsVM.HotItemsList.Add(item3);
         }
 
-        public void LoadCollection()
+        private void LoadCollection()
         {
             CollectionDataItem item = new CollectionDataItem();
             item.Name = "Design time item";
@@ -93,7 +96,7 @@ namespace BggUwp.Views
             CollectionVM.FilteredCollection.Add(item3);
         }
 
-        public void LoadPlays()
+        private void LoadPlays()
         {
             List<PlayDataItem> playsList = new List<PlayDataItem>();
             PlayDataItem play = new PlayDataItem();
@@ -115,6 +118,19 @@ namespace BggUwp.Views
             play2.NumberOfPlays = 12;
             play2.Players = new List<PlayerDataItem>();
             PlaysVM.PlaysList.Add(play2);
+        }
+
+        private void LoadSearchResults()
+        {
+            SearchResultDataItem item = new SearchResultDataItem();
+            item.BoardGameName = "Imperial Settlers: Why can't we be friends?";
+            item.BoardGameId = 1234;
+            SearchResultsList.Add(item);
+
+            SearchResultDataItem item2 = new SearchResultDataItem();
+            item2.BoardGameName = "Arkham Horror";
+            item2.BoardGameId = 11334;
+            SearchResultsList.Add(item2);
         }
     }
 }
