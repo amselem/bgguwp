@@ -28,6 +28,9 @@ namespace BggUwp.Data
         {
             get
             {
+                var platform = new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT();
+                platform.SQLiteApi.Config(SQLite.Net.Interop.ConfigOption.Serialized);
+
                 return new SQLiteConnection(
                     new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(),
                     Path.Combine(ApplicationData.Current.LocalFolder.Path, DbName));
@@ -92,7 +95,8 @@ namespace BggUwp.Data
         {
             using (var db = DbConnection)
             {
-                db.InsertOrReplaceAll(items);
+                db.DeleteAll<HotDataItem>();
+                db.InsertAll(items);
             }
         }
 
@@ -110,7 +114,8 @@ namespace BggUwp.Data
         {
             using (var db = DbConnection)
             {
-                db.InsertOrReplaceAll(items);
+                db.DeleteAll<CollectionDataItem>();
+                db.InsertAll(items);
             }
         }
     }
