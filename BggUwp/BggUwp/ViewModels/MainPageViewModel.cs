@@ -51,49 +51,12 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private string _SearchQuery = string.Empty;
-        public string SearchQuery
-        {
-            get
-            {
-                if (_SearchQuery == null)
-                    _SearchQuery = string.Empty;
-
-                return _SearchQuery;
-            }
-            set 
-            {
-                if (_SearchQuery != value )
-                {
-                    _SearchQuery = value;
-                    RaisePropertyChanged("SearchQuery");
-                    // repopulate results
-                    if (value.ToString().Length > 2)
-                    {
-                        SearchResultsList.Clear(); // Processing bar
-                        ExecuteSearch();
-                    }
-                }
-            }
-        }
-
-        async Task ExecuteSearch()
-        {
-            SearchResultsList = await dataService.SearchBgg(_SearchQuery);
-        }
-
-        private ObservableCollection<SearchResultDataItem> _SearchResultsList = new ObservableCollection<SearchResultDataItem>();
-        public ObservableCollection<SearchResultDataItem> SearchResultsList
-        {
-            get { return _SearchResultsList; }
-            set
-            {
-                Set(ref _SearchResultsList, value);
-            }
-        }
-
         public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>
-    NavigationService.Navigate(typeof(Views.BoardGamePage), ((BaseItem)e.ClickedItem).BoardGameId);
+            NavigationService.Navigate(typeof(Views.BoardGamePage), ((BaseItem)e.ClickedItem).BoardGameId);
+
+        public void GoToSearchPage() =>
+            NavigationService.Navigate(typeof(Views.SearchPage));
+
     }
 }
 

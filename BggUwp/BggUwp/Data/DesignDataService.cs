@@ -16,7 +16,6 @@ namespace BggUwp.Views
             LoadHotItemsList();
             LoadCollection();
             LoadPlays();
-            LoadSearchResults();
         }
 
         private HotItemsViewModel _HotItemsVM = new HotItemsViewModel();
@@ -114,23 +113,10 @@ namespace BggUwp.Views
             play2.BoardGameName = "Arkham Horror";
             play2.Length = 15;
             play2.PlayDate = DateTime.Now;
-            play2.UserComment = "Terryfying experience in dark environment.";
+            play2.UserComment = "Terrifying experience in dark environment.";
             play2.NumberOfPlays = 12;
             play2.Players = new List<PlayerDataItem>();
             PlaysVM.PlaysList.Add(play2);
-        }
-
-        private void LoadSearchResults()
-        {
-            SearchResultDataItem item = new SearchResultDataItem();
-            item.BoardGameName = "Imperial Settlers: Why can't we be friends?";
-            item.BoardGameId = 1234;
-            SearchResultsList.Add(item);
-
-            SearchResultDataItem item2 = new SearchResultDataItem();
-            item2.BoardGameName = "Arkham Horror";
-            item2.BoardGameId = 11334;
-            SearchResultsList.Add(item2);
         }
     }
 }

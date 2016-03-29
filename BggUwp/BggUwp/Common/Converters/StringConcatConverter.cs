@@ -16,6 +16,9 @@ namespace BggUwp.Common.Converters
             var searchResult = value as SearchResultDataItem;
             var yearDisplay = String.Concat(" (", searchResult.YearPublished.ToString(), ")");
 
+            if (searchResult.YearPublished == -1)
+                yearDisplay = "";
+
             return String.Concat(searchResult.BoardGameName, yearDisplay);
         }
 
