@@ -146,7 +146,7 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="last played" FontSize="10.667" />
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="play date" FontSize="10.667" />
                             <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding PlayDate, Mode=OneWay, Converter={StaticResource StrFormatConverter}, ConverterParameter=\{0:d\}}" FontSize="10.667" FontWeight="Bold"/>
                         </Grid>
                     </Border>
