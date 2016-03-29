@@ -142,7 +142,6 @@ namespace BggUwp.Data
                     _DefaultFilters.Add(new PlayTimeFilter { Amount = 90, DisplayName = "< 1,5 hours" });
                     _DefaultFilters.Add(new PlayTimeFilter { Amount = 120, DisplayName = "< 2 hours" });
                     _DefaultFilters.Add(new PlayTimeFilter { Amount = 180, DisplayName = "< 3 hours" });
-                    _DefaultFilters.Add(new PlayTimeFilter { Amount = 240, DisplayName = "< 4 hours" });
                 }
 
                 return _DefaultFilters;
@@ -193,12 +192,6 @@ namespace BggUwp.Data
                     });
                     _DefaultFilters.Add(new StatusFilter
                     {
-                        DisplayName = "Played",
-                        StatusToFilterOn = BoardGameCollectionStatus.Played
-                    });
-                    //_DefaultFilters.Add(new StatusFilter() { DisplayName = "Owned, Unplayed", StatusToFilterOn = BoardGameCollectionStatus.OwnedUnplayed });
-                    _DefaultFilters.Add(new StatusFilter
-                    {
                         DisplayName = "Want to play",
                         StatusToFilterOn = BoardGameCollectionStatus.WantToPlay
                     });
@@ -206,11 +199,6 @@ namespace BggUwp.Data
                     {
                         DisplayName = "Want to buy",
                         StatusToFilterOn = BoardGameCollectionStatus.WantToBuy
-                    });
-                    _DefaultFilters.Add(new StatusFilter
-                    {
-                        DisplayName = "Want",
-                        StatusToFilterOn = BoardGameCollectionStatus.Want
                     });
                     _DefaultFilters.Add(new StatusFilter
                     {
@@ -222,7 +210,6 @@ namespace BggUwp.Data
                         DisplayName = "For Trade",
                         StatusToFilterOn = BoardGameCollectionStatus.ForTrade
                     });
-                    //_DefaultFilters.Add(new StatusFilter() { DisplayName = "Previously owned", StatusToFilterOn = BoardGameCollectionStatus.PreviouslyOwned });
                 }
 
                 return _DefaultFilters;
@@ -242,15 +229,6 @@ namespace BggUwp.Data
                 case BoardGameCollectionStatus.ForTrade:
                     return BoardGame.ForTrade;
 
-                case BoardGameCollectionStatus.PreOrdered:
-                    return BoardGame.PreOrdered;
-
-                case BoardGameCollectionStatus.PreviouslyOwned:
-                    return BoardGame.PreviousOwned;
-
-                case BoardGameCollectionStatus.Want:
-                    return BoardGame.Want;
-
                 case BoardGameCollectionStatus.WantToBuy:
                     return BoardGame.WantToBuy;
 
@@ -259,12 +237,6 @@ namespace BggUwp.Data
 
                 case BoardGameCollectionStatus.WishList:
                     return BoardGame.Wishlist;
-                    /*
-                    case BoardGameCollectionStatus.Played:
-                        return BoardGame.Played;
-                    case BoardGameCollectionStatus.OwnedUnplayed:
-                        return !BoardGame.Played && BoardGame.Owned;
-                        */
             }
             return false;
         }
@@ -308,15 +280,10 @@ namespace BggUwp.Data
     {
         All,
         Owned,
-        PreviouslyOwned,
         ForTrade,
-        Want,
         WantToBuy,
         WantToPlay,
         WishList,
-        PreOrdered,
-        Played,
-        OwnedUnplayed
     }
 
     public class BoardgameSorter

@@ -29,7 +29,7 @@
             </CommandBar.Content>
             <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter">
                 <Button.Flyout>
-                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutPresenterCustom}" Placement="Full">
+                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutPresenterCustom}" Placement="Top">
                         <MenuFlyoutItem Template="{StaticResource FiltersControlTemplate}"/>
                     </MenuFlyout>
                 </Button.Flyout>

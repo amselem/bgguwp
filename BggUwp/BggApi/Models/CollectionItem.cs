@@ -13,7 +13,7 @@ namespace BggApi.Models
         public bool Owned { get; set; }
         public bool PreviousOwned { get; set; }
         public bool ForTrade { get; set; }
-        public bool Want { get; set; }
+        public bool Want { get; set; } // Want in trade
         public bool WantToPlay { get; set; }
         public bool WantToBuy { get; set; }
         public bool Wishlist { get; set; }
