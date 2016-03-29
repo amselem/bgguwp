@@ -29,15 +29,15 @@
             </CommandBar.Content>
             <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter">
                 <Button.Flyout>
-                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutPresenterCustom}" Placement="Full">
+                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource FilterFlyoutPresenter}" Placement="Full">
                         <MenuFlyoutItem Template="{StaticResource FiltersControlTemplate}"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </AppBarButton>
             <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search">
                 <Button.Flyout>
-                    <Flyout Placement="Full">
-                        <StackPanel Padding="10,20,10,0">
+                    <Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource SearchFlyoutPresenter}">
+                        <Grid Padding="10,20,10,0">
                             <AutoSuggestBox HorizontalAlignment="Stretch"
                             PlaceholderText="Search games in BGG database"
                             Text="{Binding SearchQuery, Mode=TwoWay}"             
@@ -48,14 +48,14 @@
                                 ItemsSource="{Binding SearchResultsList, Mode=TwoWay}" 
                                 ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
                                 IsItemClickEnabled="True"
-                                Margin="0,10,0,0">
+                                Margin="0,30,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                     </Style>
                                 </ListView.ItemContainerStyle>
                             </ListView>
-                        </StackPanel>
+                        </Grid>
                     </Flyout>
                 </Button.Flyout>
             </AppBarButton>
