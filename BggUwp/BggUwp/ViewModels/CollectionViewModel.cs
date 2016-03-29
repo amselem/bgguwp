@@ -106,7 +106,6 @@ namespace BggUwp.ViewModels
             {
                 if (_CurrentStatusFilter != value)
                 {
-                    CurrentPlayerFilter.Amount = 2;
                     _CurrentStatusFilter = value;
                     RaisePropertyChanged("CurrentStatusFilter");
                     RepopulateFilteredCollection();
