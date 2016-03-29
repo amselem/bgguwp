@@ -24,8 +24,16 @@ namespace BggUwp.ViewModels
                 LoadCollection();
             }
 
-            CurrentTextFilter.FilterTextChanged += CurrentTextFilter_FilterTextChanged;
             Collection.CollectionChanged += Collection_CollectionChanged;
+
+            CurrentTextFilter.PropertyChanged += AnyFilterChangedEvent;
+            CurrentPlayerFilter.PropertyChanged += AnyFilterChangedEvent;
+            CurrentPlayTimeFilter.PropertyChanged += AnyFilterChangedEvent;
+        }
+
+        private void CurrentPlayerFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RepopulateFilteredCollection();
         }
 
         public ObservableCollection<CollectionDataItem> _Collection = new ObservableCollection<CollectionDataItem>();
@@ -98,6 +106,7 @@ namespace BggUwp.ViewModels
             {
                 if (_CurrentStatusFilter != value)
                 {
+                    CurrentPlayerFilter.Amount = 2;
                     _CurrentStatusFilter = value;
                     RaisePropertyChanged("CurrentStatusFilter");
                     RepopulateFilteredCollection();
@@ -105,8 +114,8 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private int _CurrentPlayerFilter { get; set; }
-        public int CurrentPlayerFilter
+        private PlayerFilter _CurrentPlayerFilter = new PlayerFilter();
+        public PlayerFilter CurrentPlayerFilter
         {
             get
             {
@@ -123,8 +132,8 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private int _CurrentPlayTimeFilter { get; set; }
-        public int CurrentPlayTimeFilter
+        private PlayTimeFilter _CurrentPlayTimeFilter = new PlayTimeFilter();
+        public PlayTimeFilter CurrentPlayTimeFilter
         {
             get
             {
@@ -209,16 +218,6 @@ namespace BggUwp.ViewModels
             get { return FilteredCollection.Count; }
         }
 
-        public List<PlayerFilter> PlayerFilters
-        {
-            get { return PlayerFilter.DefaultFilters; }
-        }
-
-        public List<PlayTimeFilter> PlayTimeFilters
-        {
-            get { return PlayTimeFilter.DefaultFilters; }
-        }
-
         public List<StatusFilter> StatusFilters
         {
             get { return StatusFilter.DefaultFilters; }
@@ -234,7 +233,7 @@ namespace BggUwp.ViewModels
             get { return BoardgameSorter.DefaultSorters; }
         }
 
-        private void CurrentTextFilter_FilterTextChanged(object sender, EventArgs e)
+        private void AnyFilterChangedEvent(object sender, EventArgs e)
         {
             RepopulateFilteredCollection();
         }
@@ -246,10 +245,10 @@ namespace BggUwp.ViewModels
             {
                 var ShowMe = true;
                 if (CurrentPlayerFilter != null)
-                    ShowMe = MatchesPlayers(ci);
+                    ShowMe = CurrentPlayerFilter.Matches(ci);
 
                 if (ShowMe && CurrentPlayTimeFilter != null)
-                    ShowMe = MatchesPlaytime(ci);
+                    ShowMe = CurrentPlayTimeFilter.Matches(ci);
 
                 if (ShowMe && CurrentStatusFilter != null)
                     ShowMe = CurrentStatusFilter.Matches(ci);
@@ -273,41 +272,5 @@ namespace BggUwp.ViewModels
             RaisePropertyChanged("NumberItemsDisplayed");
         }
         #endregion
-
-        public bool MatchesPlayers(CollectionDataItem game)
-        {
-            var match = true;
-            if (game == null)
-                match = false;
-            else if (CurrentPlayerFilter == 0)
-            {
-                match = true; //match all;
-            }
-            else if (game.MinPlayers > CurrentPlayerFilter)
-                match = false;
-            else if (game.MaxPlayers < CurrentPlayerFilter)
-                match = false;
-
-            return match;
-        }
-
-        public bool MatchesPlaytime(CollectionDataItem game)
-        {
-            var match = true;
-            if (game == null)
-                match = false;
-            else if (CurrentPlayTimeFilter == 0)
-            {
-                match = true; //match all;
-            }
-            else if (game.PlayingTime == 0)
-            {
-                match = false;
-            }
-            else if (game.PlayingTime > CurrentPlayTimeFilter)
-                match = false;
-
-            return match;
-        }
     }
 }
