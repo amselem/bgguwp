@@ -305,51 +305,26 @@ namespace BggUwp.Data
 
                     _DefaultSorters.Add(new BoardgameSorter
                     {
-                        DisplayName = "Sort by name - asc",
+                        DisplayName = "Sort by name A-Z",
                         SortFunction = collection => collection.OrderBy(x => x.Name)
                     });
 
                     _DefaultSorters.Add(new BoardgameSorter
                     {
-                        DisplayName = "Sort by name - desc",
-                        SortFunction = collection => collection.OrderByDescending(x => x.Name)
-                    });
-
-                    _DefaultSorters.Add(new BoardgameSorter
-                    {
-                        DisplayName = "Sort by rating - asc",
-                        SortFunction = collection => collection.OrderBy(x => x.AverageRating)
-                    });
-
-                    _DefaultSorters.Add(new BoardgameSorter
-                    {
-                        DisplayName = "Sort by rating - desc",
+                        DisplayName = "Sort by best rating",
                         SortFunction = collection => collection.OrderByDescending(x => x.AverageRating)
                     });
 
                     _DefaultSorters.Add(new BoardgameSorter
                     {
-                        DisplayName = "Sort by rank - asc",
+                        DisplayName = "Sort by best rank",
                         SortFunction = collection => collection.OrderBy(x => x.Rank + (x.Rank < 0 ? 100000 : 0))
                         // Sneaky, maybe improve later..
                     });
 
                     _DefaultSorters.Add(new BoardgameSorter
                     {
-                        DisplayName = "Sort by rank - desc",
-                        SortFunction =
-                            collection => collection.OrderByDescending(x => x.Rank + (x.Rank < 0 ? 100000 : 0))
-                    });
-
-                    _DefaultSorters.Add(new BoardgameSorter
-                    {
-                        DisplayName = "Sort by year - asc",
-                        SortFunction = collection => collection.OrderBy(x => x.YearPublished)
-                    });
-
-                    _DefaultSorters.Add(new BoardgameSorter
-                    {
-                        DisplayName = "Sort by year - desc",
+                        DisplayName = "Sort by newest",
                         SortFunction = collection => collection.OrderByDescending(x => x.YearPublished)
                     });
                 }

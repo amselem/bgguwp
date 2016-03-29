@@ -105,13 +105,11 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private PlayerFilter _CurrentPlayerFilter { get; set; }
-        public PlayerFilter CurrentPlayerFilter
+        private int _CurrentPlayerFilter { get; set; }
+        public int CurrentPlayerFilter
         {
             get
             {
-                if (_CurrentPlayerFilter == null)
-                    _CurrentPlayerFilter = PlayerFilters.First();
                 return _CurrentPlayerFilter;
             }
             set
@@ -125,14 +123,11 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private PlayTimeFilter _CurrentPlayTimeFilter { get; set; }
-        public PlayTimeFilter CurrentPlayTimeFilter
+        private int _CurrentPlayTimeFilter { get; set; }
+        public int CurrentPlayTimeFilter
         {
             get
             {
-                if (_CurrentPlayTimeFilter == null)
-                    _CurrentPlayTimeFilter = PlayTimeFilters.First();
-
                 return _CurrentPlayTimeFilter;
             }
             set
@@ -251,10 +246,10 @@ namespace BggUwp.ViewModels
             {
                 var ShowMe = true;
                 if (CurrentPlayerFilter != null)
-                    ShowMe = CurrentPlayerFilter.Matches(ci);
+                    ShowMe = MatchesPlayers(ci);
 
                 if (ShowMe && CurrentPlayTimeFilter != null)
-                    ShowMe = CurrentPlayTimeFilter.Matches(ci);
+                    ShowMe = MatchesPlaytime(ci);
 
                 if (ShowMe && CurrentStatusFilter != null)
                     ShowMe = CurrentStatusFilter.Matches(ci);
@@ -278,5 +273,41 @@ namespace BggUwp.ViewModels
             RaisePropertyChanged("NumberItemsDisplayed");
         }
         #endregion
+
+        public bool MatchesPlayers(CollectionDataItem game)
+        {
+            var match = true;
+            if (game == null)
+                match = false;
+            else if (CurrentPlayerFilter == 0)
+            {
+                match = true; //match all;
+            }
+            else if (game.MinPlayers > CurrentPlayerFilter)
+                match = false;
+            else if (game.MaxPlayers < CurrentPlayerFilter)
+                match = false;
+
+            return match;
+        }
+
+        public bool MatchesPlaytime(CollectionDataItem game)
+        {
+            var match = true;
+            if (game == null)
+                match = false;
+            else if (CurrentPlayTimeFilter == 0)
+            {
+                match = true; //match all;
+            }
+            else if (game.PlayingTime == 0)
+            {
+                match = false;
+            }
+            else if (game.PlayingTime > CurrentPlayTimeFilter)
+                match = false;
+
+            return match;
+        }
     }
 }
