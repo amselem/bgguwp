@@ -25,10 +25,21 @@ namespace BggUwp.ViewModels
             }
 
             CurrentTextFilter.FilterTextChanged += CurrentTextFilter_FilterTextChanged;
-            this.Collection.CollectionChanged += Collection_CollectionChanged;
+            Collection.CollectionChanged += Collection_CollectionChanged;
         }
 
-        public ObservableCollection<CollectionDataItem> Collection = new ObservableCollection<CollectionDataItem>();
+        public ObservableCollection<CollectionDataItem> _Collection = new ObservableCollection<CollectionDataItem>();
+        public ObservableCollection<CollectionDataItem> Collection
+        {
+            get
+            {
+                return _Collection;
+            }
+            set
+            {
+                Set(ref _Collection, value);
+            }
+        }
 
         public ObservableCollection<CollectionDataItem> _FilteredCollection = new ObservableCollection<CollectionDataItem>();
         public ObservableCollection<CollectionDataItem> FilteredCollection
@@ -36,6 +47,10 @@ namespace BggUwp.ViewModels
             get
             {
                 return _FilteredCollection;
+            }
+            set
+            {
+                Set(ref _FilteredCollection, value);
             }
         }
 
@@ -76,7 +91,7 @@ namespace BggUwp.ViewModels
             get
             {
                 if (_CurrentStatusFilter == null)
-                    _CurrentStatusFilter = StatusFilters.First(x => x.StatusToFilterOn == BoardGameCollectionStatus.Owned);
+                    _CurrentStatusFilter = StatusFilters.First();
                 return _CurrentStatusFilter;
             }
             set
@@ -96,7 +111,7 @@ namespace BggUwp.ViewModels
             get
             {
                 if (_CurrentPlayerFilter == null)
-                    _CurrentPlayerFilter = PlayerFilters.First(x => x.Amount == 10);
+                    _CurrentPlayerFilter = PlayerFilters.First();
                 return _CurrentPlayerFilter;
             }
             set
