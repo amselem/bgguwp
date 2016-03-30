@@ -1,11 +1,12 @@
 ﻿<Page
-    x:Class="BggUwp.Views.SearchPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BggUwp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:BggUwp.ViewModels" 
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    x:Class="BggUwp.Views.SearchPage" 
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -13,25 +14,45 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10,20,10,0">
-        <AutoSuggestBox 
-            HorizontalAlignment="Stretch"
-            PlaceholderText="Search games in BGG database"
-            Text="{Binding SearchQuery, Mode=TwoWay}"             
-            QueryIcon="Find"
-            BorderThickness="1" />
-        <ListView 
-            ItemTemplate="{StaticResource SearchResultsItemTemplate}"
-            ItemsSource="{Binding SearchResultsList, Mode=TwoWay}" 
-            ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
-            IsItemClickEnabled="True"
-            Margin="0,30,0,0">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" /> 
-                    <Setter Property="Margin" Value="0,-5"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <StackPanel>
+            <AutoSuggestBox 
+				HorizontalAlignment="Stretch"
+				PlaceholderText="Search games in BGG database"
+				Text="{Binding SearchQuery, Mode=TwoWay}"             
+				QueryIcon="Find"
+				BorderThickness="1" />
+            <TextBlock x:Name="textBlock" Margin="10,20,10,0" Text="{Binding ErrorMessage, Mode=TwoWay}" Foreground="{StaticResource BGGTextGrey}">
+				<Interactivity:Interaction.Behaviors>
+					<Core:DataTriggerBehavior x:Name="hideErrorMessage" Binding="{Binding Text, ElementName=textBlock, FallbackValue=Hide, Mode=TwoWay}" Value="Hide" ComparisonCondition="Equal">
+						<Core:ChangePropertyAction TargetObject="{Binding ElementName=textBlock}" PropertyName="Visibility">
+							<Core:ChangePropertyAction.Value>
+								<Visibility>Collapsed</Visibility>
+							</Core:ChangePropertyAction.Value>
+						</Core:ChangePropertyAction>
+					</Core:DataTriggerBehavior>
+                    <Core:DataTriggerBehavior x:Name="showErrorMessage" Binding="{Binding Text, ElementName=textBlock, FallbackValue=Hide, Mode=TwoWay}" Value="Hide" ComparisonCondition="NotEqual">
+						<Core:ChangePropertyAction TargetObject="{Binding ElementName=textBlock}" PropertyName="Visibility">
+							<Core:ChangePropertyAction.Value>
+								<Visibility>Visible</Visibility>
+							</Core:ChangePropertyAction.Value>
+						</Core:ChangePropertyAction>
+					</Core:DataTriggerBehavior>
+				</Interactivity:Interaction.Behaviors>
+            </TextBlock>
+            <ListView 
+				ItemTemplate="{StaticResource SearchResultsItemTemplate}"
+				ItemsSource="{Binding SearchResultsList, Mode=TwoWay}" 
+				ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
+				IsItemClickEnabled="True"
+				Margin="0,30,0,0">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="0,-5"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Page>

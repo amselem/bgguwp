@@ -26,6 +26,16 @@ namespace BggUwp.ViewModels
             }
         }
 
+        private string _errorMessage = "Type more than 2 characters to perform search";
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set
+            {
+                Set(ref _errorMessage, value);
+            }
+        }
+
         private string _SearchQuery = string.Empty;
         public string SearchQuery
         {
@@ -40,17 +50,36 @@ namespace BggUwp.ViewModels
             {
                 Set(ref _SearchQuery, value);
                 // repopulate results
+                SearchResultsList.Clear();
                 if (value.ToString().Length > 2)
                 {
-                    SearchResultsList.Clear(); // TODO Processing bar
+                    ErrorMessage = "Searching..."; // TODO Processing bar
                     ExecuteSearch();
+                }
+                else
+                {
+                    ErrorMessage = "Type more than 2 characters to perform search";
                 }
             }
         }
 
         async Task ExecuteSearch()
         {
-            SearchResultsList = await dataService.SearchBgg(_SearchQuery);
+            string invokedSearchQuery = _SearchQuery;
+            var results = await dataService.SearchBgg(invokedSearchQuery);
+            if (_SearchQuery == invokedSearchQuery)
+            {
+                SearchResultsList = results;
+                if (SearchResultsList.Count == 0)
+                {
+                    ErrorMessage = "No results found for " + "\"" + invokedSearchQuery + "\"";
+                }
+                else
+                {
+                    ErrorMessage = "Hide";
+                }
+            }
+
         }
 
         private ObservableCollection<SearchResultDataItem> _SearchResultsList = new ObservableCollection<SearchResultDataItem>();
