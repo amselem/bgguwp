@@ -1,6 +1,8 @@
+using BggUwp.Data;
 using BggUwp.Data.Models;
 using BggUwp.Data.Models.Abstract;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Template10.Mvvm;
@@ -12,9 +14,14 @@ namespace BggUwp.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private DataService dataService;
+
         public MainPageViewModel()
         {
-
+            if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                dataService = new DataService();
+            }
         }
 
         private HotItemsViewModel _HotItemsVM = new HotItemsViewModel();
@@ -45,7 +52,11 @@ namespace BggUwp.ViewModels
         }
 
         public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>
-    NavigationService.Navigate(typeof(Views.BoardGamePage), ((BaseItem)e.ClickedItem).BoardGameId);
+            NavigationService.Navigate(typeof(Views.BoardGamePage), ((BaseItem)e.ClickedItem).BoardGameId);
+
+        public void GoToSearchPage() =>
+            NavigationService.Navigate(typeof(Views.SearchPage));
+
     }
 }
 

@@ -11,9 +11,11 @@
     <SolidColorBrush x:Key="LightBackground" Color="#FFFBFBFB"/>
     <SolidColorBrush x:Key="LightBackgroundBorder" Color="#FFF2F2F2"/>
 
-    <cnv:ImagePathToUri x:Key="ImagePathToUri" />
-    <cnv:StringFormatConverter x:Key="StrFormatConverter" />
-    
+    <cnv:ImagePathToUriConverter x:Key="ImagePathToUriConverter" />
+    <cnv:StringFormatConverter x:Key="StringFormatConverter" />
+    <cnv:StringConcatConverter x:Key="StringConcatConverter" />
+
+
     <Style x:Key="TitleTextStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
         <Setter Property="FontSize" Value="{StaticResource ControlContentThemeFontSize}"/>
@@ -32,7 +34,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUri}}" Stretch="UniformToFill" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
@@ -61,7 +63,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUri}}" Stretch="UniformToFill" HorizontalAlignment="Left" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" HorizontalAlignment="Left" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
@@ -119,7 +121,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUri}}" Stretch="UniformToFill" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
@@ -146,17 +148,20 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="play date" FontSize="10.667" />
-                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding PlayDate, Mode=OneWay, Converter={StaticResource StrFormatConverter}, ConverterParameter=\{0:d\}}" FontSize="10.667" FontWeight="Bold"/>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="last played" FontSize="10.667" />
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding PlayDate, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:d\}}" FontSize="10.667" FontWeight="Bold"/>
                         </Grid>
                     </Border>
                 </Grid>
             </Grid>
         </Grid>
     </DataTemplate>
+    <DataTemplate x:Key="SearchResultsItemTemplate">
+        <TextBlock Text="{Binding Converter={StaticResource StringConcatConverter}}" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" TextWrapping="Wrap"/>
+    </DataTemplate>
 
     <!-- Filters flyout -->
-    <Style x:Key="MenuFlyoutPresenterCustom" TargetType="MenuFlyoutPresenter">
+    <Style x:Key="FilterFlyoutPresenter" TargetType="MenuFlyoutPresenter">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource FlyoutBorderThemeThickness}"/>

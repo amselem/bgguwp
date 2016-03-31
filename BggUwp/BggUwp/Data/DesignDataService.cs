@@ -45,7 +45,9 @@ namespace BggUwp.Views
             }
         }
 
-        public void LoadHotItemsList()
+        public ObservableCollection<SearchResultDataItem> SearchResultsList = new ObservableCollection<SearchResultDataItem>();
+
+        private void LoadHotItemsList()
         {
             HotDataItem item = new HotDataItem();
             item.Name = "Design time HotItems item";
@@ -63,7 +65,7 @@ namespace BggUwp.Views
             HotItemsVM.HotItemsList.Add(item3);
         }
 
-        public void LoadCollection()
+        private void LoadCollection()
         {
             CollectionDataItem item = new CollectionDataItem();
             item.Name = "Design time item";
@@ -93,7 +95,7 @@ namespace BggUwp.Views
             CollectionVM.FilteredCollection.Add(item3);
         }
 
-        public void LoadPlays()
+        private void LoadPlays()
         {
             List<PlayDataItem> playsList = new List<PlayDataItem>();
             PlayDataItem play = new PlayDataItem();
@@ -111,7 +113,7 @@ namespace BggUwp.Views
             play2.BoardGameName = "Arkham Horror";
             play2.Length = 15;
             play2.PlayDate = DateTime.Now;
-            play2.UserComment = "Terryfying experience in dark environment.";
+            play2.UserComment = "Terrifying experience in dark environment.";
             play2.NumberOfPlays = 12;
             play2.Players = new List<PlayerDataItem>();
             PlaysVM.PlaysList.Add(play2);

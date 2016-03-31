@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Data;
 
 namespace BggUwp.Common.Converters
 {
-    public class ImagePathToUri : IValueConverter
+    public class ImagePathToUriConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

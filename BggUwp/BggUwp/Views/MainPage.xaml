@@ -29,12 +29,13 @@
             </CommandBar.Content>
             <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter">
                 <Button.Flyout>
-                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutPresenterCustom}" Placement="Top">
+                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource FilterFlyoutPresenter}" Placement="Full">
                         <MenuFlyoutItem Template="{StaticResource FiltersControlTemplate}"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search">
+            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search" Click="{x:Bind ViewModel.GoToSearchPage}">
+
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>

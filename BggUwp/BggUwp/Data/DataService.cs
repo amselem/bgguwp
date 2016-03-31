@@ -109,6 +109,18 @@ namespace BggUwp.Data
             return Client.LoadLastPlays(BGGUsername);
         }
 
+        public async Task<ObservableCollection<SearchResultDataItem>> SearchBgg(string query)
+        {
+            IEnumerable<SearchResult> searchResults = await Client.Search(query);
+            ObservableCollection<SearchResultDataItem> resultsCollection = new ObservableCollection<SearchResultDataItem>();
+            foreach (var result in searchResults)
+            {
+                resultsCollection.Add(new SearchResultDataItem(result));
+            }
+
+            return resultsCollection;
+        }
+
         private bool CheckInternetAccess()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
