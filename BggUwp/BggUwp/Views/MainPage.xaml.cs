@@ -15,12 +15,6 @@ namespace BggUwp.Views
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
         }
 
-        private void HotItems_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            //var item = e.ClickedItem as HotDataItem;
-            //this.Frame.Navigate(typeof(BoardgamePage), item.BoardGameId);
-        }
-
         private void Menu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (((Pivot)sender).SelectedIndex)

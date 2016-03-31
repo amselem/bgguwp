@@ -8,7 +8,8 @@ namespace BggApi.Models
 {
     public class SearchResult
     {
-        public string Name { get; set; }
+        public string BoardGameName { get; set; }
         public int BoardGameId { get; set; }
+        public int YearPublished { get; set; }
     }
 }

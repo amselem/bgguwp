@@ -311,8 +311,9 @@ namespace BggApi
                 IEnumerable<SearchResult> searchResults = from Boardgame in xDoc.Descendants("item")
                                                        select new SearchResult
                                                        {
-                                                           Name = GetStringValue(Boardgame.Element("name"), "value"),
-                                                           BoardGameId = GetIntValue(Boardgame, "id")
+                                                           BoardGameName = GetStringValue(Boardgame.Element("name"), "value"),
+                                                           BoardGameId = GetIntValue(Boardgame, "id"),
+                                                           YearPublished = GetIntValue(Boardgame.Element("yearpublished"), "value")
                                                        };
                 return searchResults;
             }

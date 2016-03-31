@@ -1,0 +1,50 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BggUwp.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:BggUwp.ViewModels" 
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    x:Class="BggUwp.Views.SearchPage"
+    xmlns:cnv="using:BggUwp.Common.Converters"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:SearchPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Page.Resources>
+        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10,20,10,0">
+        <StackPanel>
+            <AutoSuggestBox 
+				HorizontalAlignment="Stretch"
+				PlaceholderText="Search games in BGG database"
+				Text="{Binding SearchQuery, Mode=TwoWay}"             
+				QueryIcon="Find"
+				BorderThickness="1" />
+            <TextBlock Margin="10,20,10,0" 
+                       Foreground="{StaticResource BGGTextGrey}" 
+                       Text="{Binding SearchStatusMessage, Mode=OneWay}" 
+                       Visibility="{Binding IsSearchStatusMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            </TextBlock>
+            <ListView 
+				ItemTemplate="{StaticResource SearchResultsItemTemplate}"
+				ItemsSource="{Binding SearchResultsList, Mode=OneWay}" 
+				ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
+				IsItemClickEnabled="True"
+				Margin="0,30,0,0">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="0,-5"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Page>
