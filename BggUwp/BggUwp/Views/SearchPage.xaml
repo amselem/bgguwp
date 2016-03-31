@@ -6,12 +6,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:BggUwp.ViewModels" 
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    x:Class="BggUwp.Views.SearchPage" 
+    x:Class="BggUwp.Views.SearchPage"
+    xmlns:cnv="using:BggUwp.Common.Converters"
     mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:SearchPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
+
+    <Page.Resources>
+        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10,20,10,0">
         <StackPanel>
@@ -21,27 +26,14 @@
 				Text="{Binding SearchQuery, Mode=TwoWay}"             
 				QueryIcon="Find"
 				BorderThickness="1" />
-            <TextBlock x:Name="textBlock" Margin="10,20,10,0" Text="{Binding ErrorMessage, Mode=TwoWay}" Foreground="{StaticResource BGGTextGrey}">
-				<Interactivity:Interaction.Behaviors>
-					<Core:DataTriggerBehavior x:Name="hideErrorMessage" Binding="{Binding Text, ElementName=textBlock, FallbackValue=Hide, Mode=TwoWay}" Value="Hide" ComparisonCondition="Equal">
-						<Core:ChangePropertyAction TargetObject="{Binding ElementName=textBlock}" PropertyName="Visibility">
-							<Core:ChangePropertyAction.Value>
-								<Visibility>Collapsed</Visibility>
-							</Core:ChangePropertyAction.Value>
-						</Core:ChangePropertyAction>
-					</Core:DataTriggerBehavior>
-                    <Core:DataTriggerBehavior x:Name="showErrorMessage" Binding="{Binding Text, ElementName=textBlock, FallbackValue=Hide, Mode=TwoWay}" Value="Hide" ComparisonCondition="NotEqual">
-						<Core:ChangePropertyAction TargetObject="{Binding ElementName=textBlock}" PropertyName="Visibility">
-							<Core:ChangePropertyAction.Value>
-								<Visibility>Visible</Visibility>
-							</Core:ChangePropertyAction.Value>
-						</Core:ChangePropertyAction>
-					</Core:DataTriggerBehavior>
-				</Interactivity:Interaction.Behaviors>
+            <TextBlock Margin="10,20,10,0" 
+                       Foreground="{StaticResource BGGTextGrey}" 
+                       Text="{Binding SearchStatusMessage, Mode=OneWay}" 
+                       Visibility="{Binding IsSearchStatusMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
             </TextBlock>
             <ListView 
 				ItemTemplate="{StaticResource SearchResultsItemTemplate}"
-				ItemsSource="{Binding SearchResultsList, Mode=TwoWay}" 
+				ItemsSource="{Binding SearchResultsList, Mode=OneWay}" 
 				ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
 				IsItemClickEnabled="True"
 				Margin="0,30,0,0">

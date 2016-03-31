@@ -26,13 +26,24 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private string _errorMessage = "Type more than 2 characters to perform search";
-        public string ErrorMessage
+        private bool _IsSearchStatusMessageVisible = true;
+        public bool IsSearchStatusMessageVisible
         {
-            get { return _errorMessage; }
+            get { return _IsSearchStatusMessageVisible; }
             set
             {
-                Set(ref _errorMessage, value);
+                Set(ref _IsSearchStatusMessageVisible, value);
+            }
+        }
+
+        private static string defaultSearchStatusMessage = "Type more than 2 characters to perform search";
+        private string _SearchStatusMessage = defaultSearchStatusMessage;
+        public string SearchStatusMessage
+        {
+            get { return _SearchStatusMessage; }
+            set
+            {
+                Set(ref _SearchStatusMessage, value);
             }
         }
 
@@ -48,17 +59,18 @@ namespace BggUwp.ViewModels
             }
             set
             {
+                IsSearchStatusMessageVisible = true;
                 Set(ref _SearchQuery, value);
-                // repopulate results
+
                 SearchResultsList.Clear();
                 if (value.ToString().Length > 2)
                 {
-                    ErrorMessage = "Searching..."; // TODO Processing bar
+                    SearchStatusMessage = "Searching...";
                     ExecuteSearch();
                 }
                 else
                 {
-                    ErrorMessage = "Type more than 2 characters to perform search";
+                    SearchStatusMessage = defaultSearchStatusMessage;
                 }
             }
         }
@@ -72,11 +84,11 @@ namespace BggUwp.ViewModels
                 SearchResultsList = results;
                 if (SearchResultsList.Count == 0)
                 {
-                    ErrorMessage = "No results found for " + "\"" + invokedSearchQuery + "\"";
+                    SearchStatusMessage = "No results found for " + "\"" + invokedSearchQuery + "\"";
                 }
                 else
                 {
-                    ErrorMessage = "Hide";
+                    IsSearchStatusMessageVisible = false;
                 }
             }
 
