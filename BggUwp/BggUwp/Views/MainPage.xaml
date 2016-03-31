@@ -29,7 +29,7 @@
             </CommandBar.Content>
             <AppBarButton x:Name="TextFilterAppBarButton" Icon="Find" Label="search">
                 <Button.Flyout>
-                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutPresenterCustom}" Placement="Bottom">
+                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource FilterFlyoutPresenter}">
                         <MenuFlyoutItem Template="{StaticResource TextFilterControlTemplate}"/>
                     </MenuFlyout>
                 </Button.Flyout>
@@ -47,7 +47,7 @@
             </AppBarButton>
             <AppBarButton x:Name="FilterAppBarButton" Icon="Filter" Label="filter">
                 <Button.Flyout>
-                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource FilterFlyoutPresenter}" Placement="Full">
+                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource FilterFlyoutPresenter}">
                         <MenuFlyoutItem Template="{StaticResource FiltersControlTemplate}"/>
                     </MenuFlyout>
                 </Button.Flyout>
