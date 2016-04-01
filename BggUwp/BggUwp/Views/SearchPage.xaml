@@ -29,14 +29,15 @@
             <TextBlock Margin="10,20,10,0" 
                        Foreground="{StaticResource BGGTextGrey}" 
                        Text="{Binding SearchStatusMessage, Mode=OneWay}" 
-                       Visibility="{Binding IsSearchStatusMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                       Visibility="{Binding IsSearchStatusMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                       TextWrapping="WrapWholeWords">
             </TextBlock>
             <ListView 
 				ItemTemplate="{StaticResource SearchResultsItemTemplate}"
 				ItemsSource="{Binding SearchResultsList, Mode=OneWay}" 
 				ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
 				IsItemClickEnabled="True"
-				Margin="0,30,0,0">
+				Margin="0,10,0,0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
