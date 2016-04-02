@@ -11,7 +11,6 @@
       xmlns:Behaviors="using:Template10.Behaviors" 
       x:Class="BggUwp.Views.MainPage"
       mc:Ignorable="d"
-      d:DataContext="{d:DesignInstance local:DesignDataService, IsDesignTimeCreatable=True}"
     >
 
     <Page.DataContext>
