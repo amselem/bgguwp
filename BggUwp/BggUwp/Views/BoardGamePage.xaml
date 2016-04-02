@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:BggUwp.ViewModels" 
     xmlns:cnv="using:BggUwp.Common.Converters"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    d:DesignHeight="1000">
 
     <Page.DataContext>
         <vm:BoardGamePageViewModel x:Name="ViewModel" />
@@ -44,6 +45,7 @@
             </Grid>
             <Grid x:Name="Content" Grid.Row="1" Padding="10,10,10,0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -178,7 +180,81 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
-                <TextBlock Grid.Row="3" Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="3" Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap" MaxLines="25"/>
+                <Grid Grid.Row="4" Padding="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Owned" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned}" IsEnabled="False"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="For trade" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade}" IsEnabled="False"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay}" IsEnabled="False"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy}" IsEnabled="False"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Wishlist" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist}" IsEnabled="False"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Wishlist priority" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority}" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
     </ScrollViewer>
