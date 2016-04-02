@@ -63,7 +63,7 @@ namespace BggUwp.Data
                         {
                             var temp = new HotDataItem(item);
 
-                            await SaveImage(rootFolder, item.ThumbnailWeb, temp.Thumbnail);
+                            await SaveImage(rootFolder, item.ThumbnailWeb, temp.ThumbnailPath);
                             hotItems.Add(temp);
                         }
 
@@ -90,7 +90,7 @@ namespace BggUwp.Data
                         foreach (var item in apiCollection)
                         {
                             var temp = new CollectionDataItem(item);
-                            await SaveImage(rootFolder, item.ThumbnailWeb, temp.Thumbnail);
+                            await SaveImage(rootFolder, item.ThumbnailWeb, temp.ThumbnailPath);
                             // await SaveImage(item.ImageWeb, temp.Image);
                             tmpCollection.Add(temp);
                         }

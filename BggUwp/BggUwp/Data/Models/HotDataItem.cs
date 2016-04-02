@@ -12,7 +12,7 @@ namespace BggUwp.Data.Models
             Name = apiItem.Name;
             BoardGameId = apiItem.BoardGameId;
             Rank = apiItem.Rank;
-            Thumbnail = apiItem.BoardGameId.ToString() + "_th.jpg";
+            ThumbnailPath = apiItem.BoardGameId.ToString() + "_th.jpg";
             YearPublished = apiItem.YearPublished;
         }
 

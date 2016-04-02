@@ -32,16 +32,16 @@ namespace BggUwp.Data.Models.Abstract
             }
         }
 
-        private string _Thumbnail = "";
-        public string Thumbnail
+        private string _ThumbnailPath = "";
+        public string ThumbnailPath
         {
             get
             {
-                return _Thumbnail;
+                return _ThumbnailPath;
             }
             set
             {
-                Set(ref _Thumbnail, value);
+                Set(ref _ThumbnailPath, value);
             }
         }
 

@@ -14,7 +14,7 @@ namespace BggUwp.Data.Models
             YearPublished = apiItem.YearPublished;
             BoardGameId = apiItem.BoardGameId;
             ImageWebLink = "http:" + apiItem.ImageWeb;
-            Thumbnail = apiItem.BoardGameId.ToString() + "_th.jpg";
+            ThumbnailPath = apiItem.BoardGameId.ToString() + "_th.jpg";
             MinPlayers = apiItem.MinPlayers;
             MaxPlayers = apiItem.MaxPlayers;
             PlayingTime = apiItem.PlayingTime;
