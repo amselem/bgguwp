@@ -98,7 +98,13 @@
                 <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
                 <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.NumberOfPlays}" TextWrapping="Wrap"/>
             </Grid>
-            <ItemsControl ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,30,10,5" ItemTemplate="{StaticResource PlayerPollTemplate}"  />
+            <ItemsControl ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,10,10,10" ItemTemplate="{StaticResource PlayerPollTemplate}">
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
         </StackPanel>
     </Grid>
 </Page>
