@@ -16,6 +16,21 @@
     <Page.Resources>
         <cnv:ListToStringConverter x:Name="ListToStringConverter" />
         <cnv:StringFormatConverter x:Name="StringFormatConverter" />
+        <cnv:IntToGridStarNotationConverter x:Name="IntToGridStarNotationConverter" />
+        <DataTemplate x:Key="PlayerPollTemplate">
+            <Grid Height="12" Margin="0,3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="{Binding BestPercentage, Converter={StaticResource IntToGridStarNotationConverter}}"/>
+                    <ColumnDefinition Width="{Binding RecommendedPercentage, Converter={StaticResource IntToGridStarNotationConverter}}"/>
+                    <ColumnDefinition Width="{Binding NotRecommendedPercentage, Converter={StaticResource IntToGridStarNotationConverter}}"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding NumberOfPlayersDisplay}" VerticalAlignment="Center" Width="20"/>
+                <Grid Grid.Column="1" Background="#FF64E600" />
+                <Grid Grid.Column="2" Background="#FF26619C" />
+                <Grid Grid.Column="3" Background="#FFF2F2F2" />
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -83,6 +98,7 @@
                 <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
                 <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.NumberOfPlays}" TextWrapping="Wrap"/>
             </Grid>
+            <ItemsControl ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,30,10,5" ItemTemplate="{StaticResource PlayerPollTemplate}"  />
         </StackPanel>
     </Grid>
 </Page>

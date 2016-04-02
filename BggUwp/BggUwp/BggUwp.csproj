@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Common\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Common\Converters\ImagePathToUriConverter.cs" />
+    <Compile Include="Common\Converters\IntToGridStarNotationConverter.cs" />
     <Compile Include="Common\Converters\ListToStringConverter.cs" />
     <Compile Include="Common\Converters\StringConcatConverter.cs" />
     <Compile Include="Common\Converters\StringFormatConverter.cs" />
