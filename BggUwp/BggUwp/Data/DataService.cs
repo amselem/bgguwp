@@ -121,6 +121,12 @@ namespace BggUwp.Data
             return resultsCollection;
         }
 
+        public async Task<BoardGameDataItem> LoadBoardGame(int gameId)
+        {
+            var apiBoardGame = await Client.LoadBoardGame(gameId);
+            return new BoardGameDataItem(apiBoardGame);
+        }
+
         private bool CheckInternetAccess()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();

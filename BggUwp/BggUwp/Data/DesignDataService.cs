@@ -110,5 +110,61 @@ namespace BggUwp.Data
 
             return data;
         }
+
+        public static BoardGameDataItem LoadBoardGame()
+        {
+            BoardGameDataItem bg = new BoardGameDataItem()
+            {
+                AverageRating = (Decimal)(7.9),
+                BoardGameId = 7923,
+                Description = "It is a detailed description of a game, but you can get some additional game info at website.",
+                GeekRating = (Decimal)(6.5),
+                MaxPlayers = 5,
+                MinPlayers = 2,
+                Name = "Eldritch Horror",
+                NumberOfPlays = 21,
+                PlayingTime = 240,
+                Rank = 57,
+                YearPublished = 1996,
+                Artists = new ObservableCollection<string>()
+                {
+                    "Flenn Ferguson",
+                    "Jacqueline Rodriquez",
+                    "Nathan Holmes",
+                    "Melinda Price",
+                    "Judy Lawson"
+                },
+                Designers = new ObservableCollection<string>()
+                {
+                    "Myrtle Bailey",
+                    "Janice Rodriguez"
+                },
+                Publishers = new ObservableCollection<string>()
+                {
+                    "Ethel Schmidt"
+                },
+                PlayerPollResults = new ObservableCollection<PlayerPollResultDataItem>()
+                {
+                    new PlayerPollResultDataItem()
+                    {
+                        Best = 78,
+                        NotRecommended = 18,
+                        NumberOfPlayers = 1,
+                        NumberOfPlayersIsAndHigher = false,
+                        Recommended = 152
+                    },
+                    new PlayerPollResultDataItem()
+                    {
+                        Best = 10,
+                        NotRecommended = 70,
+                        NumberOfPlayers = 2,
+                        NumberOfPlayersIsAndHigher = true,
+                        Recommended = 40
+                    }
+                }
+            };
+
+            return bg;
+        }
     }
 }
