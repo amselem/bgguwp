@@ -43,16 +43,36 @@ namespace BggUwp.ViewModels
             }
         }
 
+        public CollectionDataItem _CurrentCollectionItem = new CollectionDataItem();
+        public CollectionDataItem CurrentCollectionItem
+        {
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadCollectionItem();
+                }
+
+                return _CurrentCollectionItem;
+            }
+            set
+            {
+                Set(ref _CurrentCollectionItem, value);
+            }
+        }
+
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
             int gameId = (int)parameter;
-            LoadBoardGame(gameId);
+            LoadData(gameId);
             await Task.CompletedTask;
         }
 
-        private async void LoadBoardGame(int gameId)
+        private async void LoadData(int gameId)
         {
             CurrentBoardGame = await dataService.LoadBoardGame(gameId);
+            CurrentCollectionItem = dataService.LoadCollectionItem(gameId);
+            // TODO Implement collection item null scenario
         }
     }
 }

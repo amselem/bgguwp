@@ -127,6 +127,11 @@ namespace BggUwp.Data
             return new BoardGameDataItem(apiBoardGame);
         }
 
+        public CollectionDataItem LoadCollectionItem(int gameId)
+        {
+            return StorageService.LoadCollectionItem(gameId);
+        }
+
         private bool CheckInternetAccess()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();

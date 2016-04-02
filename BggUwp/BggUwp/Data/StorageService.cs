@@ -118,5 +118,15 @@ namespace BggUwp.Data
                 db.InsertAll(items);
             }
         }
+
+        public static CollectionDataItem LoadCollectionItem(int itemId)
+        {
+            CollectionDataItem item = new CollectionDataItem();
+            using (var db = DbConnection)
+            {
+                item = db.Find<CollectionDataItem>(a => a.BoardGameId == itemId);
+            }
+            return item;
+        }
     }
 }
