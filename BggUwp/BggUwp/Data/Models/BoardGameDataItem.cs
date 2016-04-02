@@ -13,7 +13,7 @@ namespace BggUwp.Data.Models
             Name = apiItem.Name;
             YearPublished = apiItem.YearPublished;
             BoardGameId = apiItem.BoardGameId;
-            Image = apiItem.BoardGameId.ToString() + ".jpg";
+            ImageWebLink = "http:" + apiItem.ImageWeb;
             Thumbnail = apiItem.BoardGameId.ToString() + "_th.jpg";
             MinPlayers = apiItem.MinPlayers;
             MaxPlayers = apiItem.MaxPlayers;
@@ -51,6 +51,20 @@ namespace BggUwp.Data.Models
                 });
             }
         }
+
+        private string _ImageWebLink = "";
+        public string ImageWebLink
+        {
+            get
+            {
+                return _ImageWebLink;
+            }
+            set
+            {
+                Set(ref _ImageWebLink, value);
+            }
+        }
+
         private string _Description = "";
         public string Description
         {
