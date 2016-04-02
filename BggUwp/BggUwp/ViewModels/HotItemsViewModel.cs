@@ -28,14 +28,22 @@ namespace BggUwp.ViewModels
         private ObservableCollection<HotDataItem> _HotItemsList = new ObservableCollection<HotDataItem>();
         public ObservableCollection<HotDataItem> HotItemsList
         {
-            get { return _HotItemsList; }
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadHotItemsList();
+                }
+
+                return _HotItemsList;
+            }
             set
             {
                 Set(ref _HotItemsList, value);
             }
         }
 
-        public async void LoadHotItemsList()
+        private async void LoadHotItemsList()
         {
             HotItemsList.Clear();
 
