@@ -200,5 +200,18 @@ namespace BggUwp.Data.Models
                     return str;
             }
         }
+
+        private int _NumberOfPlays = 0;
+        public int NumberOfPlays
+        {
+            get
+            {
+                return _NumberOfPlays;
+            }
+            set
+            {
+                Set(ref _NumberOfPlays, value);
+            }
+        }
     }
 }

@@ -122,7 +122,6 @@ namespace BggUwp.Data
                 MaxPlayers = 5,
                 MinPlayers = 2,
                 Name = "Eldritch Horror",
-                NumberOfPlays = 21,
                 PlayingTime = 240,
                 Rank = 57,
                 YearPublished = 1996,

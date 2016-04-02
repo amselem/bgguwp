@@ -170,7 +170,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.NumberOfPlays}" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.NumberOfPlays}" TextWrapping="Wrap"/>
                     </Grid>
                 </StackPanel>
                 <ItemsControl Grid.Row="2" ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,10,10,10" ItemTemplate="{StaticResource PlayerPollTemplate}">

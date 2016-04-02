@@ -22,8 +22,6 @@ namespace BggUwp.Data.Models
             GeekRating = apiItem.GeekRating;
             AverageRating = apiItem.AverageRating;
             Rank = apiItem.Rank;
-            NumberOfPlays = apiItem.NumberOfPlays;
-
             Description = apiItem.Description;
 
             Designers = new ObservableCollection<string>();
