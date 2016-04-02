@@ -118,7 +118,7 @@ namespace BggUwp.Data
                 AverageRating = (Decimal)(7.9),
                 BoardGameId = 7923,
                 Description = "It is a detailed description of a game, but you can get some additional game info at website.",
-                GeekRating = (Decimal)(6.5),
+                GeekRating = (Decimal)(6.7),
                 MaxPlayers = 5,
                 MinPlayers = 2,
                 Name = "Eldritch Horror",
@@ -165,6 +165,39 @@ namespace BggUwp.Data
             };
 
             return bg;
+        }
+
+        public static CollectionDataItem LoadCollectionItem()
+        {
+            CollectionDataItem ci = new CollectionDataItem()
+            {
+                Name = "Eldritch Horror",
+                YearPublished = 1996,
+                BoardGameId = 7923,
+                ThumbnailPath = 7923 + "_th.jpg",
+                MaxPlayers = 5,
+                MinPlayers = 2,
+                PlayingTime = 240,
+                IsExpansion = false,
+                UserRating = (decimal)5.5,
+                GeekRating = (decimal)6.7,
+                AverageRating = (decimal)7.9,
+                Rank = 57,
+                NumberOfPlays = 21,
+
+                CollectionItemId = 17213,
+                Owned = true,
+                PreviousOwned = false,
+                ForTrade = false,
+                Want = false,
+                WantToPlay = true,
+                WantToBuy = false,
+                Wishlist =true,
+                WishlistPriority = 4,
+                PreOrdered = true,
+            };
+
+            return ci;
         }
     }
 }
