@@ -6,13 +6,83 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:BggUwp.ViewModels" 
+    xmlns:cnv="using:BggUwp.Common.Converters"
     mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:BoardGamePageViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <cnv:ListToStringConverter x:Name="ListToStringConverter" />
+        <cnv:StringFormatConverter x:Name="StringFormatConverter" />
+    </Page.Resources>
 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel>
+            <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="designer" Foreground="{StaticResource BGGTextGrey}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Designers, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap"/>
+                </Grid>
+            </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="artist" Foreground="{StaticResource BGGTextGrey}"/>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Artists, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap"/>
+            </Grid>
+            <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="publisher" Foreground="{StaticResource BGGTextGrey}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Publishers, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap" />
+                </Grid>
+            </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="# of players" Foreground="{StaticResource BGGTextGrey}"/>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding CurrentBoardGame.MinPlayers}"/>
+                    <TextBlock Grid.Column="1" Text="-" Margin="2,0"/>
+                    <TextBlock Grid.Column="2" Text="{Binding CurrentBoardGame.MaxPlayers}"/>
+                </Grid>
+            </Grid>
+            <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="duration" Foreground="{StaticResource BGGTextGrey}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.PlayingTime, ConverterParameter=\{0\} minutes, Converter={StaticResource StringFormatConverter}}" TextWrapping="Wrap" />
+                </Grid>
+            </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.NumberOfPlays}" TextWrapping="Wrap"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Page>
