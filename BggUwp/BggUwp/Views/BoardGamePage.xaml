@@ -35,20 +35,26 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10,0">
-        <StackPanel>
-            <Grid Height="250">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Height="250">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="80"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Source="{Binding CurrentBoardGame.ImageWebLink, FallbackValue='ms-appx:///Assets/SampleCoverPicHD.jpg'}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                <Grid Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Stretch">
+                <Grid Grid.Column="1" HorizontalAlignment="Stretch" Padding="5,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="75"/>
+                        <RowDefinition Height="75"/>
+                        <RowDefinition Height="75"/>
                     </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Height="80" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Top">
+                    <Border Grid.Row="1" Height="70" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Bottom">
                         <Grid Background="{StaticResource BGGGrey}" Padding="5,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -62,7 +68,7 @@
                             <TextBlock Grid.Row="1" Text="{Binding CurrentBoardGame.Rank, Mode=OneWay}" FontSize="26.667" Foreground="Black" FontWeight="Bold"/>
                         </Grid>
                     </Border>
-                    <Border Grid.Row="1" Height="80" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Center">
+                    <Border Grid.Row="2" Height="70" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Bottom">
                         <Grid Background="{StaticResource BGGGrey}" Padding="5,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -76,7 +82,7 @@
                             <TextBlock Grid.Row="1" Text="{Binding CurrentBoardGame.AverageRating, ConverterParameter=\{0:#0.00\}, Converter={StaticResource StringFormatConverter}}" FontSize="26.667" FontWeight="Bold"/>
                         </Grid>
                     </Border>
-                    <Border Grid.Row="2" Height="80" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Bottom">
+                    <Border Grid.Row="3" Height="70" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Bottom">
                         <Grid Background="{StaticResource BGGGrey}" Padding="5,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -92,76 +98,78 @@
                     </Border>
                 </Grid>
             </Grid>
-            <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+            <StackPanel Grid.Row="1">
+                <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="designer" Foreground="{StaticResource BGGTextGrey}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Designers, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap"/>
+                    </Grid>
+                </Border>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="designer" Foreground="{StaticResource BGGTextGrey}"/>
-                    <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Designers, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Column="0" Text="artist" Foreground="{StaticResource BGGTextGrey}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Artists, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap"/>
                 </Grid>
-            </Border>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="artist" Foreground="{StaticResource BGGTextGrey}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Artists, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap"/>
-            </Grid>
-            <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="publisher" Foreground="{StaticResource BGGTextGrey}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Publishers, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap" />
+                    </Grid>
+                </Border>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="publisher" Foreground="{StaticResource BGGTextGrey}"/>
-                    <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Publishers, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap" />
+                    <TextBlock Grid.Column="0" Text="# of players" Foreground="{StaticResource BGGTextGrey}"/>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding CurrentBoardGame.MinPlayers}"/>
+                        <TextBlock Grid.Column="1" Text="-" Margin="2,0"/>
+                        <TextBlock Grid.Column="2" Text="{Binding CurrentBoardGame.MaxPlayers}"/>
+                    </Grid>
                 </Grid>
-            </Border>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="# of players" Foreground="{StaticResource BGGTextGrey}"/>
-                <Grid Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{Binding CurrentBoardGame.MinPlayers}"/>
-                    <TextBlock Grid.Column="1" Text="-" Margin="2,0"/>
-                    <TextBlock Grid.Column="2" Text="{Binding CurrentBoardGame.MaxPlayers}"/>
-                </Grid>
-            </Grid>
-            <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="duration" Foreground="{StaticResource BGGTextGrey}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.PlayingTime, ConverterParameter=\{0\} minutes, Converter={StaticResource StringFormatConverter}}" TextWrapping="Wrap" />
+                    </Grid>
+                </Border>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="duration" Foreground="{StaticResource BGGTextGrey}"/>
-                    <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.PlayingTime, ConverterParameter=\{0\} minutes, Converter={StaticResource StringFormatConverter}}" TextWrapping="Wrap" />
+                    <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.NumberOfPlays}" TextWrapping="Wrap"/>
                 </Grid>
-            </Border>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.NumberOfPlays}" TextWrapping="Wrap"/>
-            </Grid>
-            <ItemsControl ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,10,10,10" ItemTemplate="{StaticResource PlayerPollTemplate}">
+            </StackPanel>
+            <ItemsControl Grid.Row="2" ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,10,10,10" ItemTemplate="{StaticResource PlayerPollTemplate}">
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>
