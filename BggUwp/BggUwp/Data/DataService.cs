@@ -96,7 +96,7 @@ namespace BggUwp.Data
                             tmpCollection.Add(temp);
                         }
 
-                    StorageService.SaveAllCollectionItems(tmpCollection);
+                        StorageService.SaveAllCollectionItems(tmpCollection);
                     }
                 });
             }
@@ -110,9 +110,9 @@ namespace BggUwp.Data
             return Client.LoadLastPlays(BGGUsername);
         }
 
-        public async Task<ObservableCollection<SearchResultDataItem>> SearchBgg(string query)
+        public async Task<ObservableCollection<SearchResultDataItem>> SearchBgg(string query, System.Threading.CancellationTokenSource cts)
         {
-            IEnumerable<SearchResult> searchResults = await Client.Search(query);
+            IEnumerable<SearchResult> searchResults = await Client.Search(query, cts);
             ObservableCollection<SearchResultDataItem> resultsCollection = new ObservableCollection<SearchResultDataItem>();
             foreach (var result in searchResults)
             {

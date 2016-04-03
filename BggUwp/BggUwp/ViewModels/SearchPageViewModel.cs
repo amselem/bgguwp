@@ -15,8 +15,8 @@ namespace BggUwp.ViewModels
 {
     public class SearchPageViewModel : ViewModelBase
     {
-        private DataService dataService; 
-        Windows.UI.Core.CoreDispatcher dispatcher; 
+        private DataService dataService;
+        Windows.UI.Core.CoreDispatcher dispatcher;
 
         public SearchPageViewModel()
         {
@@ -76,18 +76,24 @@ namespace BggUwp.ViewModels
             }
         }
 
+        System.Threading.CancellationTokenSource cts = new System.Threading.CancellationTokenSource();
         async Task ExecuteSearch()
         {
             string invokedSearchQuery = _SearchQuery;
             var localResults = await dataService.SearchLocal(invokedSearchQuery);
             LocalResultsList = localResults;
-            var globalResults = await dataService.SearchBgg(invokedSearchQuery);
+            CancelSearchRequest();
+            var globalResults = await dataService.SearchBgg(invokedSearchQuery, cts);
             if (_SearchQuery == invokedSearchQuery)
             {
                 GlobalResultsList = globalResults;
-                if (GlobalResultsList.Count == 0 && LocalResultsList.Count == 0)
+                if (GlobalResultsList.Count == 0)
                 {
                     SearchStatusMessage = "No results found for " + "\"" + invokedSearchQuery + "\"";
+                }
+                else if (LocalResultsList.Count == 0)
+                {
+                    SearchStatusMessage = "No local results. Switch to global tab.";
                 }
                 else
                 {
@@ -95,6 +101,13 @@ namespace BggUwp.ViewModels
                 }
             }
 
+        }
+
+        private void CancelSearchRequest()
+        {
+            cts.Cancel();
+            cts.Dispose();
+            cts = new System.Threading.CancellationTokenSource();
         }
 
         private ObservableCollection<SearchResultDataItem> _GlobalResultsList = new ObservableCollection<SearchResultDataItem>();
@@ -140,4 +153,5 @@ namespace BggUwp.ViewModels
         public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>
             NavigationService.Navigate(typeof(Views.BoardGamePage), ((SearchResultDataItem)e.ClickedItem).Id);
     }
+
 }

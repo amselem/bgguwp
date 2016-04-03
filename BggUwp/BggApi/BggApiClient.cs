@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using BggApi.Models;
+using System.Threading;
+using Windows.Web.Http;
 
 namespace BggApi
 {
@@ -298,14 +300,14 @@ namespace BggApi
             return players;
         }
 
-        public async Task<IEnumerable<SearchResult>> Search(string query)
+        public async Task<IEnumerable<SearchResult>> Search(string query, CancellationTokenSource cts)
         {
             try
             {
                 query = query.Replace(" ", "+");
                 Uri teamDataURI = new Uri(string.Format(BASE_URL + "/search?query={0}&type=boardgame", query));
 
-                XDocument xDoc = await ReadData(teamDataURI);
+                XDocument xDoc = await ReadData(teamDataURI, cts);
 
                 // LINQ to XML.
                 IEnumerable<SearchResult> searchResults = from Boardgame in xDoc.Descendants("item")
@@ -398,7 +400,7 @@ namespace BggApi
                 request.ContinueTimeout = 15000;
                 using (var response = (HttpWebResponse)(await request.GetResponseAsync()))
                 {
-                    if (response.StatusCode == HttpStatusCode.Accepted)
+                    if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
                     {
                         await Task.Delay(100);
                         continue;
@@ -418,6 +420,34 @@ namespace BggApi
             {
                 throw new Exception("Failed to download BGG data.");
             }
+        }
+
+        private async Task<XDocument> ReadData(Uri requestUrl, CancellationTokenSource cts)
+        {
+            HttpClient httpClient = new HttpClient();
+            XDocument data = new XDocument();
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(requestUrl).AsTask(cts.Token);
+
+                response.EnsureSuccessStatusCode();
+
+                data = XDocument.Parse(await response.Content.ReadAsStringAsync().AsTask(cts.Token));
+            }
+            catch (TaskCanceledException)
+            {
+                System.Diagnostics.Debug.WriteLine("Cancel for " + requestUrl);
+            }
+
+            if (data != null)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception("Failed to download BGG data.");
+            }
+
         }
     }
 }

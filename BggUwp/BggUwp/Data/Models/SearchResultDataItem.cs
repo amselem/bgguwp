@@ -14,7 +14,7 @@ namespace BggUwp.Data.Models
         public SearchResultDataItem(SearchResult apiResult)
         {
             Title = apiResult.BoardGameName;
-            if (apiResult.YearPublished != 0)
+            if (apiResult.YearPublished > 0)
             {
                 Title += " (" + apiResult.YearPublished + ")";
             }
@@ -27,7 +27,7 @@ namespace BggUwp.Data.Models
         public SearchResultDataItem(HotDataItem collectionItem)
         {
             Title = collectionItem.Name;
-            if (collectionItem.YearPublished != 0)
+            if (collectionItem.YearPublished > 0)
             {
                 Title += " (" + collectionItem.YearPublished + ")";
             }
@@ -40,7 +40,7 @@ namespace BggUwp.Data.Models
         public SearchResultDataItem(CollectionDataItem hotItem)
         {
             Title = hotItem.Name;
-            if (hotItem.YearPublished != 0)
+            if (hotItem.YearPublished > 0)
             {
                 Title += " (" + hotItem.YearPublished + ")";
             }
