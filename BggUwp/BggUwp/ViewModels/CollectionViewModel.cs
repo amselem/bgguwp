@@ -26,7 +26,6 @@ namespace BggUwp.ViewModels
 
             Collection.CollectionChanged += Collection_CollectionChanged;
 
-            CurrentTextFilter.PropertyChanged += AnyFilterChangedEvent;
             CurrentPlayerFilter.PropertyChanged += AnyFilterChangedEvent;
             CurrentPlayTimeFilter.PropertyChanged += AnyFilterChangedEvent;
         }
@@ -191,27 +190,6 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private TextFilter _CurrentTextFilter = new TextFilter();
-        public TextFilter CurrentTextFilter
-        {
-            get
-            {
-                if (_CurrentTextFilter == null)
-                    _CurrentTextFilter = new TextFilter();
-
-                return _CurrentTextFilter;
-            }
-            set
-            {
-                if (_CurrentTextFilter != value)
-                {
-                    _CurrentTextFilter = value;
-                    RaisePropertyChanged("CurrentTextFilter");
-                    RepopulateFilteredCollection();
-                }
-            }
-        }
-
         public int NumberItemsDisplayed
         {
             get { return FilteredCollection.Count; }
@@ -254,9 +232,6 @@ namespace BggUwp.ViewModels
 
                 if (ShowMe && CurrentExpansionFilter != null)
                     ShowMe = CurrentExpansionFilter.Matches(ci);
-
-                if (ShowMe && CurrentTextFilter != null)
-                    ShowMe = CurrentTextFilter.Matches(ci);
 
                 if (ShowMe)
                     filtered.Add(ci);

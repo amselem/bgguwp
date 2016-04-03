@@ -224,12 +224,5 @@
                           SelectedItem="{Binding CollectionVM.CurrentCollectionSorter, Mode=TwoWay}"
                           DisplayMemberPath="DisplayName"/>
     </ControlTemplate>
-    <ControlTemplate x:Key="TextFilterControlTemplate" TargetType="MenuFlyoutItem">
-        <AutoSuggestBox HorizontalAlignment="Stretch"
-                            PlaceholderText="Filter by text substring"
-                            Text="{Binding CollectionVM.CurrentTextFilter.FilterText, Mode=TwoWay}"
-                            QueryIcon="Find"
-                            BorderThickness="1" />
-    </ControlTemplate>
 </ResourceDictionary>
 

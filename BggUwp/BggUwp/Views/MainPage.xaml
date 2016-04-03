@@ -27,13 +27,6 @@
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <AppBarButton x:Name="TextFilterAppBarButton" Icon="Find" Label="search">
-                <Button.Flyout>
-                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource FilterFlyoutPresenter}">
-                        <MenuFlyoutItem Template="{StaticResource TextFilterControlTemplate}"/>
-                    </MenuFlyout>
-                </Button.Flyout>
-            </AppBarButton>
             <AppBarButton x:Name="SortAppBarButton" Icon="Sort" Label="sort">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="SortFlyout" local:BindableFlyout.ItemsSource="{Binding CollectionVM.CollectionSorters, Mode=TwoWay}">
@@ -52,9 +45,7 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search" Click="{x:Bind ViewModel.GoToSearchPage}">
-
-            </AppBarButton>
+            <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search" Click="{x:Bind ViewModel.GoToSearchPage}" />
         </CommandBar>
     </Page.BottomAppBar>
 

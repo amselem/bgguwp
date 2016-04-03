@@ -26,7 +26,6 @@ namespace BggUwp.Views
 
                 case 1:
                     HideAllAppBarButtons();
-                    TextFilterAppBarButton.Visibility = Visibility.Visible;
                     SortAppBarButton.Visibility = Visibility.Visible;
                     FilterAppBarButton.Visibility = Visibility.Visible;
                     break;
@@ -40,7 +39,6 @@ namespace BggUwp.Views
         {
             FindAppBarButton.Visibility = Visibility.Collapsed;
             FilterAppBarButton.Visibility = Visibility.Collapsed;
-            TextFilterAppBarButton.Visibility = Visibility.Collapsed;
             SortAppBarButton.Visibility = Visibility.Collapsed;
         }
 

@@ -208,33 +208,6 @@ namespace BggUwp.Data
         }
     }
 
-    public class TextFilter : BoardGameFilter
-    {
-        private string _filterText;
-
-        public string FilterText
-        {
-            get { return _filterText; }
-            set
-            {
-                Set(ref _filterText, value);
-            }
-        }
-
-        public bool Matches(CollectionDataItem BoardGame)
-        {
-            if (string.IsNullOrEmpty(FilterText))
-                return true;
-
-            if (BoardGame == null)
-                return false;
-            if (string.IsNullOrEmpty(BoardGame.Name))
-                return false;
-
-            return BoardGame.Name.ToLower().Contains(FilterText.ToLower());
-        }
-    }
-
     public enum BoardGameCollectionStatus
     {
         All,
