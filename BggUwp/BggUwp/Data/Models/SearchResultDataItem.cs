@@ -13,13 +13,46 @@ namespace BggUwp.Data.Models
 
         public SearchResultDataItem(SearchResult apiResult)
         {
-            BoardGameName = apiResult.BoardGameName;
-            BoardGameId = apiResult.BoardGameId;
-            YearPublished = apiResult.YearPublished;
+            Title = apiResult.BoardGameName;
+            if (apiResult.YearPublished > 0)
+            {
+                Title += " (" + apiResult.YearPublished + ")";
+            }
+
+            Id = apiResult.BoardGameId;
+            ResultType = typeof(SearchResult);
+            IconString = "\uE774";
         }
 
-        public string BoardGameName { get; set; }
-        public int BoardGameId { get; set; }
-        public int YearPublished { get; set; }
+        public SearchResultDataItem(HotDataItem collectionItem)
+        {
+            Title = collectionItem.Name;
+            if (collectionItem.YearPublished > 0)
+            {
+                Title += " (" + collectionItem.YearPublished + ")";
+            }
+
+            Id = collectionItem.BoardGameId;
+            ResultType = typeof(HotDataItem);
+            IconString = "\uE734";
+        }
+
+        public SearchResultDataItem(CollectionDataItem hotItem)
+        {
+            Title = hotItem.Name;
+            if (hotItem.YearPublished > 0)
+            {
+                Title += " (" + hotItem.YearPublished + ")";
+            }
+
+            Id = hotItem.BoardGameId;
+            ResultType = typeof(CollectionDataItem);
+            IconString = "\uE8F1";
+        }
+
+        public string Title { get; set; }
+        public int Id { get; set; }
+        public Type ResultType { get; set; }
+        public string IconString { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BggApi;
 using BggApi.Models;
 using BggUwp.Data.Models;
+using BggUwp.Data.Models.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -95,7 +96,7 @@ namespace BggUwp.Data
                             tmpCollection.Add(temp);
                         }
 
-                    StorageService.SaveAllCollectionItems(tmpCollection);
+                        StorageService.SaveAllCollectionItems(tmpCollection);
                     }
                 });
             }
@@ -109,11 +110,29 @@ namespace BggUwp.Data
             return Client.LoadLastPlays(BGGUsername);
         }
 
-        public async Task<ObservableCollection<SearchResultDataItem>> SearchBgg(string query)
+        public async Task<ObservableCollection<SearchResultDataItem>> SearchBgg(string query, System.Threading.CancellationTokenSource cts)
         {
-            IEnumerable<SearchResult> searchResults = await Client.Search(query);
+            IEnumerable<SearchResult> searchResults = await Client.Search(query, cts);
             ObservableCollection<SearchResultDataItem> resultsCollection = new ObservableCollection<SearchResultDataItem>();
             foreach (var result in searchResults)
+            {
+                resultsCollection.Add(new SearchResultDataItem(result));
+            }
+
+            return resultsCollection;
+        }
+
+        public async Task<ObservableCollection<SearchResultDataItem>> SearchLocal(string query)
+        {
+            List<HotDataItem> resultHotItems = StorageService.SearchInHotItems(query).ToList();
+            List<CollectionDataItem> resultCollectionItems = StorageService.SearchInCollection(query).ToList();
+            ObservableCollection<SearchResultDataItem> resultsCollection = new ObservableCollection<SearchResultDataItem>();
+            foreach (var result in resultCollectionItems)
+            {
+                resultHotItems.Remove(resultHotItems.Find(item => item.BoardGameId == result.BoardGameId));
+                resultsCollection.Add(new SearchResultDataItem(result));
+            }
+            foreach (var result in resultHotItems)
             {
                 resultsCollection.Add(new SearchResultDataItem(result));
             }

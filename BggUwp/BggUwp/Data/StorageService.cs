@@ -119,6 +119,26 @@ namespace BggUwp.Data
             }
         }
 
+        public static IEnumerable<HotDataItem> SearchInHotItems(string queryString)
+        {
+            IEnumerable<HotDataItem> results;
+            using (var db = DbConnection)
+            {
+                results = db.Table<HotDataItem>().Where(item => item.Name.Contains(queryString)).ToList();
+            }
+            return results;
+        }
+
+        public static IEnumerable<CollectionDataItem> SearchInCollection(string queryString)
+        {
+            IEnumerable<CollectionDataItem> results;
+            using (var db = DbConnection)
+            {
+                results = db.Table<CollectionDataItem>().Where(item => item.Name.Contains(queryString)).ToList();
+            }
+            return results;
+        }
+
         public static CollectionDataItem LoadCollectionItem(int itemId)
         {
             CollectionDataItem item = new CollectionDataItem();
