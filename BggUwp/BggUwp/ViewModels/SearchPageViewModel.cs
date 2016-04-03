@@ -115,23 +115,6 @@ namespace BggUwp.ViewModels
         {
             get
             {
-                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-                {
-                    ObservableCollection<SearchResultDataItem> tmp = new ObservableCollection<SearchResultDataItem>();
-                    tmp.Add(new SearchResultDataItem()
-                    {
-                        Title = "Test (2016)",
-                        Id = 15,
-                        IconString = "\uE774"
-                    });
-                    tmp.Add(new SearchResultDataItem()
-                    {
-                        Title = "Imperial Settlers: The Mad Blue Huge Sheep Attack Scenario (1992)",
-                        Id = 15,
-                        IconString = "\uE734"
-                    });
-                    return tmp;
-                }
                 return _GlobalResultsList;
             }
             set
@@ -143,7 +126,14 @@ namespace BggUwp.ViewModels
         private ObservableCollection<SearchResultDataItem> _LocalResultsList = new ObservableCollection<SearchResultDataItem>();
         public ObservableCollection<SearchResultDataItem> LocalResultsList
         {
-            get { return _LocalResultsList; }
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadSearchResults();
+                }
+                return _LocalResultsList;
+            }
             set
             {
                 Set(ref _LocalResultsList, value);
