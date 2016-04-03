@@ -6,13 +6,256 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:BggUwp.ViewModels" 
-    mc:Ignorable="d">
+    xmlns:cnv="using:BggUwp.Common.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="1000">
 
     <Page.DataContext>
         <vm:BoardGamePageViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    </Grid>
+    <Page.Resources>
+        <cnv:ListToStringConverter x:Name="ListToStringConverter" />
+        <cnv:StringFormatConverter x:Name="StringFormatConverter" />
+        <cnv:IntToGridStarNotationConverter x:Name="IntToGridStarNotationConverter" />
+        <cnv:RatingColorConverter x:Name="RatingColorConverter" />
+        <DataTemplate x:Key="PlayerPollTemplate">
+            <Grid Height="12" Margin="0,3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="{Binding BestPercentage, Converter={StaticResource IntToGridStarNotationConverter}}"/>
+                    <ColumnDefinition Width="{Binding RecommendedPercentage, Converter={StaticResource IntToGridStarNotationConverter}}"/>
+                    <ColumnDefinition Width="{Binding NotRecommendedPercentage, Converter={StaticResource IntToGridStarNotationConverter}}"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding NumberOfPlayersDisplay}" VerticalAlignment="Center" Width="20"/>
+                <Grid Grid.Column="1" Background="#FF64E600" />
+                <Grid Grid.Column="2" Background="#FF26619C" />
+                <Grid Grid.Column="3" Background="#FFF2F2F2" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    <ScrollViewer>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="Header" Grid.Row="0" Background="{StaticResource BGGHeaderBlue}" Padding="10,0,0,0">
+                <TextBlock Text="{Binding CurrentBoardGame.Name}" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid x:Name="Content" Grid.Row="1" Padding="10,10,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Height="250">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{Binding CurrentBoardGame.ImageWebLink, FallbackValue='ms-appx:///Assets/SampleCoverPicHD.jpg'}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                    <Grid Grid.Column="1" HorizontalAlignment="Stretch" Padding="5,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="75"/>
+                            <RowDefinition Height="75"/>
+                            <RowDefinition Height="75"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="1" Height="70" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Bottom">
+                            <Grid Background="{StaticResource BGGGrey}" Padding="5,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.RowSpan="2" FontSize="14.667" Foreground="{StaticResource BGGTextGrey}">
+        							<Run Text="BGG"/>
+        							<LineBreak/>
+        							<Run Text="rank"/>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1" Text="{Binding CurrentBoardGame.Rank, Mode=OneWay}" FontSize="26.667" Foreground="Black" FontWeight="Bold"/>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Row="2" Height="70" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Bottom">
+                            <Grid Background="{StaticResource BGGGrey}" Padding="5,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.RowSpan="2" FontSize="14.667" Foreground="{StaticResource BGGTextGrey}">
+        							<Run Text="average"/>
+        							<LineBreak/>
+        							<Run Text="rating"/>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1" Text="{Binding CurrentBoardGame.AverageRating, ConverterParameter=\{0:#0.00\}, Converter={StaticResource StringFormatConverter}}" FontSize="26.667" FontWeight="Bold"/>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Row="3" Height="70" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Bottom">
+                            <Grid Background="{StaticResource BGGGrey}" Padding="5,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.RowSpan="2" FontSize="14.667" Foreground="{StaticResource BGGTextGrey}">
+        							<Run Text="you"/>
+        							<LineBreak/>
+        							<Run Text="rating"/>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1" x:Name="YourRating" Text="{Binding CurrentCollectionItem.UserRating, FallbackValue='N/A'}" FontSize="26.667" Foreground="{Binding ElementName=YourRating, Path=Text, Converter={StaticResource RatingColorConverter}}" FontWeight="Bold"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+                <StackPanel Grid.Row="1" Margin="0,10,0,0">
+                    <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="designer" Foreground="{StaticResource BGGTextGrey}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Designers, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap"/>
+                        </Grid>
+                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="artist" Foreground="{StaticResource BGGTextGrey}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Artists, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap"/>
+                    </Grid>
+                    <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="publisher" Foreground="{StaticResource BGGTextGrey}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.Publishers, Converter={StaticResource ListToStringConverter}}" TextWrapping="Wrap" />
+                        </Grid>
+                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="# of players" Foreground="{StaticResource BGGTextGrey}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding CurrentBoardGame.MinPlayers}"/>
+                            <TextBlock Grid.Column="1" Text="-" Margin="2,0"/>
+                            <TextBlock Grid.Column="2" Text="{Binding CurrentBoardGame.MaxPlayers}"/>
+                        </Grid>
+                    </Grid>
+                    <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="duration" Foreground="{StaticResource BGGTextGrey}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding CurrentBoardGame.PlayingTime, ConverterParameter=\{0\} minutes, Converter={StaticResource StringFormatConverter}}" TextWrapping="Wrap" />
+                        </Grid>
+                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.NumberOfPlays}" TextWrapping="Wrap"/>
+                    </Grid>
+                </StackPanel>
+                <ItemsControl Grid.Row="2" ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,10,10,10" ItemTemplate="{StaticResource PlayerPollTemplate}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+                <TextBlock Grid.Row="3" Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap" MaxLines="25"/>
+                <Grid Grid.Row="4" Padding="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Owned" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned}" IsEnabled="False"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="For trade" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade}" IsEnabled="False"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay}" IsEnabled="False"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy}" IsEnabled="False"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Wishlist" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist}" IsEnabled="False"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Wishlist priority" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority}" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

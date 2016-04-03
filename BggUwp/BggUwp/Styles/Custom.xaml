@@ -2,14 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:cnv="using:BggUwp.Common.Converters" >
 
+    <SolidColorBrush x:Key="BGGHeaderBlue" Color="#FF26619C" />
     <SolidColorBrush x:Key="HeaderBlue" Color="#FF455590"/>
-    <SolidColorBrush x:Key="BGGTextGrey" Color="#FF5F5F5F"/>
     <SolidColorBrush x:Key="StandardBlue" Color="#FF5B83BE"/>
+    <SolidColorBrush x:Key="BGGGrey" Color="#FFF2F2F2"/>
+    <SolidColorBrush x:Key="BGGTextGrey" Color="#FF5F5F5F"/>
     <SolidColorBrush x:Key="textGrey" Color="#FF787878" />
-    <SolidColorBrush x:Key="BGGHeaderBlue" Color="#FF26619C"/>
 
     <SolidColorBrush x:Key="LightBackground" Color="#FFFBFBFB"/>
     <SolidColorBrush x:Key="LightBackgroundBorder" Color="#FFF2F2F2"/>
+    <SolidColorBrush x:Key="DarkerGreyBorder" Color="#FFCDCDCD"/>
 
     <cnv:ImagePathToUriConverter x:Key="ImagePathToUriConverter" />
     <cnv:StringFormatConverter x:Key="StringFormatConverter" />
@@ -34,7 +36,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
@@ -63,7 +65,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" HorizontalAlignment="Left" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" HorizontalAlignment="Left" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
@@ -121,7 +123,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding Thumbnail, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>

@@ -2,19 +2,6 @@
 {
     public abstract class BoardGameItem : BaseItem 
     {
-        private string _Image = "";
-        public string Image
-        {
-            get
-            {
-                return _Image;
-            }
-            set
-            {
-                Set(ref _Image, value);
-            }
-        }
-
         private int _MinPlayers = 0;
         public int MinPlayers
         {
@@ -103,19 +90,6 @@
             set
             {
                 Set(ref _Rank, value);
-            }
-        }
-
-        private int _NumberOfPlays = 0;
-        public int NumberOfPlays
-        {
-            get
-            {
-                return _NumberOfPlays;
-            }
-            set
-            {
-                Set(ref _NumberOfPlays, value);
             }
         }
     }

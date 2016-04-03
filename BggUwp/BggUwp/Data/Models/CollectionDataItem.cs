@@ -12,8 +12,7 @@ namespace BggUwp.Data.Models
             Name = apiItem.Name;
             YearPublished = apiItem.YearPublished;
             BoardGameId = apiItem.BoardGameId;
-            Image = apiItem.BoardGameId.ToString() + ".jpg";
-            Thumbnail = apiItem.BoardGameId.ToString() + "_th.jpg";
+            ThumbnailPath = apiItem.BoardGameId.ToString() + "_th.jpg";
             MinPlayers = apiItem.MinPlayers;
             MaxPlayers = apiItem.MaxPlayers;
             PlayingTime = apiItem.PlayingTime;
@@ -199,6 +198,19 @@ namespace BggUwp.Data.Models
                     return "N/A";
                 else
                     return str;
+            }
+        }
+
+        private int _NumberOfPlays = 0;
+        public int NumberOfPlays
+        {
+            get
+            {
+                return _NumberOfPlays;
+            }
+            set
+            {
+                Set(ref _NumberOfPlays, value);
             }
         }
     }

@@ -28,14 +28,21 @@ namespace BggUwp.ViewModels
         private ObservableCollection<PlayDataItem> _PlaysList = new ObservableCollection<PlayDataItem>();
         public ObservableCollection<PlayDataItem> PlaysList
         {
-            get { return _PlaysList; }
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadPlays();
+                }
+                return _PlaysList;
+            }
             set
             {
                 Set(ref _PlaysList, value);
             }
         }
 
-        public async void LoadPlays()
+        private async void LoadPlays()
         {
             var apiPlays = await dataService.LoadPlays();
 

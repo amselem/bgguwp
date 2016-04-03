@@ -13,8 +13,8 @@ namespace BggUwp.Data.Models
             Name = apiItem.Name;
             YearPublished = apiItem.YearPublished;
             BoardGameId = apiItem.BoardGameId;
-            Image = apiItem.BoardGameId.ToString() + ".jpg";
-            Thumbnail = apiItem.BoardGameId.ToString() + "_th.jpg";
+            ImageWebLink = "http:" + apiItem.ImageWeb;
+            ThumbnailPath = apiItem.BoardGameId.ToString() + "_th.jpg";
             MinPlayers = apiItem.MinPlayers;
             MaxPlayers = apiItem.MaxPlayers;
             PlayingTime = apiItem.PlayingTime;
@@ -22,8 +22,6 @@ namespace BggUwp.Data.Models
             GeekRating = apiItem.GeekRating;
             AverageRating = apiItem.AverageRating;
             Rank = apiItem.Rank;
-            NumberOfPlays = apiItem.NumberOfPlays;
-
             Description = apiItem.Description;
 
             Designers = new ObservableCollection<string>();
@@ -51,6 +49,20 @@ namespace BggUwp.Data.Models
                 });
             }
         }
+
+        private string _ImageWebLink = "";
+        public string ImageWebLink
+        {
+            get
+            {
+                return _ImageWebLink;
+            }
+            set
+            {
+                Set(ref _ImageWebLink, value);
+            }
+        }
+
         private string _Description = "";
         public string Description
         {

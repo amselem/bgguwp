@@ -99,6 +99,9 @@
     <Compile Include="Common\BindableFlyout.cs" />
     <Compile Include="Common\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Common\Converters\ImagePathToUriConverter.cs" />
+    <Compile Include="Common\Converters\IntToGridStarNotationConverter.cs" />
+    <Compile Include="Common\Converters\ListToStringConverter.cs" />
+    <Compile Include="Common\Converters\RatingColorConverter.cs" />
     <Compile Include="Common\Converters\StringConcatConverter.cs" />
     <Compile Include="Common\Converters\StringFormatConverter.cs" />
     <Compile Include="Data\DataService.cs" />
@@ -140,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\SampleCoverPic.jpg" />
+    <Content Include="Assets\SampleCoverPicHD.jpg" />
     <Content Include="Help.htm" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

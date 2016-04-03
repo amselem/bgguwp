@@ -25,10 +25,54 @@ namespace BggUwp.ViewModels
             }
         }
 
+        public BoardGameDataItem _CurrentBoardGame = new BoardGameDataItem();
+        public BoardGameDataItem CurrentBoardGame
+        {
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadBoardGame();
+                }
+
+                return _CurrentBoardGame;
+            }
+            set
+            {
+                Set(ref _CurrentBoardGame, value);
+            }
+        }
+
+        public CollectionDataItem _CurrentCollectionItem = new CollectionDataItem();
+        public CollectionDataItem CurrentCollectionItem
+        {
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadCollectionItem();
+                }
+
+                return _CurrentCollectionItem;
+            }
+            set
+            {
+                Set(ref _CurrentCollectionItem, value);
+            }
+        }
+
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
             int gameId = (int)parameter;
+            LoadData(gameId);
             await Task.CompletedTask;
+        }
+
+        private async void LoadData(int gameId)
+        {
+            CurrentBoardGame = await dataService.LoadBoardGame(gameId);
+            CurrentCollectionItem = dataService.LoadCollectionItem(gameId);
+            // TODO Implement collection item null scenario
         }
     }
 }

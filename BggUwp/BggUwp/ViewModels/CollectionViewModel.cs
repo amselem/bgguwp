@@ -53,6 +53,10 @@ namespace BggUwp.ViewModels
         {
             get
             {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadCollection();
+                }
                 return _FilteredCollection;
             }
             set
@@ -61,7 +65,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        public async void LoadCollection()
+        private async void LoadCollection()
         {
             Collection.Clear();
             IEnumerable<CollectionDataItem> storedItems;

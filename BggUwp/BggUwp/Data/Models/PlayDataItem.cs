@@ -14,7 +14,7 @@ namespace BggUwp.Data.Models
             PlayId = apiPlay.PlayId;
             BoardGameName = apiPlay.BoardGameName;
             BoardGameId = apiPlay.BoardGameId;
-            Thumbnail = apiPlay.BoardGameId.ToString() + "_th.jpg";
+            ThumbnailPath = apiPlay.BoardGameId.ToString() + "_th.jpg";
             NumberOfPlays = apiPlay.NumberOfPlays;
             Length = apiPlay.Length;
             UserComment = apiPlay.UserComment;
@@ -30,7 +30,7 @@ namespace BggUwp.Data.Models
         public int PlayId { get; set; }
         public string BoardGameName { get; set; }
         public int BoardGameId { get; set; }
-        public string Thumbnail { get; set; }
+        public string ThumbnailPath { get; set; }
         public int NumberOfPlays { get; set; }
         public int Length { get; set; }
         public string UserComment { get; set; }
