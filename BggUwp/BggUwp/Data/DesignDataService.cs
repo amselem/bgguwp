@@ -198,5 +198,30 @@ namespace BggUwp.Data
 
             return ci;
         }
+
+        public static ObservableCollection<SearchResultDataItem> LoadSearchResults()
+        {
+            ObservableCollection<SearchResultDataItem> searchResults = new ObservableCollection<SearchResultDataItem>();
+            searchResults.Add(new SearchResultDataItem()
+            {
+                Title = "Test collection item (2016)",
+                Id = 15,
+                IconString = "\uE8F1"
+            });
+            searchResults.Add(new SearchResultDataItem()
+            {
+                Title = "Imperial Settlers: The Mad Blue Huge Sheep Attack Scenario (1992)",
+                Id = 1272,
+                IconString = "\uE734"
+            });
+            searchResults.Add(new SearchResultDataItem()
+            {
+                Title = "Be or not to be - The Game (2016)",
+                Id = 8712,
+                IconString = "\uE774"
+            });
+
+            return searchResults;
+        }
     }
 }
