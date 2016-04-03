@@ -62,7 +62,8 @@ namespace BggUwp.ViewModels
                 IsSearchStatusMessageVisible = true;
                 Set(ref _SearchQuery, value);
 
-                SearchResultsList.Clear();
+                GlobalResultsList.Clear();
+                LocalResultsList.Clear();
                 if (value.ToString().Length > 2)
                 {
                     SearchStatusMessage = "Searching...";
@@ -78,11 +79,13 @@ namespace BggUwp.ViewModels
         async Task ExecuteSearch()
         {
             string invokedSearchQuery = _SearchQuery;
-            var results = await dataService.SearchBgg(invokedSearchQuery);
+            var localResults = await dataService.SearchLocal(invokedSearchQuery);
+            LocalResultsList = localResults;
+            var globalResults = await dataService.SearchBgg(invokedSearchQuery);
             if (_SearchQuery == invokedSearchQuery)
             {
-                SearchResultsList = results;
-                if (SearchResultsList.Count == 0)
+                GlobalResultsList = globalResults;
+                if (GlobalResultsList.Count == 0 && LocalResultsList.Count == 0)
                 {
                     SearchStatusMessage = "No results found for " + "\"" + invokedSearchQuery + "\"";
                 }
@@ -94,17 +97,47 @@ namespace BggUwp.ViewModels
 
         }
 
-        private ObservableCollection<SearchResultDataItem> _SearchResultsList = new ObservableCollection<SearchResultDataItem>();
-        public ObservableCollection<SearchResultDataItem> SearchResultsList
+        private ObservableCollection<SearchResultDataItem> _GlobalResultsList = new ObservableCollection<SearchResultDataItem>();
+        public ObservableCollection<SearchResultDataItem> GlobalResultsList
         {
-            get { return _SearchResultsList; }
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    ObservableCollection<SearchResultDataItem> tmp = new ObservableCollection<SearchResultDataItem>();
+                    tmp.Add(new SearchResultDataItem()
+                    {
+                        Title = "Test (2016)",
+                        Id = 15,
+                        IconString = "\uE774"
+                    });
+                    tmp.Add(new SearchResultDataItem()
+                    {
+                        Title = "Imperial Settlers: The Mad Blue Huge Sheep Attack Scenario (1992)",
+                        Id = 15,
+                        IconString = "\uE734"
+                    });
+                    return tmp;
+                }
+                return _GlobalResultsList;
+            }
             set
             {
-                Set(ref _SearchResultsList, value);
+                Set(ref _GlobalResultsList, value);
+            }
+        }
+
+        private ObservableCollection<SearchResultDataItem> _LocalResultsList = new ObservableCollection<SearchResultDataItem>();
+        public ObservableCollection<SearchResultDataItem> LocalResultsList
+        {
+            get { return _LocalResultsList; }
+            set
+            {
+                Set(ref _LocalResultsList, value);
             }
         }
 
         public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>
-            NavigationService.Navigate(typeof(Views.BoardGamePage), ((SearchResultDataItem)e.ClickedItem).BoardGameId);
+            NavigationService.Navigate(typeof(Views.BoardGamePage), ((SearchResultDataItem)e.ClickedItem).Id);
     }
 }

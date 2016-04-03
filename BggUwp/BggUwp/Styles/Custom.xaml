@@ -13,8 +13,6 @@
 
     <cnv:ImagePathToUriConverter x:Key="ImagePathToUriConverter" />
     <cnv:StringFormatConverter x:Key="StringFormatConverter" />
-    <cnv:StringConcatConverter x:Key="StringConcatConverter" />
-
 
     <Style x:Key="TitleTextStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
@@ -157,7 +155,14 @@
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="SearchResultsItemTemplate">
-        <TextBlock Text="{Binding Converter={StaticResource StringConcatConverter}}" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" TextWrapping="Wrap"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{Binding IconString}" FontFamily="Segoe MDL2 Assets" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="{Binding Title}" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" TextWrapping="Wrap"/>
+        </Grid>
     </DataTemplate>
 
     <!-- Filters flyout -->

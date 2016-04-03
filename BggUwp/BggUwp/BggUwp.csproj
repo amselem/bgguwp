@@ -98,7 +98,6 @@
     </Compile>
     <Compile Include="Common\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Common\Converters\ImagePathToUriConverter.cs" />
-    <Compile Include="Common\Converters\StringConcatConverter.cs" />
     <Compile Include="Common\Converters\StringFormatConverter.cs" />
     <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\DesignDataService.cs" />
@@ -189,6 +188,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
