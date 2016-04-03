@@ -10,6 +10,7 @@ using Template10.Mvvm;
 using Windows.UI.Xaml.Controls;
 using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
+using System.Threading;
 
 namespace BggUwp.ViewModels
 {
@@ -23,6 +24,36 @@ namespace BggUwp.ViewModels
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 dataService = new DataService();
+            }
+        }
+
+        private ObservableCollection<SearchResultDataItem> _GlobalResultsList = new ObservableCollection<SearchResultDataItem>();
+        public ObservableCollection<SearchResultDataItem> GlobalResultsList
+        {
+            get
+            {
+                return _GlobalResultsList;
+            }
+            set
+            {
+                Set(ref _GlobalResultsList, value);
+            }
+        }
+
+        private ObservableCollection<SearchResultDataItem> _LocalResultsList = new ObservableCollection<SearchResultDataItem>();
+        public ObservableCollection<SearchResultDataItem> LocalResultsList
+        {
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadSearchResults();
+                }
+                return _LocalResultsList;
+            }
+            set
+            {
+                Set(ref _LocalResultsList, value);
             }
         }
 
@@ -76,7 +107,6 @@ namespace BggUwp.ViewModels
             }
         }
 
-        System.Threading.CancellationTokenSource cts = new System.Threading.CancellationTokenSource();
         async Task ExecuteSearch()
         {
             string invokedSearchQuery = _SearchQuery;
@@ -100,44 +130,14 @@ namespace BggUwp.ViewModels
                     IsSearchStatusMessageVisible = false;
                 }
             }
-
         }
 
+        CancellationTokenSource cts = new CancellationTokenSource();
         private void CancelSearchRequest()
         {
             cts.Cancel();
             cts.Dispose();
-            cts = new System.Threading.CancellationTokenSource();
-        }
-
-        private ObservableCollection<SearchResultDataItem> _GlobalResultsList = new ObservableCollection<SearchResultDataItem>();
-        public ObservableCollection<SearchResultDataItem> GlobalResultsList
-        {
-            get
-            {
-                return _GlobalResultsList;
-            }
-            set
-            {
-                Set(ref _GlobalResultsList, value);
-            }
-        }
-
-        private ObservableCollection<SearchResultDataItem> _LocalResultsList = new ObservableCollection<SearchResultDataItem>();
-        public ObservableCollection<SearchResultDataItem> LocalResultsList
-        {
-            get
-            {
-                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-                {
-                    return DesignDataService.LoadSearchResults();
-                }
-                return _LocalResultsList;
-            }
-            set
-            {
-                Set(ref _LocalResultsList, value);
-            }
+            cts = new CancellationTokenSource();
         }
 
         public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>

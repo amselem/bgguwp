@@ -20,34 +20,34 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10,20,10,0">
         <ScrollViewer>
-            <StackPanel>
-                <AutoSuggestBox 
-                    HorizontalAlignment="Stretch"
-				    PlaceholderText="Search games"
-				    Text="{Binding SearchQuery, Mode=TwoWay}"             
-				    QueryIcon="Find"
-				    BorderThickness="1" />
-                <TextBlock 
-                    Margin="10,20,10,0"
-                    Foreground="{StaticResource BGGTextGrey}"
-                    Text="{Binding SearchStatusMessage, Mode=OneWay}"
-                    Visibility="{Binding IsSearchStatusMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    TextWrapping="WrapWholeWords" />
+        <StackPanel>
+            <AutoSuggestBox 
+				HorizontalAlignment="Stretch"
+				PlaceholderText="Search games"
+				Text="{Binding SearchQuery, Mode=TwoWay}"             
+				QueryIcon="Find"
+				BorderThickness="1" />
+            <TextBlock Margin="10,20,10,0" 
+                       Foreground="{StaticResource BGGTextGrey}" 
+                       Text="{Binding SearchStatusMessage, Mode=OneWay}" 
+                       Visibility="{Binding IsSearchStatusMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                       TextWrapping="WrapWholeWords">
+            </TextBlock>
                 <Pivot>
                     <PivotItem Header="local">
-                        <ListView 
-				            ItemTemplate="{StaticResource SearchResultsItemTemplate}"
-				            ItemsSource="{Binding LocalResultsList, Mode=OneWay}" 
-				            ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
-				            IsItemClickEnabled="True"
-				            Margin="0,10,0,0">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="Margin" Value="-12,-8"/>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
-                    </PivotItem>
+                    <ListView 
+				ItemTemplate="{StaticResource SearchResultsItemTemplate}"
+				ItemsSource="{Binding LocalResultsList, Mode=OneWay}" 
+				ItemClick="{x:Bind ViewModel.GoToBoardGamePage}" 
+				IsItemClickEnabled="True"
+				Margin="0,10,0,0">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="-12,-8"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </PivotItem>
                     <PivotItem Header="global">
                         <ListView 
 				            ItemTemplate="{StaticResource SearchResultsItemTemplate}"
