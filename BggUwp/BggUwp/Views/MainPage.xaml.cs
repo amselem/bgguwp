@@ -2,6 +2,8 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using BggApi;
+using BggUwp.ViewModels;
+using BggUwp.Data;
 
 namespace BggUwp.Views
 {
@@ -24,6 +26,7 @@ namespace BggUwp.Views
 
                 case 1:
                     HideAllAppBarButtons();
+                    SortAppBarButton.Visibility = Visibility.Visible;
                     FilterAppBarButton.Visibility = Visibility.Visible;
                     break;
                 case 2:
@@ -36,6 +39,16 @@ namespace BggUwp.Views
         {
             FindAppBarButton.Visibility = Visibility.Collapsed;
             FilterAppBarButton.Visibility = Visibility.Collapsed;
+            SortAppBarButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            // temporary hack
+            var context = DataContext as MainPageViewModel;
+            var s = sender as MenuFlyoutItem;
+            context.CollectionVM.CurrentCollectionSorter = s.DataContext as BoardgameSorter;
+            SortFlyout.Hide();
         }
     }
 }

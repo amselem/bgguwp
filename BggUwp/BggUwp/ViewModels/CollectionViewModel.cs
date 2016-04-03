@@ -24,8 +24,15 @@ namespace BggUwp.ViewModels
                 LoadCollection();
             }
 
-            CurrentTextFilter.FilterTextChanged += CurrentTextFilter_FilterTextChanged;
             Collection.CollectionChanged += Collection_CollectionChanged;
+
+            CurrentPlayerFilter.PropertyChanged += AnyFilterChangedEvent;
+            CurrentPlayTimeFilter.PropertyChanged += AnyFilterChangedEvent;
+        }
+
+        private void CurrentPlayerFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RepopulateFilteredCollection();
         }
 
         public ObservableCollection<CollectionDataItem> _Collection = new ObservableCollection<CollectionDataItem>();
@@ -105,13 +112,11 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private PlayerFilter _CurrentPlayerFilter { get; set; }
+        private PlayerFilter _CurrentPlayerFilter = new PlayerFilter();
         public PlayerFilter CurrentPlayerFilter
         {
             get
             {
-                if (_CurrentPlayerFilter == null)
-                    _CurrentPlayerFilter = PlayerFilters.First();
                 return _CurrentPlayerFilter;
             }
             set
@@ -125,14 +130,11 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private PlayTimeFilter _CurrentPlayTimeFilter { get; set; }
+        private PlayTimeFilter _CurrentPlayTimeFilter = new PlayTimeFilter();
         public PlayTimeFilter CurrentPlayTimeFilter
         {
             get
             {
-                if (_CurrentPlayTimeFilter == null)
-                    _CurrentPlayTimeFilter = PlayTimeFilters.First();
-
                 return _CurrentPlayTimeFilter;
             }
             set
@@ -188,40 +190,9 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private TextFilter _CurrentTextFilter = new TextFilter();
-        public TextFilter CurrentTextFilter
-        {
-            get
-            {
-                if (_CurrentTextFilter == null)
-                    _CurrentTextFilter = new TextFilter();
-
-                return _CurrentTextFilter;
-            }
-            set
-            {
-                if (_CurrentTextFilter != value)
-                {
-                    _CurrentTextFilter = value;
-                    RaisePropertyChanged("CurrentTextFilter");
-                    RepopulateFilteredCollection();
-                }
-            }
-        }
-
         public int NumberItemsDisplayed
         {
             get { return FilteredCollection.Count; }
-        }
-
-        public List<PlayerFilter> PlayerFilters
-        {
-            get { return PlayerFilter.DefaultFilters; }
-        }
-
-        public List<PlayTimeFilter> PlayTimeFilters
-        {
-            get { return PlayTimeFilter.DefaultFilters; }
         }
 
         public List<StatusFilter> StatusFilters
@@ -239,7 +210,7 @@ namespace BggUwp.ViewModels
             get { return BoardgameSorter.DefaultSorters; }
         }
 
-        private void CurrentTextFilter_FilterTextChanged(object sender, EventArgs e)
+        private void AnyFilterChangedEvent(object sender, EventArgs e)
         {
             RepopulateFilteredCollection();
         }
@@ -261,9 +232,6 @@ namespace BggUwp.ViewModels
 
                 if (ShowMe && CurrentExpansionFilter != null)
                     ShowMe = CurrentExpansionFilter.Matches(ci);
-
-                if (ShowMe && CurrentTextFilter != null)
-                    ShowMe = CurrentTextFilter.Matches(ci);
 
                 if (ShowMe)
                     filtered.Add(ci);
