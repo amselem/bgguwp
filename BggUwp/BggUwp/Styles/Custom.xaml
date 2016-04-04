@@ -34,7 +34,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" HorizontalAlignment="Right" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
@@ -63,7 +63,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" HorizontalAlignment="Left" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" HorizontalAlignment="Right" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
@@ -121,7 +121,7 @@
                 <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" Stretch="UniformToFill" />
+            <Image Grid.Column="0" Height="80" Width="110" VerticalAlignment="Bottom" Source="{Binding ThumbnailPath, Converter={StaticResource ImagePathToUriConverter}}" HorizontalAlignment="Right" />
             <Grid Grid.Column="1" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
