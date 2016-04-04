@@ -32,6 +32,10 @@ namespace BggUwp.ViewModels
         {
             get
             {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadGlobalSearchResults();
+                }
                 return _GlobalResultsList;
             }
             set
@@ -47,7 +51,7 @@ namespace BggUwp.ViewModels
             {
                 if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
                 {
-                    return DesignDataService.LoadSearchResults();
+                    return DesignDataService.LoadLocalSearchResults();
                 }
                 return _LocalResultsList;
             }
@@ -97,7 +101,7 @@ namespace BggUwp.ViewModels
                 LocalResultsList.Clear();
                 if (value.ToString().Length > 2)
                 {
-                    SearchStatusMessage = "Searching...";
+                    SearchStatusMessage = "Searching in BGG database...";
                     ExecuteSearch();
                 }
                 else
@@ -120,10 +124,6 @@ namespace BggUwp.ViewModels
                 if (GlobalResultsList.Count == 0)
                 {
                     SearchStatusMessage = "No results found for " + "\"" + invokedSearchQuery + "\"";
-                }
-                else if (LocalResultsList.Count == 0)
-                {
-                    SearchStatusMessage = "No local results. Switch to global tab.";
                 }
                 else
                 {
