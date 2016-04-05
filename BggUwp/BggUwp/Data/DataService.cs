@@ -22,8 +22,9 @@ namespace BggUwp.Data
 
         public DataService()
         {
-            BGGUsername = "UWPTester";
-            BGGPassword = "";
+            Windows.Security.Credentials.PasswordCredential credentials = StorageService.RetrieveUserCredentials();
+            BGGUsername = credentials.UserName;
+            BGGPassword = credentials.Password;
         }
 
         public async Task SaveImage(StorageFolder rootFolder, string url, string fileName)
