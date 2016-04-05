@@ -1,0 +1,25 @@
+﻿<ContentDialog
+    x:Class="BggUwp.Controls.LoginDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BggUwp.Common.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignWidth="600"
+    Title="Login" 
+    PrimaryButtonText="Login" 
+    SecondaryButtonText="Cancel" 
+    VerticalAlignment="Center" 
+    PrimaryButtonCommand="{Binding LoginCommand}" 
+    >
+
+    <Grid>
+        <!-- login form -->
+        <StackPanel Margin="20, 16">
+            <TextBox Header="Username" Text="{Binding UserName, Mode=TwoWay}" PlaceholderText="Enter your BGG username"/>
+            <PasswordBox Header="Password" PlaceholderText="Enter your BGG password" PasswordChanged="PasswordBox_PasswordChanged"/>
+            <TextBlock Text="Hint: You can type only your username. If no password is provided, editing data features will be disabled." TextWrapping="Wrap" Foreground="{StaticResource BGGTextGrey}" Margin="0,5,0,0" FontSize="13.333"/>
+        </StackPanel>
+    </Grid>
+</ContentDialog>
