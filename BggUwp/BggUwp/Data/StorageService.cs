@@ -155,6 +155,8 @@ namespace BggUwp.Data
         public static void SaveUserCredentials(string username, string password)
         {
             var vault = new PasswordVault();
+            RemoveCredential();
+
             vault.Add(new PasswordCredential(appName, username, password)); 
         }
 
@@ -168,28 +170,31 @@ namespace BggUwp.Data
                 var credentialList = vault.FindAllByResource(appName);
                 if (credentialList.Count > 0)
                 {
-                    if (credentialList.Count == 1)
-                    {
                         credential = credentialList[0];
-                    }
-                    else
-                    {
-                        // When there are multiple usernames,
-                        // retrieve the default username. If one doesn’t
-                        // exist, then display UI to have the user select
-                        // a default username.
-
-                        credential = vault.Retrieve(appName, defaultUserName);
-                    }
                 }
             }
             catch
             {
-                credential = new PasswordCredential();
-                credential.UserName = defaultUserName;
+                //credential = new PasswordCredential();
+                //credential.UserName = defaultUserName; // TODO Just for dev phase
             }
 
             return credential;
+        }
+
+        private static void RemoveCredential()
+        {
+            var vault = new PasswordVault();
+            try
+            {
+                // Removes the credential from the password vault.
+                vault.Remove(RetrieveUserCredentials());
+            }
+            catch (Exception)
+            {
+                // If no credentials have been stored with the given RESOURCE_NAME, an exception
+                // is thrown.
+            }
         }
     }
 }
