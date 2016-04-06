@@ -19,6 +19,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
             <Button x:Name="Account" Content="{Binding AccountStatusText}" Click="Account_Click" Margin="10,100,0,0" />
+            <ToggleSwitch x:Name="WiFiOnlySwitch" Header="Update data only on WiFi" IsOn="{Binding ShouldUpdateOnlyOnWiFi, Mode=TwoWay}" />
         </StackPanel>
     </Grid>
 </Page>

@@ -13,12 +13,18 @@ namespace BggUwp.ViewModels
     public class SettingsPageViewModel : ViewModelBase
     {
         private DataService dataService;
+        private SettingsService settingsService;
 
         public SettingsPageViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 dataService = new DataService();
+                settingsService = SettingsService.Instance;
+                if (StorageService.RetrieveUserCredentials() != null)
+                {
+                    UserName = StorageService.RetrieveUserCredentials().UserName;
+                }
             }
         }
 
@@ -32,6 +38,7 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _userName, value);
+                AccountStatusText = "Logged as " + UserName;
                 LoginCommand.RaiseCanExecuteChanged();
             }
         }
@@ -82,7 +89,6 @@ namespace BggUwp.ViewModels
             if (!CanExecuteLoginCommand())
                 return;
 
-            AccountStatusText = "Logged as " + UserName;
             StorageService.SaveUserCredentials(UserName, Password);
         }
 
@@ -92,6 +98,20 @@ namespace BggUwp.ViewModels
                 return false;
 
             return true;
+        }
+
+        bool _ShouldUpdateOnlyOnWiFi = false;
+        public bool ShouldUpdateOnlyOnWiFi
+        {
+            get
+            {
+                return _ShouldUpdateOnlyOnWiFi;
+            }
+            set
+            {
+                settingsService.UpdateDataOnlyOnWiFi = value;
+                Set(ref _ShouldUpdateOnlyOnWiFi, value);
+            }
         }
     }
 }

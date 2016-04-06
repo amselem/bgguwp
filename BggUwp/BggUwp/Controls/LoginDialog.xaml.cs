@@ -37,5 +37,10 @@ namespace BggUwp.Controls
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoginDialogCurrent.Hide();
+        }
     }
 }
