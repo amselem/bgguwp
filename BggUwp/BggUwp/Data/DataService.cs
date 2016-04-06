@@ -17,14 +17,18 @@ namespace BggUwp.Data
     class DataService
     {
         private readonly BggApiClient Client = new BggApiClient();
-        public string BGGUsername { get; set; }
-        public string BGGPassword { get; set; }
+        private SettingsService settingsService = SettingsService.Instance;
+        private string BGGUsername { get; set; }
+        private string BGGPassword { get; set; }
 
         public DataService()
         {
             Windows.Security.Credentials.PasswordCredential credentials = StorageService.RetrieveUserCredentials();
-            BGGUsername = credentials.UserName;
-            BGGPassword = credentials.Password;
+            if (credentials != null)
+            {
+                BGGUsername = credentials.UserName;
+                BGGPassword = credentials.Password;
+            }
         }
 
         public async Task SaveImage(StorageFolder rootFolder, string url, string fileName)
@@ -52,7 +56,7 @@ namespace BggUwp.Data
         internal async Task<ObservableCollection<HotDataItem>> LoadHotItemsList()
         {
             ObservableCollection<HotDataItem> hotItems = new ObservableCollection<HotDataItem>();
-            if (CheckInternetAccess()) // && has not download for X hours
+            if (ShouldUpdateData()) // && has not download for X hours
             {
                 // update hotItems in background    
                 await Task.Run(async () =>
@@ -80,7 +84,7 @@ namespace BggUwp.Data
         internal async Task<ObservableCollection<CollectionDataItem>> LoadCollection()
         {
             ObservableCollection<CollectionDataItem> tmpCollection = new ObservableCollection<CollectionDataItem>();
-            if (CheckInternetAccess()) // && has not download for X hours
+            if (ShouldUpdateData()) // && has not download for X hours
             {
                 // update collection in background    
                 await Task.Run(async () =>
@@ -152,7 +156,30 @@ namespace BggUwp.Data
             return StorageService.LoadCollectionItem(gameId);
         }
 
-        private bool CheckInternetAccess()
+        private bool ShouldUpdateData()
+        {
+            bool flag = true;
+
+            if (settingsService.UpdateDataOnlyOnWiFi == true && IsOnWiFi() == false)
+                flag = false;
+
+            if (IsThereInternetAccess() == false)
+                flag = false;
+
+            return flag;
+        }
+
+        private bool IsOnWiFi()
+        {
+            var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+
+            if (connectionProfile.IsWlanConnectionProfile)
+                return true;
+
+            return false;
+        }
+
+        private bool IsThereInternetAccess()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
             return (connectionProfile != null &&
