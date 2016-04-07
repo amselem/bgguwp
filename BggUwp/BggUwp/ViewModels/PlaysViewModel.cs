@@ -1,5 +1,7 @@
 ﻿using BggUwp.Data;
 using BggUwp.Data.Models;
+using BggUwp.Messaging;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,15 +14,14 @@ namespace BggUwp.ViewModels
 {
     public class PlaysViewModel : ViewModelBase
     {
-        private DataService dataService; 
-        Windows.UI.Core.CoreDispatcher dispatcher; 
+        Windows.UI.Core.CoreDispatcher dispatcher;
 
         public PlaysViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                dataService = new DataService();
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
+                Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
                 LoadPlays();
             }
         }
@@ -44,12 +45,22 @@ namespace BggUwp.ViewModels
 
         private async void LoadPlays()
         {
-            var apiPlays = await dataService.LoadPlays();
+            var apiPlays = await DataService.Instance.LoadPlays();
 
             foreach (var item in apiPlays)
             {
                 PlaysList.Add(new PlayDataItem(item));
             }
         }
+
+        private void RefreshData(RefreshDataMessage msg)
+        {
+            if (msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.All ||
+                msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.Plays)
+            {
+                LoadPlays();
+            }
+        }
+
     }
 }

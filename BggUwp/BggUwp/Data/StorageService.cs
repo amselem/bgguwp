@@ -10,6 +10,7 @@ using SQLite.Net;
 using System.IO;
 using Windows.Storage;
 using BggUwp.Data.Models;
+using Windows.Security.Credentials;
 
 namespace BggUwp.Data
 {
@@ -147,6 +148,51 @@ namespace BggUwp.Data
                 item = db.Find<CollectionDataItem>(a => a.BoardGameId == itemId);
             }
             return item;
+        }
+
+        private static string appName = "BGG UWP"; // TODO Change to app name REFERENCE
+        private static string defaultUserName = "UWPTester"; // TODO Change before production phase
+        public static void SaveUserCredentials(string username, string password)
+        {
+            var vault = new PasswordVault();
+            RemoveCredential();
+
+            vault.Add(new PasswordCredential(appName, username, password)); 
+        }
+
+        public static PasswordCredential RetrieveUserCredentials()
+        {
+            PasswordCredential credential = null;
+
+            var vault = new PasswordVault();
+            try
+            {
+                var credentialList = vault.FindAllByResource(appName);
+                if (credentialList.Count > 0)
+                {
+                    credential = credentialList[0];
+                }
+            }
+            catch
+            {
+                //credential = new PasswordCredential();
+                //credential.UserName = defaultUserName; // TODO Just for dev phase
+            }
+
+            return credential;
+        }
+
+        private static void RemoveCredential()
+        {
+            var vault = new PasswordVault();
+            try
+            {
+                vault.Remove(RetrieveUserCredentials());
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 }

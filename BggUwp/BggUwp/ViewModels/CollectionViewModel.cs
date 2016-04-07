@@ -1,5 +1,7 @@
 ﻿using BggUwp.Data;
 using BggUwp.Data.Models;
+using BggUwp.Messaging;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,15 +14,14 @@ namespace BggUwp.ViewModels
 {
     public class CollectionViewModel : ViewModelBase
     {
-        private DataService dataService;
         Windows.UI.Core.CoreDispatcher dispatcher;
 
         public CollectionViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                dataService = new DataService();
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
+                Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
                 LoadCollection();
             }
 
@@ -81,7 +82,7 @@ namespace BggUwp.ViewModels
             await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
             {
                 // TODO Display loading bar
-                ObservableCollection<CollectionDataItem> tmp = await dataService.LoadCollection();
+                ObservableCollection<CollectionDataItem> tmp = await DataService.Instance.LoadCollection();
                 if (tmp.Count() > 0)
                 {
                     Collection = tmp;
@@ -93,6 +94,15 @@ namespace BggUwp.ViewModels
         private void Collection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             RepopulateFilteredCollection();
+        }
+
+        private void RefreshData(RefreshDataMessage msg)
+        {
+            if (msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.All ||
+                msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.Collection)
+            {
+                LoadCollection();
+            }
         }
 
         #region Filtering methods
