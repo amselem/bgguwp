@@ -12,14 +12,12 @@ namespace BggUwp.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
-        private DataService dataService;
         private SettingsService settingsService;
 
         public SettingsPageViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                dataService = new DataService();
                 settingsService = SettingsService.Instance;
                 if (StorageService.RetrieveUserCredentials() != null)
                 {
@@ -90,6 +88,7 @@ namespace BggUwp.ViewModels
                 return;
 
             StorageService.SaveUserCredentials(UserName, Password);
+            DataService.Instance.RetrieveCredentials();
         }
 
         private bool CanExecuteLoginCommand()

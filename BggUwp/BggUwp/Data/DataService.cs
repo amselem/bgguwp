@@ -21,7 +21,15 @@ namespace BggUwp.Data
         private string BGGUsername { get; set; }
         private string BGGPassword { get; set; }
 
-        public DataService()
+        public static readonly DataService Instance;
+
+        static DataService()
+        {
+            Instance = Instance ?? new DataService();
+            Instance.RetrieveCredentials();
+        }
+
+        public void RetrieveCredentials()
         {
             Windows.Security.Credentials.PasswordCredential credentials = StorageService.RetrieveUserCredentials();
             if (credentials != null)

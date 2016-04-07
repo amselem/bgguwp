@@ -16,15 +16,8 @@ namespace BggUwp.ViewModels
 {
     public class SearchPageViewModel : ViewModelBase
     {
-        private DataService dataService;
-        Windows.UI.Core.CoreDispatcher dispatcher;
-
         public SearchPageViewModel()
         {
-            if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-            {
-                dataService = new DataService();
-            }
         }
 
         private ObservableCollection<SearchResultDataItem> _GlobalResultsList = new ObservableCollection<SearchResultDataItem>();
@@ -110,10 +103,10 @@ namespace BggUwp.ViewModels
         async Task ExecuteSearch()
         {
             string invokedSearchQuery = _SearchQuery;
-            var localResults = await dataService.SearchLocal(invokedSearchQuery);
+            var localResults = await DataService.Instance.SearchLocal(invokedSearchQuery);
             LocalResultsList = localResults;
             CancelSearchRequest();
-            var globalResults = await dataService.SearchBgg(invokedSearchQuery, cts);
+            var globalResults = await DataService.Instance.SearchBgg(invokedSearchQuery, cts);
             if (_SearchQuery == invokedSearchQuery)
             {
                 GlobalResultsList = globalResults;

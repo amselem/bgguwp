@@ -13,14 +13,12 @@ namespace BggUwp.ViewModels
 {
     public class BoardGamePageViewModel : ViewModelBase
     {
-        private DataService dataService; 
         Windows.UI.Core.CoreDispatcher dispatcher; 
 
         public BoardGamePageViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                dataService = new DataService();
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
             }
         }
@@ -70,8 +68,8 @@ namespace BggUwp.ViewModels
 
         private async void LoadData(int gameId)
         {
-            CurrentBoardGame = await dataService.LoadBoardGame(gameId);
-            CurrentCollectionItem = dataService.LoadCollectionItem(gameId);
+            CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
+            CurrentCollectionItem = DataService.Instance.LoadCollectionItem(gameId);
             // TODO Implement collection item null scenario
         }
     }

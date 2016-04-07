@@ -12,14 +12,12 @@ namespace BggUwp.ViewModels
 {
     public class HotItemsViewModel : ViewModelBase
     {
-        private DataService dataService; 
         Windows.UI.Core.CoreDispatcher dispatcher; 
 
         public HotItemsViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                dataService = new DataService();
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
                 LoadHotItemsList();
             }
@@ -55,7 +53,7 @@ namespace BggUwp.ViewModels
 
             await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
             {
-                ObservableCollection<HotDataItem> tmp = await dataService.LoadHotItemsList();
+                ObservableCollection<HotDataItem> tmp = await DataService.Instance.LoadHotItemsList();
                 if (tmp.Count() > 0)
                     HotItemsList = tmp;
             });

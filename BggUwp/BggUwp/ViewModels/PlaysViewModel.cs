@@ -12,14 +12,12 @@ namespace BggUwp.ViewModels
 {
     public class PlaysViewModel : ViewModelBase
     {
-        private DataService dataService; 
         Windows.UI.Core.CoreDispatcher dispatcher; 
 
         public PlaysViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                dataService = new DataService();
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
                 LoadPlays();
             }
@@ -44,7 +42,7 @@ namespace BggUwp.ViewModels
 
         private async void LoadPlays()
         {
-            var apiPlays = await dataService.LoadPlays();
+            var apiPlays = await DataService.Instance.LoadPlays();
 
             foreach (var item in apiPlays)
             {
