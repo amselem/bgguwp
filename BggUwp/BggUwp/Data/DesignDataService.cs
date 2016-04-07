@@ -199,7 +199,7 @@ namespace BggUwp.Data
             return ci;
         }
 
-        public static ObservableCollection<SearchResultDataItem> LoadSearchResults()
+        public static ObservableCollection<SearchResultDataItem> LoadLocalSearchResults()
         {
             ObservableCollection<SearchResultDataItem> searchResults = new ObservableCollection<SearchResultDataItem>();
             searchResults.Add(new SearchResultDataItem()
@@ -214,6 +214,13 @@ namespace BggUwp.Data
                 Id = 1272,
                 IconString = "\uE734"
             });
+
+            return searchResults;
+        }
+
+        public static ObservableCollection<SearchResultDataItem> LoadGlobalSearchResults()
+        {
+            ObservableCollection<SearchResultDataItem> searchResults = new ObservableCollection<SearchResultDataItem>();
             searchResults.Add(new SearchResultDataItem()
             {
                 Title = "Be or not to be - The Game (2016)",
