@@ -15,7 +15,6 @@
 
     <cnv:ImagePathToUriConverter x:Key="ImagePathToUriConverter" />
     <cnv:StringFormatConverter x:Key="StringFormatConverter" />
-    <cnv:StringConcatConverter x:Key="StringConcatConverter" />
 
 
     <Style x:Key="TitleTextStyle" TargetType="TextBlock">

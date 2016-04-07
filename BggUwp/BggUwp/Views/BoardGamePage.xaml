@@ -8,7 +8,7 @@
     xmlns:vm="using:BggUwp.ViewModels" 
     xmlns:cnv="using:BggUwp.Common.Converters"
     mc:Ignorable="d"
-    d:DesignHeight="1000">
+    d:DesignHeight="800">
 
     <Page.DataContext>
         <vm:BoardGamePageViewModel x:Name="ViewModel" />

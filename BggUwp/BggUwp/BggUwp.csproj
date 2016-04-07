@@ -101,7 +101,6 @@
     <Compile Include="Common\Converters\IntToGridStarNotationConverter.cs" />
     <Compile Include="Common\Converters\ListToStringConverter.cs" />
     <Compile Include="Common\Converters\RatingColorConverter.cs" />
-    <Compile Include="Common\Converters\StringConcatConverter.cs" />
     <Compile Include="Common\Converters\StringFormatConverter.cs" />
     <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\DesignDataService.cs" />
