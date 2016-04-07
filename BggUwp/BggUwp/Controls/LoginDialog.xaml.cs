@@ -38,7 +38,7 @@ namespace BggUwp.Controls
         {
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             LoginDialogCurrent.Hide();
         }

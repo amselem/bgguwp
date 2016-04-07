@@ -16,21 +16,21 @@
     PrimaryButtonCommand="{Binding LoginCommand}" 
     >
     <ContentDialog.Resources>
-        <DataTemplate x:Key="DataTemplate1">
+        <DataTemplate x:Key="CustomLoginTitleBar">
             <Grid Background="{StaticResource BGGHeaderBlue}" BorderBrush="{StaticResource DarkerGreyBorder}" BorderThickness="0,0,0,1" Padding="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="LOGIN" Foreground="White" FontWeight="SemiLight" FontSize="21.333"/>
-                <Button Grid.Column="1" Foreground="White" Click="Button_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockButtonStyle}">
+                <Button Grid.Column="1" Foreground="White" Click="CloseButton_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockButtonStyle}">
                     <SymbolIcon Symbol="Clear" />
                 </Button>
             </Grid>
         </DataTemplate>
     </ContentDialog.Resources>
     <ContentDialog.TitleTemplate>
-        <StaticResource ResourceKey="DataTemplate1"/>
+        <StaticResource ResourceKey="CustomLoginTitleBar"/>
     </ContentDialog.TitleTemplate>
 
     <Grid>

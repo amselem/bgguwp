@@ -170,7 +170,7 @@ namespace BggUwp.Data
                 var credentialList = vault.FindAllByResource(appName);
                 if (credentialList.Count > 0)
                 {
-                        credential = credentialList[0];
+                    credential = credentialList[0];
                 }
             }
             catch
