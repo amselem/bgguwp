@@ -1,5 +1,7 @@
 ﻿using BggUwp.Data;
 using BggUwp.Data.Models;
+using BggUwp.Messaging;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +21,7 @@ namespace BggUwp.ViewModels
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
+                Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
                 LoadCollection();
             }
 
@@ -91,6 +94,15 @@ namespace BggUwp.ViewModels
         private void Collection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             RepopulateFilteredCollection();
+        }
+
+        private void RefreshData(RefreshDataMessage msg)
+        {
+            if (msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.All ||
+                msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.Collection)
+            {
+                LoadCollection();
+            }
         }
 
         #region Filtering methods

@@ -1,5 +1,7 @@
 ﻿using BggUwp.Data;
 using BggUwp.Data.Models;
+using BggUwp.Messaging;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -89,6 +91,7 @@ namespace BggUwp.ViewModels
 
             StorageService.SaveUserCredentials(UserName, Password);
             DataService.Instance.RetrieveCredentials();
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.All });
         }
 
         private bool CanExecuteLoginCommand()
