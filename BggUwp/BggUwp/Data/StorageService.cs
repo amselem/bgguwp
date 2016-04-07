@@ -187,13 +187,11 @@ namespace BggUwp.Data
             var vault = new PasswordVault();
             try
             {
-                // Removes the credential from the password vault.
                 vault.Remove(RetrieveUserCredentials());
             }
             catch (Exception)
             {
-                // If no credentials have been stored with the given RESOURCE_NAME, an exception
-                // is thrown.
+
             }
         }
     }

@@ -29,6 +29,10 @@ namespace BggUwp.Data
                 BGGUsername = credentials.UserName;
                 BGGPassword = credentials.Password;
             }
+            else
+            {
+                // TODO Should display error message
+            }
         }
 
         public async Task SaveImage(StorageFolder rootFolder, string url, string fileName)
@@ -117,6 +121,8 @@ namespace BggUwp.Data
 
         public async Task<ObservableCollection<SearchResultDataItem>> SearchBgg(string query, System.Threading.CancellationTokenSource cts)
         {
+            // TODO If no Internet access display error message
+
             IEnumerable<SearchResult> searchResults = await Client.Search(query, cts);
             ObservableCollection<SearchResultDataItem> resultsCollection = new ObservableCollection<SearchResultDataItem>();
             foreach (var result in searchResults)
