@@ -34,6 +34,16 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <AppBarButton x:Name="AddAppBarButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
+            <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="Edit" Command="{Binding EditCommand}"/>
+            <AppBarButton x:Name="RemoveAppBarButton" Icon="Remove" Label="Remove" Command="{Binding RemoveCommand}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
     <ScrollViewer>
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
             <Grid.RowDefinitions>
@@ -199,7 +209,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Owned" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned, Mode=TwoWay}" IsEnabled="True"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
@@ -207,7 +217,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="For trade" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade, Mode=TwoWay}" IsEnabled="True"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="1">
@@ -221,15 +231,15 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay, Mode=TwoWay}" IsEnabled="True"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy}" IsEnabled="False"/>
+                            <TextBlock Grid.Column="0" Text="Want to buy" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy, Mode=TwoWay}" IsEnabled="True"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="2">
@@ -243,7 +253,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Wishlist" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="True"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
@@ -251,7 +261,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Wishlist priority" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority}" HorizontalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority, Mode=TwoWay}" HorizontalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </Grid>
