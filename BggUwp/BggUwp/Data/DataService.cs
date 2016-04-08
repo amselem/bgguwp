@@ -198,13 +198,13 @@ namespace BggUwp.Data
                     connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
         }
 
-        internal void AddToCollection(int boardGameId)
+        internal async Task AddToCollection(int boardGameId)
         {
-            Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
+            await Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
             // TODO Error handling
         }
 
-        internal void EditCollectionItem(CollectionDataItem collectionItem)
+        internal async Task EditCollectionItem(CollectionDataItem collectionItem)
         {
             // TODO Create Converter
             CollectionItem item = new CollectionItem();
@@ -216,14 +216,12 @@ namespace BggUwp.Data
             item.Wishlist = collectionItem.Wishlist;
             item.WishlistPriority = collectionItem.WishlistPriority;
 
-            Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);
-            StorageService.SaveCollectionItem(collectionItem); // if API success
+            await Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);
         }
 
-        internal void RemoveCollectionItem(int collectionItemId)
+        internal async Task RemoveCollectionItem(int collectionItemId)
         {
-            Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
-            StorageService.RemoveCollectionItem(collectionItemId); // if API success
+            await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
         }
     }
 }
