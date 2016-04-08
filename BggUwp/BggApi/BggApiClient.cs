@@ -449,5 +449,132 @@ namespace BggApi
             }
 
         }
+
+        #region Editing data
+        private async Task<CookieContainer> GetLoginCookies(string username, string password, CookieContainer cookieJar)
+        {
+            string postData = string.Format("lasturl=&username={0}&password={1}", username, password);
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("https://www.boardgamegeek.com/login");
+            webRequest.Method = "POST";
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+            webRequest.CookieContainer = cookieJar;
+
+
+            using (Stream webpageStream = await webRequest.GetRequestStreamAsync())
+            {
+                webpageStream.Write(byteArray, 0, byteArray.Length);
+            }
+            using (WebResponse response = await webRequest.GetResponseAsync())
+            {
+
+            }
+
+            return cookieJar;
+        }
+
+        /// <summary>
+        /// Adding to collection provides CollectionItemId
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
+        public async Task<bool> AddToCollection(string username, string password, int gameId)
+        {
+            CookieContainer jar = new CookieContainer();
+            jar = await GetLoginCookies(username, password, jar);
+
+            string requestBase = "objecttype=thing&objectid={0}&instanceid=21&ajax=1&action=additem";
+            string request = string.Format(requestBase, gameId);
+
+            return await ProcessEditRequest(jar, request);
+        }
+
+        /// <summary>
+        /// Requires CollectionItemId
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="collectionItemId"></param>
+        /// <returns></returns>
+        public async Task<bool> RemoveFromCollection(string username, string password, int collectionItemId)
+        {
+            CookieContainer jar = new CookieContainer();
+            jar = await GetLoginCookies(username, password, jar);
+
+            string requestBase = "ajax=1&action=delete&collid={0}";
+            string request = string.Format(requestBase, collectionItemId);
+
+            return await ProcessEditRequest(jar, request);
+        }
+
+        public async Task<bool> EditCollectionItemStatus(string username, string password, CollectionItem item)
+        {
+            // fieldname=status&collid=33940367&own=1&prevowned=1&fortrade=1&want=1&wanttobuy=1&wanttoplay=1&preordered=1&wishlist=1&wishlistpriority=2&ajax=1&action=savedata
+            // if parameter is present(no regard to value) then it is set to true on BGG
+            CookieContainer jar = new CookieContainer();
+            jar = await GetLoginCookies(username, password, jar);
+
+            if (item == null)
+                return false;
+
+            string requestBase = "fieldname=status&collid={0}";
+            string request = string.Format(requestBase, item.CollectionItemId);
+
+            if (item.Owned)
+            {
+                request += "&own={0}";
+                request = string.Format(request, Convert.ToInt32(item.Owned));
+            }
+            if (item.ForTrade)
+            {
+                request += "&fortrade={0}";
+                request = string.Format(request, Convert.ToInt32(item.ForTrade));
+            }
+            if (item.WantToBuy)
+            {
+                request += "&wanttobuy={0}";
+                request = string.Format(request, Convert.ToInt32(item.WantToBuy));
+            }
+            if (item.WantToPlay)
+            {
+                request += "&wanttoplay={0}";
+                request = string.Format(request, Convert.ToInt32(item.WantToPlay));
+            }
+            if (item.Wishlist)
+            {
+                request += "&wishlist={0}&wishlistpriority={1}";
+                request = string.Format(request, Convert.ToInt32(item.Wishlist), item.WishlistPriority);
+            }
+
+            request += "&ajax=1&action=savedata";
+
+            return await ProcessEditRequest(jar, request);
+        }
+
+        private async Task<bool> ProcessEditRequest(CookieContainer jar, string request)
+        {
+            byte[] byteArray = Encoding.UTF8.GetBytes(request);
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("https://www.boardgamegeek.com/geekcollection.php");
+            webRequest.Method = "POST";
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+            webRequest.CookieContainer = jar;
+
+            using (Stream webpageStream = await webRequest.GetRequestStreamAsync())
+            {
+                webpageStream.Write(byteArray, 0, byteArray.Length);
+            }
+            using (WebResponse response = await webRequest.GetResponseAsync())
+            {
+                // if response is not OK return false
+            }
+
+            // Should return false if already in collection
+            return true;
+        }
+        #endregion
     }
 }
