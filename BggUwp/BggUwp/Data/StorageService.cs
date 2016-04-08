@@ -150,6 +150,24 @@ namespace BggUwp.Data
             return item;
         }
 
+        public static void SaveCollectionItem(CollectionDataItem collectionItem)
+        {
+            using (var db = DbConnection)
+            {
+                db.Delete(collectionItem);
+                db.Insert(collectionItem);
+            }
+        }
+
+        public static void RemoveCollectionItem(int collectionItemId)
+        {
+            CollectionDataItem item = LoadCollectionItem(collectionItemId);
+            using (var db = DbConnection)
+            {
+                db.Delete<CollectionDataItem>(item);
+            }
+        }
+
         private static string appName = "BGG UWP"; // TODO Change to app name REFERENCE
         private static string defaultUserName = "UWPTester"; // TODO Change before production phase
         public static void SaveUserCredentials(string username, string password)
@@ -167,19 +185,38 @@ namespace BggUwp.Data
             var vault = new PasswordVault();
             try
             {
+                credential = vault.Retrieve(appName, RetrieveUserName());
+            }
+            catch
+            {
+
+            }
+
+            return credential;
+        }
+
+        private static string RetrieveUserName()
+        {
+            PasswordCredential credential = null;
+
+            var vault = new PasswordVault();
+            try
+            {
                 var credentialList = vault.FindAllByResource(appName);
-                if (credentialList.Count > 0)
+                if (credentialList.Count == 1)
                 {
                     credential = credentialList[0];
                 }
             }
             catch
             {
-                //credential = new PasswordCredential();
-                //credential.UserName = defaultUserName; // TODO Just for dev phase
+
             }
 
-            return credential;
+            if (credential != null)
+                return credential.UserName;
+
+            return String.Empty;
         }
 
         private static void RemoveCredential()
