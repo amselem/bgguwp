@@ -247,7 +247,7 @@
     <Thickness x:Key="ContentDialogContentMargin">24,0,24,0</Thickness>
     <Thickness x:Key="ContentDialogContentScrollViewerMargin">0,0,0,24</Thickness>
     <Thickness x:Key="ContentDialogTitleMargin">24,18,24,0</Thickness>
-    <Style TargetType="controls:LoginDialog">
+    <Style x:Key="CustomContentDialog" TargetType="ContentDialog">
         <Setter Property="Foreground" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
