@@ -237,26 +237,26 @@ namespace BggUwp.Data
 
                     _DefaultSorters.Add(new BoardgameSorter
                     {
-                        DisplayName = "Sort by name A-Z",
+                        DisplayName = "By name A-Z",
                         SortFunction = collection => collection.OrderBy(x => x.Name)
                     });
 
                     _DefaultSorters.Add(new BoardgameSorter
                     {
-                        DisplayName = "Sort by best rating",
+                        DisplayName = "By best avg. rating",
                         SortFunction = collection => collection.OrderByDescending(x => x.AverageRating)
                     });
 
                     _DefaultSorters.Add(new BoardgameSorter
                     {
-                        DisplayName = "Sort by best rank",
+                        DisplayName = "By best rank",
                         SortFunction = collection => collection.OrderBy(x => x.Rank + (x.Rank < 0 ? 100000 : 0))
                         // Sneaky, maybe improve later..
                     });
 
                     _DefaultSorters.Add(new BoardgameSorter
                     {
-                        DisplayName = "Sort by newest",
+                        DisplayName = "By newest",
                         SortFunction = collection => collection.OrderByDescending(x => x.YearPublished)
                     });
                 }
