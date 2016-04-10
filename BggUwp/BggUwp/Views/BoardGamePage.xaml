@@ -40,9 +40,9 @@
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <AppBarButton x:Name="AddAppBarButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
-            <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="Edit" Click="Edit_Click" Command="{Binding ShowEditDialogCommand}"/>
-            <AppBarButton x:Name="RemoveAppBarButton" Icon="Remove" Label="Remove" Command="{Binding RemoveCommand}"/>
+            <AppBarButton x:Name="AddAppBarButton" Icon="Add" Label="Add" Command="{Binding AddCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="Edit" Click="Edit_Click" Command="{Binding ShowEditDialogCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <AppBarButton x:Name="RemoveAppBarButton" Icon="Remove" Label="Remove" Command="{Binding RemoveCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </CommandBar>
     </Page.BottomAppBar>
     <ScrollViewer>
@@ -192,7 +192,7 @@
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
                 <TextBlock Grid.Row="3" Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap" MaxLines="25"/>
-                <Grid Grid.Row="4" Padding="0,10,0,0">
+                <Grid Grid.Row="4" Padding="0,10,0,0" Visibility="{Binding IsInCollection, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
