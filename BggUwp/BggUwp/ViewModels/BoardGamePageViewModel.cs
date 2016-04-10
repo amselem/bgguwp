@@ -212,5 +212,11 @@ namespace BggUwp.ViewModels
         {
             return IsInCollection;
         }
+
+        public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>
+        {
+            await DataService.Instance.LoadBoardGame(CurrentBoardGame.BoardGameId); // TODO Change          
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Plays });
+        });
     }
 }

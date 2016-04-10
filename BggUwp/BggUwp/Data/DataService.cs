@@ -223,5 +223,10 @@ namespace BggUwp.Data
         {
             await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
         }
+
+        internal async Task LogPlay(int gameId, DateTime date, int amount, string comments, int length)
+        {
+            await Client.LogPlay(BGGUsername, BGGPassword, gameId, date, amount, comments, length);
+        }
     }
 }

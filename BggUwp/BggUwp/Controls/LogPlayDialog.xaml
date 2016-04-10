@@ -1,0 +1,43 @@
+﻿<ContentDialog
+    x:Name="LogPlayDialogCurrent"
+    x:Class="BggUwp.Controls.LogPlayDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BggUwp.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="LOG A PLAY"
+    PrimaryButtonText="Log a play"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonCommand="{Binding LogPlayCommand}" 
+    Style="{StaticResource CustomContentDialog}"
+    >
+
+    <ContentDialog.Resources>
+        <DataTemplate x:Key="CustomLogPlayTitleBar">
+            <Grid Background="{StaticResource BGGHeaderBlue}" BorderBrush="{StaticResource DarkerGreyBorder}" BorderThickness="0,0,0,1" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="LOG A PLAY" Foreground="White" FontWeight="SemiLight" FontSize="21.333"/>
+                <Button Grid.Column="1" Foreground="White" Click="CloseButton_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockButtonStyle}">
+                    <SymbolIcon Symbol="Clear" />
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </ContentDialog.Resources>
+    <ContentDialog.TitleTemplate>
+        <StaticResource ResourceKey="CustomLogPlayTitleBar"/>
+    </ContentDialog.TitleTemplate>
+
+    <Grid>
+        <StackPanel>
+            <CalendarDatePicker HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="Amount" VerticalAlignment="Top" InputScope="Digits"/>
+            <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="Length" VerticalAlignment="Top" InputScope="Digits"/>
+            <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="Comments" VerticalAlignment="Top"/>
+        </StackPanel>
+    </Grid>
+</ContentDialog>
