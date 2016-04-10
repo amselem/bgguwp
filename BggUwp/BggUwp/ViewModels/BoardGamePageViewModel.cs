@@ -15,7 +15,7 @@ namespace BggUwp.ViewModels
 {
     public class BoardGamePageViewModel : ViewModelBase
     {
-        Windows.UI.Core.CoreDispatcher dispatcher; 
+        Windows.UI.Core.CoreDispatcher dispatcher;
 
         public BoardGamePageViewModel()
         {
@@ -40,7 +40,6 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _CurrentBoardGame, value);
-                OnStatusChanged();
             }
         }
 
@@ -59,6 +58,23 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _CurrentCollectionItem, value);
+                if (value != null)
+                    IsInCollection = true;
+                else
+                    IsInCollection = false;
+            }
+        }
+
+        private bool _IsInCollection;
+        public bool IsInCollection
+        {
+            get
+            {
+                return _IsInCollection;
+            }
+            set
+            {
+                Set(ref _IsInCollection, value);
                 OnStatusChanged();
             }
         }
@@ -68,6 +84,8 @@ namespace BggUwp.ViewModels
             AddCommand.RaiseCanExecuteChanged();
             EditCommand.RaiseCanExecuteChanged();
             RemoveCommand.RaiseCanExecuteChanged();
+
+            ShowEditDialogCommand.RaiseCanExecuteChanged();
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
@@ -82,6 +100,32 @@ namespace BggUwp.ViewModels
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
             CurrentCollectionItem = DataService.Instance.LoadCollectionItem(gameId);
             // TODO Implement collection item null scenario
+        }
+
+        private DelegateCommand _ShowEditDialogCommand;
+        public DelegateCommand ShowEditDialogCommand
+        {
+            get
+            {
+                return _ShowEditDialogCommand ??
+                    (_ShowEditDialogCommand = new DelegateCommand(ExecuteShowEditDialogCommand, CanExecuteShowEditDialogCommand));
+            }
+            set
+            {
+                Set(ref _ShowEditDialogCommand, value);
+            }
+        }
+
+        private async void ExecuteShowEditDialogCommand()
+        {
+        }
+
+        private bool CanExecuteShowEditDialogCommand()
+        {
+            if (CurrentCollectionItem == null)
+                return false;
+
+            return true;
         }
 
         private DelegateCommand _AddCommand;
@@ -109,10 +153,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteAddCommand()
         {
-            if (CurrentCollectionItem != null)
-                return false;
-
-            return true;
+            return !IsInCollection;
         }
 
         private DelegateCommand _EditCommand;
@@ -140,10 +181,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteEditCommand()
         {
-            if (CurrentCollectionItem == null)
-                return false;
-
-            return true;
+            return IsInCollection;
         }
 
         private DelegateCommand _RemoveCommand;
@@ -168,15 +206,11 @@ namespace BggUwp.ViewModels
             await DataService.Instance.RemoveCollectionItem(CurrentCollectionItem.CollectionItemId);
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection });
             CurrentCollectionItem = null;
-            OnStatusChanged();
         }
 
         private bool CanExecuteRemoveCommand()
         {
-            if (CurrentCollectionItem == null)
-                return false;
-
-            return true;
+            return IsInCollection;
         }
     }
 }
