@@ -168,6 +168,11 @@ namespace BggUwp.Data
             return StorageService.LoadCollectionItem(gameId);
         }
 
+        public async Task<string> GetRulesLink(int gameId)
+        {
+            return await Client.LoadRules(gameId);
+        }
+
         private bool ShouldUpdateData()
         {
             bool flag = true;

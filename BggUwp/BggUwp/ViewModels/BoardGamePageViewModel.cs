@@ -79,6 +79,19 @@ namespace BggUwp.ViewModels
             }
         }
 
+        private Uri _RulesLink;
+        public Uri RulesLink
+        {
+            get
+            {
+                return _RulesLink;
+            }
+            set
+            {
+                Set(ref _RulesLink, value);
+            }
+        }
+
         private void OnStatusChanged()
         {
             AddCommand.RaiseCanExecuteChanged();
@@ -99,6 +112,7 @@ namespace BggUwp.ViewModels
         {
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
             CurrentCollectionItem = DataService.Instance.LoadCollectionItem(gameId);
+            RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
             // TODO Implement collection item null scenario
         }
 

@@ -184,6 +184,19 @@
                         <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
                         <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.NumberOfPlays}" TextWrapping="Wrap"/>
                     </Grid>
+                    <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="rules" Foreground="{StaticResource BGGTextGrey}"/>
+                            <!--<HyperlinkButton Grid.Column="1" NavigateUri="{Binding RulesLink}" Content="PDF (English)"/>-->
+                            <TextBlock Grid.Column="1">
+                                    <Span xml:space="preserve"><Hyperlink NavigateUri="{Binding RulesLink}">PDF (English)</Hyperlink></Span>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
                 </StackPanel>
                 <ItemsControl Grid.Row="2" ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,10,10,10" ItemTemplate="{StaticResource PlayerPollTemplate}">
                     <ItemsControl.ItemContainerStyle>

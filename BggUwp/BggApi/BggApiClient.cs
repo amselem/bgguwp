@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using BggApi.Models;
 using System.Threading;
 using Windows.Web.Http;
+using Newtonsoft.Json;
 
 namespace BggApi
 {
@@ -325,6 +326,17 @@ namespace BggApi
             }
         }
 
+        public async Task<string> LoadRules(int BoardGameId)
+        {
+            string baseRulesUrl =
+                "https://boardgamegeek.com/item/weblinks?ajax=1&domain=&filter=%7B%22languagefilter%22:0,%22categoryfilter%22:%222702%22%7D"; // TODO Set language filter
+            Uri rulesUrl = new Uri(string.Format(baseRulesUrl + "&objectid={0}&objecttype=thing&pageid=1&showcount={1}&version=v2", BoardGameId, 20));
+
+            string data = await ReadJsonData(rulesUrl);
+            RulesItem rulesData = JsonConvert.DeserializeObject<RulesItem>(data);
+            return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
+        }
+
         #region Converters
         private string GetStringValue(XElement element, string attribute = null, string defaultValue = "")
         {
@@ -448,6 +460,32 @@ namespace BggApi
                 throw new Exception("Failed to download BGG data.");
             }
 
+        }
+
+        private async Task<string> ReadJsonData(Uri requestUrl)
+        {
+            // Due to malformed header I cannot use GetContentAsync and ReadAsStringAsync
+            // UTF-8 is now hard-coded...
+
+            string content = null;
+            System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+
+            using (System.Net.Http.HttpResponseMessage response = await client.GetAsync(requestUrl))
+            {
+                byte[] data = await response.Content.ReadAsByteArrayAsync();
+
+                content = Encoding.UTF8.GetString(data.ToArray(), 0, (int)(data.Length));
+            }
+
+
+            if (content != null)
+            {
+                return content;
+            }
+            else
+            {
+                throw new Exception("Failed to download BGG data.");
+            }
         }
 
         #region Editing data
