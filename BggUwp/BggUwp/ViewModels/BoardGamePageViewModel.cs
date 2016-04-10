@@ -149,6 +149,8 @@ namespace BggUwp.ViewModels
 
             await DataService.Instance.AddToCollection(CurrentBoardGame.BoardGameId);
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection });
+            await Task.Delay(1500);
+            CurrentCollectionItem = DataService.Instance.LoadCollectionItem(CurrentBoardGame.BoardGameId);
         }
 
         private bool CanExecuteAddCommand()
