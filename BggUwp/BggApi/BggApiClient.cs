@@ -311,12 +311,12 @@ namespace BggApi
 
                 // LINQ to XML.
                 IEnumerable<SearchResult> searchResults = from Boardgame in xDoc.Descendants("item")
-                                                       select new SearchResult
-                                                       {
-                                                           BoardGameName = GetStringValue(Boardgame.Element("name"), "value"),
-                                                           BoardGameId = GetIntValue(Boardgame, "id"),
-                                                           YearPublished = GetIntValue(Boardgame.Element("yearpublished"), "value")
-                                                       };
+                                                          select new SearchResult
+                                                          {
+                                                              BoardGameName = GetStringValue(Boardgame.Element("name"), "value"),
+                                                              BoardGameId = GetIntValue(Boardgame, "id"),
+                                                              YearPublished = GetIntValue(Boardgame.Element("yearpublished"), "value")
+                                                          };
                 return searchResults;
             }
             catch (Exception ex)
@@ -552,6 +552,52 @@ namespace BggApi
             request += "&ajax=1&action=savedata";
 
             return await ProcessEditRequest(jar, request);
+        }
+
+        /// <summary>
+        /// Note, if you log in succesfully with username,correctPassword and later try to do this again with username,INcorrectpassword, the BGG server will still log you in!
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="gameId"></param>
+        /// <param name="date"></param>
+        /// <param name="amount"></param>
+        /// <param name="comments"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public async Task<bool> LogPlay(string username, string password, int gameId, DateTime date, int amount, string comments, int length)
+        {
+            //http://www.boardgamegeek.com/geekplay.php?objecttype=thing&objectid=104557&ajax=1&action=new
+
+            CookieContainer jar = new CookieContainer();
+            jar = await GetLoginCookies(username, password, jar);
+
+            string requestBase = "dummy=1&ajax=1&action=save&version=2&objecttype=thing&objectid={0}&playid=&action=save&playdate={1}&dateinput={2}&YUIButton=&twitter=0&savetwitterpref=0&location=&quantity={3}&length={4}&incomplete=0&nowinstats=0&comments={5}";
+            string request = string.Format(requestBase, gameId, date.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), amount, length, comments);
+
+            byte[] byteArray = Encoding.UTF8.GetBytes(request);
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("https://www.boardgamegeek.com/geekplay.php");
+            webRequest.Method = "POST";
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+            webRequest.CookieContainer = jar;
+
+            using (Stream webpageStream = await webRequest.GetRequestStreamAsync())
+            {
+                webpageStream.Write(byteArray, 0, byteArray.Length);
+            }
+            string responseText;
+            using (WebResponse response = await webRequest.GetResponseAsync())
+            {
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    responseText = reader.ReadToEnd();
+                    if (responseText == "You must login to save plays")
+                        return false;
+                }
+            }
+
+            return true;
         }
 
         private async Task<bool> ProcessEditRequest(CookieContainer jar, string request)

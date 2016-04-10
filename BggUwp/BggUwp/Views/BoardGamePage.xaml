@@ -19,6 +19,7 @@
         <cnv:StringFormatConverter x:Name="StringFormatConverter" />
         <cnv:IntToGridStarNotationConverter x:Name="IntToGridStarNotationConverter" />
         <cnv:RatingColorConverter x:Name="RatingColorConverter" />
+        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
         <DataTemplate x:Key="PlayerPollTemplate">
             <Grid Height="12" Margin="0,3">
                 <Grid.ColumnDefinitions>
@@ -40,7 +41,7 @@
                 <Grid/>
             </CommandBar.Content>
             <AppBarButton x:Name="AddAppBarButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
-            <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="Edit" Click="Edit_Click"/>
+            <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="Edit" Click="Edit_Click" Command="{Binding ShowEditDialogCommand}"/>
             <AppBarButton x:Name="RemoveAppBarButton" Icon="Remove" Label="Remove" Command="{Binding RemoveCommand}"/>
         </CommandBar>
     </Page.BottomAppBar>
@@ -209,7 +210,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Owned" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned, Mode=TwoWay}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
@@ -217,7 +218,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="For trade" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade, Mode=TwoWay}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="1">
@@ -231,7 +232,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay, Mode=TwoWay}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
@@ -239,7 +240,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Want to buy" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy, Mode=TwoWay}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="2">
@@ -253,7 +254,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Wishlist" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
