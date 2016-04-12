@@ -97,8 +97,6 @@ namespace BggUwp.ViewModels
             AddCommand.RaiseCanExecuteChanged();
             EditCommand.RaiseCanExecuteChanged();
             RemoveCommand.RaiseCanExecuteChanged();
-
-            ShowEditDialogCommand.RaiseCanExecuteChanged();
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
@@ -114,32 +112,6 @@ namespace BggUwp.ViewModels
             CurrentCollectionItem = DataService.Instance.LoadCollectionItem(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
             // TODO Implement collection item null scenario
-        }
-
-        private DelegateCommand _ShowEditDialogCommand;
-        public DelegateCommand ShowEditDialogCommand
-        {
-            get
-            {
-                return _ShowEditDialogCommand ??
-                    (_ShowEditDialogCommand = new DelegateCommand(ExecuteShowEditDialogCommand, CanExecuteShowEditDialogCommand));
-            }
-            set
-            {
-                Set(ref _ShowEditDialogCommand, value);
-            }
-        }
-
-        private async void ExecuteShowEditDialogCommand()
-        {
-        }
-
-        private bool CanExecuteShowEditDialogCommand()
-        {
-            if (CurrentCollectionItem == null)
-                return false;
-
-            return true;
         }
 
         private DelegateCommand _AddCommand;
@@ -163,7 +135,7 @@ namespace BggUwp.ViewModels
 
             await DataService.Instance.AddToCollection(CurrentBoardGame.BoardGameId);
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection });
-            await Task.Delay(1500);
+            await Task.Delay(2500);
             CurrentCollectionItem = DataService.Instance.LoadCollectionItem(CurrentBoardGame.BoardGameId);
         }
 
@@ -229,10 +201,31 @@ namespace BggUwp.ViewModels
             return IsInCollection;
         }
 
+        private PlayDataItem _CurrentPlayItem = new PlayDataItem() { PlayDate = DateTime.Now };
+        public PlayDataItem CurrentPlayItem
+        {
+            get
+            {
+                return _CurrentPlayItem;
+            }
+            set
+            {
+                Set(ref _CurrentPlayItem, value);
+            }
+        }
+
         public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>
         {
             await DataService.Instance.LoadBoardGame(CurrentBoardGame.BoardGameId); // TODO Change          
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Plays });
+
+            if (CurrentCollectionItem != null)
+                CurrentCollectionItem.NumberOfPlays++; // TODO Should reload collection item
         });
+
+        public void SelectedDateChanged(Windows.UI.Xaml.Controls.CalendarDatePicker cal, Windows.UI.Xaml.Controls.CalendarDatePickerDateChangedEventArgs args)
+        {
+            CurrentPlayItem.PlayDate = args.NewDate.Value.DateTime;
+        }
     }
 }
