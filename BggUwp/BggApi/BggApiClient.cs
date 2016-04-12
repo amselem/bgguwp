@@ -337,7 +337,7 @@ namespace BggApi
             if (rulesData.WebLinks.Count != 0)
                 return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
 
-            return "https://boardgamegeek.com";
+            return string.Format("http://www.boardgamegeek.com/boardgame/{0}", boardGameId);
         }
 
         public async Task<CollectionItem> LoadCollectionItem(int boardGameId, string username, int userId)
