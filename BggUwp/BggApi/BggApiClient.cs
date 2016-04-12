@@ -334,7 +334,10 @@ namespace BggApi
 
             string data = await ReadJsonData(rulesUrl);
             RulesItem rulesData = JsonConvert.DeserializeObject<RulesItem>(data);
-            return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
+            if (rulesData.WebLinks.Count != 0)
+                return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
+
+            return "https://boardgamegeek.com";
         }
 
         #region Converters
