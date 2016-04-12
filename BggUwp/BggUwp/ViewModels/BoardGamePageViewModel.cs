@@ -109,7 +109,7 @@ namespace BggUwp.ViewModels
         private async void LoadData(int gameId)
         {
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
-            CurrentCollectionItem = DataService.Instance.LoadCollectionItem(gameId);
+            CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
             // TODO Implement collection item null scenario
         }
@@ -134,9 +134,15 @@ namespace BggUwp.ViewModels
                 return;
 
             await DataService.Instance.AddToCollection(CurrentBoardGame.BoardGameId);
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection });
-            await Task.Delay(2500);
-            CurrentCollectionItem = DataService.Instance.LoadCollectionItem(CurrentBoardGame.BoardGameId);
+            //await Task.Delay(2500);
+            //CurrentCollectionItem = DataService.Instance.LoadCollectionItem(CurrentBoardGame.BoardGameId);
+            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(CurrentBoardGame.BoardGameId);
+            StorageService.SaveCollectionItem(CurrentCollectionItem);
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            {
+                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+            });
         }
 
         private bool CanExecuteAddCommand()
@@ -164,7 +170,12 @@ namespace BggUwp.ViewModels
                 return;
 
             await DataService.Instance.EditCollectionItem(CurrentCollectionItem);
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection });
+            StorageService.SaveCollectionItem(CurrentCollectionItem);
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            {
+                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+            });
         }
 
         private bool CanExecuteEditCommand()
@@ -192,7 +203,12 @@ namespace BggUwp.ViewModels
                 return;
 
             await DataService.Instance.RemoveCollectionItem(CurrentCollectionItem.CollectionItemId);
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection });
+            StorageService.RemoveCollectionItem(CurrentCollectionItem);
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            {
+                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+            });
             CurrentCollectionItem = null;
         }
 

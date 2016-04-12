@@ -165,9 +165,14 @@ namespace BggUwp.Data
             return new BoardGameDataItem(apiBoardGame);
         }
 
-        public CollectionDataItem LoadCollectionItem(int gameId)
+        public CollectionDataItem LoadCollectionItemFromStorage(int gameId)
         {
             return StorageService.LoadCollectionItem(gameId);
+        }
+
+        public async Task<CollectionDataItem> LoadCollectionItemFromWeb(int gameId)
+        {
+            return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.UserId));
         }
 
         public async Task<string> GetRulesLink(int gameId)
