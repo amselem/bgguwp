@@ -6,6 +6,7 @@
     xmlns:local="using:BggUwp.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cnv="using:BggUwp.Common.Converters"
     mc:Ignorable="d"
     d:DesignWidth="600"
     Title="EDIT" 
@@ -18,6 +19,7 @@
     >
 
     <ContentDialog.Resources>
+        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
         <DataTemplate x:Key="CustomEditTitleBar">
             <Grid Background="{StaticResource BGGHeaderBlue}" BorderBrush="{StaticResource DarkerGreyBorder}" BorderThickness="0,0,0,1" Padding="10">
                 <Grid.ColumnDefinitions>
@@ -37,6 +39,7 @@
 
     <Grid Padding="0,10,0,0">
         <Grid.RowDefinitions>
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -97,16 +100,17 @@
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Wishlist" VerticalAlignment="Center"/>
-                <CheckBox Grid.Column="1" IsChecked="{Binding EditDialogCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="True"/>
+                <CheckBox x:Name="WishlistBox" Grid.Column="1" IsChecked="{Binding EditDialogCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="True"/>
             </Grid>
-            <Grid Grid.Column="1">
+            <!--<Grid Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Wishlist priority" VerticalAlignment="Center"/>
                 <TextBox Grid.Column="1" Text="{Binding EditDialogCollectionItem.WishlistPriority, Mode=TwoWay}" InputScope="Number" Width="30" HorizontalAlignment="Center"/>
-            </Grid>
+            </Grid>-->
         </Grid>
+        <Slider Grid.Row="3" LargeChange="1" Maximum="5" Minimum="1" Value="{Binding EditDialogCollectionItem.WishlistPriority, Mode=TwoWay}" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
 </ContentDialog>
