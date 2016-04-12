@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cnv="using:BggUwp.Common.Converters"
-        xmlns:vm="using:BggUwp.ViewModels" 
+    xmlns:vm="using:BggUwp.ViewModels" 
     mc:Ignorable="d"
     Title="LOG A PLAY"
     PrimaryButtonText="Log a play"
@@ -47,8 +47,8 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Text="{Binding CurrentPlayItem.NumberOfPlays, Mode=TwoWay}" HorizontalAlignment="Left" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Amount"/>
-                <TextBox Grid.Column="1" Text="{Binding CurrentPlayItem.Length, Mode=TwoWay}" HorizontalAlignment="Right" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Length"/>
+                <TextBox Grid.Column="0" Text="{Binding CurrentPlayItem.NumberOfPlays, Mode=TwoWay}" HorizontalAlignment="Left" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Amount" Header="Amount"/>
+                <TextBox Grid.Column="1" Text="{Binding CurrentPlayItem.Length, Mode=TwoWay}" HorizontalAlignment="Right" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Length" Header="Length"/>
             </Grid>
             <TextBox Text="{Binding CurrentPlayItem.UserComment, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Your comment"/>
         </StackPanel>

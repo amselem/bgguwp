@@ -37,13 +37,15 @@
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="RemoveAppBarButton" Icon="Remove" Label="remove from collection" Command="{Binding RemoveCommand}"/>
+            </CommandBar.SecondaryCommands>
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <AppBarButton x:Name="LogPlayAppBarButton" Icon="AddFriend" Label="Log play" Click="LogPlay_Click"/>
-            <AppBarButton x:Name="AddAppBarButton" Icon="Add" Label="Add" Command="{Binding AddCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="Edit" Click="Edit_Click" Visibility="{Binding IsInCollection, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <AppBarButton x:Name="RemoveAppBarButton" Icon="Remove" Label="Remove" Command="{Binding RemoveCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <AppBarButton x:Name="LogPlayAppBarButton" Icon="AddFriend" Label="log play" Click="LogPlay_Click"/>
+            <AppBarButton x:Name="AddAppBarButton" Icon="Add" Label="add" Command="{Binding AddCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="edit" Click="Edit_Click" Visibility="{Binding IsInCollection, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </CommandBar>
     </Page.BottomAppBar>
     <ScrollViewer>
@@ -276,7 +278,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Wishlist priority" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </Grid>

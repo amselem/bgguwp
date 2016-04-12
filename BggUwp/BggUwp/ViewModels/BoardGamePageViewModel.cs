@@ -187,7 +187,7 @@ namespace BggUwp.ViewModels
             if (!CanExecuteEditCommand())
                 return;
 
-            CurrentCollectionItem = EditDialogCollectionItem;
+            CurrentCollectionItem = new CollectionDataItem(EditDialogCollectionItem);
             await DataService.Instance.EditCollectionItem(CurrentCollectionItem);
             StorageService.SaveCollectionItem(CurrentCollectionItem);
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
