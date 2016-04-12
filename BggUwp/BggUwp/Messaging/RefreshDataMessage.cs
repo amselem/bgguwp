@@ -16,5 +16,13 @@ namespace BggUwp.Messaging
         }
 
         public RefreshScope RequestedRefreshScope;
+
+        public enum RefreshType
+        {
+            Local,
+            Web
+        }
+
+        public RefreshType RequestedRefreshType;
     }
 }

@@ -66,7 +66,13 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private async void LoadCollection()
+        private void LoadCollection()
+        {
+            LoadFromStorage();
+            LoadFromWeb();
+        }
+
+        private void LoadFromStorage()
         {
             Collection.Clear();
             IEnumerable<CollectionDataItem> storedItems;
@@ -78,7 +84,10 @@ namespace BggUwp.ViewModels
                 Collection.Add(item);
             }
             RepopulateFilteredCollection(); // Required because previous lines do not fire Collection_CollectionChanged
+        }
 
+        private async void LoadFromWeb()
+        {
             await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
             {
                 // TODO Display loading bar
@@ -101,7 +110,10 @@ namespace BggUwp.ViewModels
             if (msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.All ||
                 msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.Collection)
             {
-                LoadCollection();
+                if (msg.RequestedRefreshType == RefreshDataMessage.RefreshType.Local)
+                    LoadFromStorage();
+                else
+                    LoadFromWeb();
             }
         }
 
