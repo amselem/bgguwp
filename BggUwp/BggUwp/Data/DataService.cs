@@ -20,6 +20,7 @@ namespace BggUwp.Data
         private SettingsService settingsService = SettingsService.Instance;
         private string BGGUsername { get; set; }
         private string BGGPassword { get; set; }
+        private UserDataItem BGGUser { get; set; }
 
         public static readonly DataService Instance;
 
@@ -29,13 +30,14 @@ namespace BggUwp.Data
             Instance.RetrieveCredentials();
         }
 
-        public void RetrieveCredentials()
+        public async void RetrieveCredentials()
         {
             Windows.Security.Credentials.PasswordCredential credentials = StorageService.RetrieveUserCredentials();
             if (credentials != null)
             {
                 BGGUsername = credentials.UserName;
                 BGGPassword = credentials.Password;
+                BGGUser = new UserDataItem(await Client.LoadUserDetails(BGGUsername));
             }
             else
             {
