@@ -134,11 +134,11 @@ namespace BggApi
                 return new List<CollectionItem>();
             }
         }
-        public async Task<BoardGame> LoadBoardGame(int BoardGameId)
+        public async Task<BoardGame> LoadBoardGame(int boardGameId)
         {
             try
             {
-                Uri teamDataURI = new Uri(string.Format(BASE_URL + "/thing?id={0}&stats=1", BoardGameId));
+                Uri teamDataURI = new Uri(string.Format(BASE_URL + "/thing?id={0}&stats=1", boardGameId));
                 XDocument xDoc = await ReadData(teamDataURI);
                 // LINQ to XML.
                 IEnumerable<BoardGame> gameCollection = from Boardgame in xDoc.Descendants("items")
@@ -326,11 +326,11 @@ namespace BggApi
             }
         }
 
-        public async Task<string> LoadRules(int BoardGameId)
+        public async Task<string> LoadRules(int boardGameId)
         {
             string baseRulesUrl =
                 "https://boardgamegeek.com/item/weblinks?ajax=1&domain=&filter=%7B%22languagefilter%22:0,%22categoryfilter%22:%222702%22%7D"; // TODO Set language filter
-            Uri rulesUrl = new Uri(string.Format(baseRulesUrl + "&objectid={0}&objecttype=thing&pageid=1&showcount={1}&version=v2", BoardGameId, 20));
+            Uri rulesUrl = new Uri(string.Format(baseRulesUrl + "&objectid={0}&objecttype=thing&pageid=1&showcount={1}&version=v2", boardGameId, 20));
 
             string data = await ReadJsonData(rulesUrl);
             RulesItem rulesData = JsonConvert.DeserializeObject<RulesItem>(data);
@@ -338,6 +338,54 @@ namespace BggApi
                 return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
 
             return "https://boardgamegeek.com";
+        }
+
+        public async Task<CollectionItem> LoadCollectionItem(int boardGameId, string username, int userId)
+        {
+            // https://boardgamegeek.com/api/collections?objectid=187645&objecttype=thing&userid=1221304
+            string baseCollIdUrl = "https://boardgamegeek.com/api/collections"; // TODO Set language filter
+            Uri fullCollIdUrl = new Uri(string.Format(baseCollIdUrl + "?objectid={0}&objecttype=thing&userid={1}", boardGameId, userId));
+
+            string data = await ReadJsonData(fullCollIdUrl);
+            CollectionItemInNewApi collectionItemData = JsonConvert.DeserializeObject<CollectionItemInNewApi>(data);
+            int collId = int.Parse(collectionItemData.items.FirstOrDefault().collid);
+            // https://www.boardgamegeek.com/xmlapi2/collection?username=webkoala&collid=6918162
+
+            string baseCollItemUrl = "https://www.boardgamegeek.com/xmlapi2/collection"; // TODO Set language filter
+            Uri fullCollItemUrl = new Uri(string.Format(baseCollItemUrl + "?username={0}&stats=1&collid={1}", username, collId));
+
+            XDocument xDoc = await ReadData(fullCollItemUrl);
+
+            // LINQ to XML.
+            IEnumerable<CollectionItem> baseBoardGames = from colItem in xDoc.Descendants("item")
+                                                         select new CollectionItem
+                                                         {
+                                                             Name = GetStringValue(colItem.Element("name")),
+                                                             NumberOfPlays = GetIntValue(colItem.Element("numplays")),
+                                                             YearPublished = GetIntValue(colItem.Element("yearpublished")),
+                                                             ThumbnailWeb = "http:" + GetStringValue(colItem.Element("thumbnail")),
+                                                             BoardGameId = GetIntValue(colItem, "objectid"),
+                                                             CollectionItemId = GetIntValue(colItem, "collid"),
+                                                             ForTrade = GetBoolValue(colItem.Element("status"), "fortrade"),
+                                                             Owned = GetBoolValue(colItem.Element("status"), "own"),
+                                                             PreviousOwned = GetBoolValue(colItem.Element("status"), "prevowned"),
+                                                             Want = GetBoolValue(colItem.Element("status"), "want"),
+                                                             WantToBuy = GetBoolValue(colItem.Element("status"), "wanttobuy"),
+                                                             WantToPlay = GetBoolValue(colItem.Element("status"), "wanttoplay"),
+                                                             Wishlist = GetBoolValue(colItem.Element("status"), "wishlist"),
+                                                             WishlistPriority = GetIntValue(colItem.Element("status"), "wishlistpriority"),
+                                                             PreOrdered = GetBoolValue(colItem.Element("status"), "preordered"),
+                                                             UserRating = GetDecimalValue(colItem.Element("stats").Element("rating"), "value", 0),
+                                                             AverageRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("average"), "value", 0),
+                                                             GeekRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("bayesaverage"), "value", 0),
+                                                             ImageWeb = "http:" + GetStringValue(colItem.Element("image")),
+                                                             MaxPlayers = GetIntValue(colItem.Element("stats"), "maxplayers"),
+                                                             MinPlayers = GetIntValue(colItem.Element("stats"), "minplayers"),
+                                                             PlayingTime = GetIntValue(colItem.Element("stats"), "playingtime"),
+                                                             Rank = GetRanking(colItem.Element("stats").Element("rating").Element("ranks")),
+                                                             UserComment = GetStringValue(colItem.Element("comment"))
+                                                         };
+            return baseBoardGames.FirstOrDefault();
         }
 
         #region Converters
