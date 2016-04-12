@@ -159,12 +159,11 @@ namespace BggUwp.Data
             }
         }
 
-        public static void RemoveCollectionItem(int collectionItemId)
+        public static void RemoveCollectionItem(CollectionDataItem collectionItem)
         {
-            CollectionDataItem item = LoadCollectionItem(collectionItemId);
             using (var db = DbConnection)
             {
-                db.Delete<CollectionDataItem>(item);
+                db.Delete(collectionItem);
             }
         }
 
