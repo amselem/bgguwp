@@ -59,9 +59,27 @@ namespace BggUwp.ViewModels
             {
                 Set(ref _CurrentCollectionItem, value);
                 if (value != null)
+                {
                     IsInCollection = true;
+                    EditDialogCollectionItem = new CollectionDataItem(CurrentCollectionItem);
+                }
                 else
+                {
                     IsInCollection = false;
+                }
+            }
+        }
+
+        private CollectionDataItem _EditDialogCollectionItem;
+        public CollectionDataItem EditDialogCollectionItem
+        {
+            get
+            {
+                return _EditDialogCollectionItem;
+            }
+            set
+            {
+                Set(ref _EditDialogCollectionItem, value);
             }
         }
 
@@ -169,6 +187,7 @@ namespace BggUwp.ViewModels
             if (!CanExecuteEditCommand())
                 return;
 
+            CurrentCollectionItem = EditDialogCollectionItem;
             await DataService.Instance.EditCollectionItem(CurrentCollectionItem);
             StorageService.SaveCollectionItem(CurrentCollectionItem);
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()

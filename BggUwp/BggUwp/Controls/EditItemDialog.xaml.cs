@@ -30,11 +30,16 @@ namespace BggUwp.Controls
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            EditDialogCurrent.Hide();
+            ViewModels.BoardGamePageViewModel tmp = (dynamic)this.DataContext;
+            tmp.EditDialogCollectionItem = tmp.CurrentCollectionItem;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             EditDialogCurrent.Hide();
+            ViewModels.BoardGamePageViewModel tmp = (dynamic)this.DataContext;
+            tmp.EditDialogCollectionItem = new Data.Models.CollectionDataItem(tmp.CurrentCollectionItem);
         }
     }
 }

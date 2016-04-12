@@ -35,6 +35,34 @@ namespace BggUwp.Data.Models
             PreOrdered = apiItem.PreOrdered;
         }
 
+        public CollectionDataItem(CollectionDataItem item)
+        {
+            Name = item.Name;
+            YearPublished = item.YearPublished;
+            BoardGameId = item.BoardGameId;
+            ThumbnailPath = item.BoardGameId.ToString() + "_th.jpg";
+            MinPlayers = item.MinPlayers;
+            MaxPlayers = item.MaxPlayers;
+            PlayingTime = item.PlayingTime;
+            IsExpansion = item.IsExpansion;
+            UserRating = item.UserRating;
+            GeekRating = item.GeekRating;
+            AverageRating = item.AverageRating;
+            Rank = item.Rank;
+            NumberOfPlays = item.NumberOfPlays;
+
+            CollectionItemId = item.CollectionItemId;
+            Owned = item.Owned;
+            PreviousOwned = item.PreviousOwned;
+            ForTrade = item.ForTrade;
+            Want = item.Want;
+            WantToPlay = item.WantToPlay;
+            WantToBuy = item.WantToBuy;
+            Wishlist = item.Wishlist;
+            WishlistPriority = item.WishlistPriority;
+            PreOrdered = item.PreOrdered;
+        }
+
         private int _CollectionItemId = 0;
         [Indexed]
         public int CollectionItemId

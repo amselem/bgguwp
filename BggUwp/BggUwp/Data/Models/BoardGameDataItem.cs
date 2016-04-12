@@ -76,6 +76,14 @@ namespace BggUwp.Data.Models
             }
         }
 
+        public string VisitURL
+        {
+            get
+            {
+                return string.Format("http://www.boardgamegeek.com/boardgame/{0}", BoardGameId);
+            }
+        }
+
         public ObservableCollection<string> Designers { get; set; }
         public ObservableCollection<string> Publishers { get; set; }
         public ObservableCollection<string> Artists { get; set; }
