@@ -205,7 +205,7 @@ namespace BggUwp.Data
 
         private bool IsThereInternetAccess()
         {
-            return false;
+            //return false;
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
             return (connectionProfile != null &&
                     connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);

@@ -15,14 +15,14 @@ using Newtonsoft.Json;
 namespace BggApi
 {
     //Adapted from the BoardBoardGameGeek client library created by WebKoala
-    //See this post for more information: httpClient://boardgamegeek.com/thread/972785/c-async-api-client
+    //See this post for more information: http://boardgamegeek.com/thread/972785/c-async-api-client
     //Original source at https://github.com/WebKoala/W8BggApp
 
     //ReadData function based on https://github.com/ervwalter/bgg-json
 
     public class BggApiClient
     {
-        private const string BASE_URL = "httpClient://www.boardgamegeek.com/xmlapi2";
+        private const string BASE_URL = "http://www.boardgamegeek.com/xmlapi2";
         public async Task<User> LoadUserDetails(string username)
         {
             try
@@ -62,7 +62,7 @@ namespace BggApi
                                                                {
                                                                    Name = Boardgame.Element("name").Attribute("value").Value,
                                                                    YearPublished = Boardgame.Element("yearpublished") != null ? int.Parse(Boardgame.Element("yearpublished").Attribute("value").Value) : 0,
-                                                                   ThumbnailWeb = "httpClient:" + Boardgame.Element("thumbnail").Attribute("value").Value,
+                                                                   ThumbnailWeb = "http:" + Boardgame.Element("thumbnail").Attribute("value").Value,
                                                                    BoardGameId = int.Parse(Boardgame.Attribute("id").Value),
                                                                    Rank = int.Parse(Boardgame.Attribute("rank").Value)
                                                                };
@@ -99,7 +99,7 @@ namespace BggApi
                                                                  Name = GetStringValue(colItem.Element("name")),
                                                                  NumberOfPlays = GetIntValue(colItem.Element("numplays")),
                                                                  YearPublished = GetIntValue(colItem.Element("yearpublished")),
-                                                                 ThumbnailWeb = "httpClient:" + GetStringValue(colItem.Element("thumbnail")),
+                                                                 ThumbnailWeb = "http:" + GetStringValue(colItem.Element("thumbnail")),
                                                                  BoardGameId = GetIntValue(colItem, "objectid"),
                                                                  CollectionItemId = GetIntValue(colItem, "collid"),
                                                                  ForTrade = GetBoolValue(colItem.Element("status"), "fortrade"),
@@ -114,7 +114,7 @@ namespace BggApi
                                                                  UserRating = GetDecimalValue(colItem.Element("stats").Element("rating"), "value", 0),
                                                                  AverageRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("average"), "value", 0),
                                                                  GeekRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("bayesaverage"), "value", 0),
-                                                                 ImageWeb = "httpClient:" + GetStringValue(colItem.Element("image")),
+                                                                 ImageWeb = "http:" + GetStringValue(colItem.Element("image")),
                                                                  MaxPlayers = GetIntValue(colItem.Element("stats"), "maxplayers"),
                                                                  MinPlayers = GetIntValue(colItem.Element("stats"), "minplayers"),
                                                                  PlayingTime = GetIntValue(colItem.Element("stats"), "playingtime"),
@@ -141,8 +141,8 @@ namespace BggApi
                                                         {
                                                             Name = (from p in Boardgame.Element("item").Elements("name") where p.Attribute("type").Value == "primary" select p.Attribute("value").Value).SingleOrDefault(),
                                                             BoardGameId = int.Parse(Boardgame.Element("item").Attribute("id").Value),
-                                                            ImageWeb = "httpClient:" + Boardgame.Element("item").Element("image") != null ? Boardgame.Element("item").Element("image").Value : string.Empty,
-                                                            ThumbnailWeb = "httpClient:" + Boardgame.Element("item").Element("thumbnail") != null ? Boardgame.Element("item").Element("thumbnail").Value : string.Empty,
+                                                            ImageWeb = "http:" + Boardgame.Element("item").Element("image") != null ? Boardgame.Element("item").Element("image").Value : string.Empty,
+                                                            ThumbnailWeb = "http:" + Boardgame.Element("item").Element("thumbnail") != null ? Boardgame.Element("item").Element("thumbnail").Value : string.Empty,
                                                             Description = WebUtility.HtmlDecode(Boardgame.Element("item").Element("description").Value),
                                                             MaxPlayers = int.Parse(Boardgame.Element("item").Element("maxplayers").Attribute("value").Value),
                                                             MinPlayers = int.Parse(Boardgame.Element("item").Element("minplayers").Attribute("value").Value),
@@ -304,7 +304,6 @@ namespace BggApi
 
                 XDocument xDoc = await ReadData(teamDataURI, cts);
 
-                // LINQ to XML.
                 IEnumerable<SearchResult> searchResults = from Boardgame in xDoc.Descendants("item")
                                                           select new SearchResult
                                                           {
@@ -331,7 +330,7 @@ namespace BggApi
             if (rulesData.WebLinks.Count != 0)
                 return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
 
-            return string.Format("httpClient://www.boardgamegeek.com/boardgame/{0}", boardGameId);
+            return string.Format("http://www.boardgamegeek.com/boardgame/{0}", boardGameId);
         }
 
         public async Task<CollectionItem> LoadCollectionItem(int boardGameId, string username, int userId)
@@ -356,7 +355,7 @@ namespace BggApi
                                                              Name = GetStringValue(colItem.Element("name")),
                                                              NumberOfPlays = GetIntValue(colItem.Element("numplays")),
                                                              YearPublished = GetIntValue(colItem.Element("yearpublished")),
-                                                             ThumbnailWeb = "httpClient:" + GetStringValue(colItem.Element("thumbnail")),
+                                                             ThumbnailWeb = "http:" + GetStringValue(colItem.Element("thumbnail")),
                                                              BoardGameId = GetIntValue(colItem, "objectid"),
                                                              CollectionItemId = GetIntValue(colItem, "collid"),
                                                              ForTrade = GetBoolValue(colItem.Element("status"), "fortrade"),
@@ -371,7 +370,7 @@ namespace BggApi
                                                              UserRating = GetDecimalValue(colItem.Element("stats").Element("rating"), "value", 0),
                                                              AverageRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("average"), "value", 0),
                                                              GeekRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("bayesaverage"), "value", 0),
-                                                             ImageWeb = "httpClient:" + GetStringValue(colItem.Element("image")),
+                                                             ImageWeb = "http:" + GetStringValue(colItem.Element("image")),
                                                              MaxPlayers = GetIntValue(colItem.Element("stats"), "maxplayers"),
                                                              MinPlayers = GetIntValue(colItem.Element("stats"), "minplayers"),
                                                              PlayingTime = GetIntValue(colItem.Element("stats"), "playingtime"),
@@ -472,9 +471,9 @@ namespace BggApi
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Failed to download BGG data.");
+                throw new Exception("Failed to download BGG data.", ex.InnerException);
             }
 
             return data;
@@ -492,9 +491,9 @@ namespace BggApi
             {
                 System.Diagnostics.Debug.WriteLine("Cancel for " + requestUrl);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Failed to download BGG data.");
+                throw new Exception("Failed to download BGG data.", ex.InnerException);
             }
 
             return data;
@@ -509,9 +508,9 @@ namespace BggApi
             {
                 content = await httpClient.GetStringAsync(requestUrl);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Failed to download BGG data.");
+                throw new Exception("Failed to download BGG data.", ex.InnerException);
             }
 
             return content;
