@@ -251,7 +251,7 @@ namespace BggUwp.ViewModels
 
         public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>
         {
-            await DataService.Instance.LoadBoardGame(CurrentBoardGame.BoardGameId); // TODO Change          
+            await DataService.Instance.LogPlay(CurrentBoardGame.BoardGameId, CurrentPlayItem.PlayDate, CurrentPlayItem.NumberOfPlays, CurrentPlayItem.UserComment, CurrentPlayItem.Length);         
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Plays });
 
             if (CurrentCollectionItem != null)

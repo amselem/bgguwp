@@ -36,5 +36,11 @@ namespace BggUwp.Controls
         {
             LogPlayDialogCurrent.Hide();
         }
+
+        private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            //var tmp = DataContext as ViewModels.BoardGamePageViewModel;
+            //tmp.CurrentPlayItem.PlayDate = args.NewDate.Value.DateTime;
+        }
     }
 }

@@ -205,6 +205,7 @@ namespace BggUwp.Data
 
         private bool IsThereInternetAccess()
         {
+            return false;
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
             return (connectionProfile != null &&
                     connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
@@ -219,14 +220,15 @@ namespace BggUwp.Data
         internal async Task EditCollectionItem(CollectionDataItem collectionItem)
         {
             // TODO Create Converter
-            CollectionItem item = new CollectionItem();
-            item.CollectionItemId = collectionItem.CollectionItemId;
-            item.ForTrade = collectionItem.ForTrade;
-            item.Owned = collectionItem.Owned;
-            item.WantToBuy = collectionItem.WantToBuy;
-            item.WantToPlay = collectionItem.WantToPlay;
-            item.Wishlist = collectionItem.Wishlist;
-            item.WishlistPriority = collectionItem.WishlistPriority;
+            CollectionItem item = new CollectionItem() {
+                    CollectionItemId = collectionItem.CollectionItemId,
+                    ForTrade = collectionItem.ForTrade,
+                    Owned = collectionItem.Owned,
+                    WantToBuy = collectionItem.WantToBuy,
+                    WantToPlay = collectionItem.WantToPlay,
+                    Wishlist = collectionItem.Wishlist,
+                    WishlistPriority = collectionItem.WishlistPriority
+                };
 
             await Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);
         }
