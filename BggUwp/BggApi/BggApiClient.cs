@@ -22,7 +22,7 @@ namespace BggApi
 
     public class BggApiClient
     {
-        private const string BASE_URL = "httpClient://www.boardgamegeek.com/xmlapi2";
+        private const string BASE_URL = "http://www.boardgamegeek.com/xmlapi2";
         public async Task<User> LoadUserDetails(string username)
         {
             try
@@ -472,7 +472,7 @@ namespace BggApi
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw new Exception("Failed to download BGG data.");
             }
