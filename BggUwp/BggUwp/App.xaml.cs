@@ -5,6 +5,8 @@ using BggUwp.Data;
 using System.Globalization;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml;
+using Windows.UI.Popups;
 
 namespace BggUwp
 {
@@ -19,6 +21,7 @@ Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
             StorageService.CreateDatabaseIfThereisNone();
+            this.UnhandledException += App_UnhandledException;
         }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)
@@ -39,6 +42,27 @@ Microsoft.ApplicationInsights.WindowsCollectors.Session);
                 //statusBar.ProgressIndicator.ProgressValue = 0;
             }
             await Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Catch unhandled exceptions thrown on the main UI thread and allow 
+        /// option for user to continue program. 
+        /// The OnDispatcherUnhandledException method below for AppDomain.UnhandledException will handle all other exceptions thrown by any thread.
+        /// </summary>
+        async void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.Exception == null)
+            {
+                Application.Current.Exit();
+                return;
+            }
+            e.Handled = true;
+            string errorMessage = string.Format("An application error occurred. \n\nError: {0}\n{1}", e.Message, e.Exception.Message);
+            //insert code to log exception here
+            var messageDialog = new MessageDialog(errorMessage);
+            messageDialog.Title = "Error";
+
+            await messageDialog.ShowAsync();
         }
     }
 }
