@@ -15,14 +15,14 @@ using Newtonsoft.Json;
 namespace BggApi
 {
     //Adapted from the BoardBoardGameGeek client library created by WebKoala
-    //See this post for more information: http://boardgamegeek.com/thread/972785/c-async-api-client
+    //See this post for more information: httpClient://boardgamegeek.com/thread/972785/c-async-api-client
     //Original source at https://github.com/WebKoala/W8BggApp
 
     //ReadData function based on https://github.com/ervwalter/bgg-json
 
     public class BggApiClient
     {
-        private const string BASE_URL = "http://www.boardgamegeek.com/xmlapi2";
+        private const string BASE_URL = "httpClient://www.boardgamegeek.com/xmlapi2";
         public async Task<User> LoadUserDetails(string username)
         {
             try
@@ -31,7 +31,6 @@ namespace BggApi
 
                 XDocument xDoc = await ReadData(teamDataURI);
 
-                // LINQ to XML.
                 IEnumerable<User> users = from Boardgame in xDoc.Descendants("user")
                                           select new User
                                           {
@@ -45,7 +44,7 @@ namespace BggApi
                 return users.FirstOrDefault();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new User();
             }
@@ -58,21 +57,19 @@ namespace BggApi
                 Uri teamDataURI = new Uri(BASE_URL + "/hot?type=boardgame");
                 XDocument xDoc = await ReadData(teamDataURI);
 
-                // LINQ to XML.
                 IEnumerable<HotItem> hotBoardGamesCollection = from Boardgame in xDoc.Descendants("item")
                                                                select new HotItem
                                                                {
                                                                    Name = Boardgame.Element("name").Attribute("value").Value,
                                                                    YearPublished = Boardgame.Element("yearpublished") != null ? int.Parse(Boardgame.Element("yearpublished").Attribute("value").Value) : 0,
-                                                                   ThumbnailWeb = "http:" + Boardgame.Element("thumbnail").Attribute("value").Value,
+                                                                   ThumbnailWeb = "httpClient:" + Boardgame.Element("thumbnail").Attribute("value").Value,
                                                                    BoardGameId = int.Parse(Boardgame.Attribute("id").Value),
                                                                    Rank = int.Parse(Boardgame.Attribute("rank").Value)
                                                                };
                 return hotBoardGamesCollection;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 return new List<HotItem>();
             }
         }
@@ -96,14 +93,13 @@ namespace BggApi
 
                 XDocument xDoc = await ReadData(teamDataURI);
 
-                // LINQ to XML.
                 IEnumerable<CollectionItem> baseBoardGames = from colItem in xDoc.Descendants("item")
                                                              select new CollectionItem
                                                              {
                                                                  Name = GetStringValue(colItem.Element("name")),
                                                                  NumberOfPlays = GetIntValue(colItem.Element("numplays")),
                                                                  YearPublished = GetIntValue(colItem.Element("yearpublished")),
-                                                                 ThumbnailWeb = "http:" + GetStringValue(colItem.Element("thumbnail")),
+                                                                 ThumbnailWeb = "httpClient:" + GetStringValue(colItem.Element("thumbnail")),
                                                                  BoardGameId = GetIntValue(colItem, "objectid"),
                                                                  CollectionItemId = GetIntValue(colItem, "collid"),
                                                                  ForTrade = GetBoolValue(colItem.Element("status"), "fortrade"),
@@ -118,7 +114,7 @@ namespace BggApi
                                                                  UserRating = GetDecimalValue(colItem.Element("stats").Element("rating"), "value", 0),
                                                                  AverageRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("average"), "value", 0),
                                                                  GeekRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("bayesaverage"), "value", 0),
-                                                                 ImageWeb = "http:" + GetStringValue(colItem.Element("image")),
+                                                                 ImageWeb = "httpClient:" + GetStringValue(colItem.Element("image")),
                                                                  MaxPlayers = GetIntValue(colItem.Element("stats"), "maxplayers"),
                                                                  MinPlayers = GetIntValue(colItem.Element("stats"), "minplayers"),
                                                                  PlayingTime = GetIntValue(colItem.Element("stats"), "playingtime"),
@@ -128,9 +124,8 @@ namespace BggApi
                                                              };
                 return baseBoardGames;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //ExceptionHandler(ex);
                 return new List<CollectionItem>();
             }
         }
@@ -140,14 +135,14 @@ namespace BggApi
             {
                 Uri teamDataURI = new Uri(string.Format(BASE_URL + "/thing?id={0}&stats=1", boardGameId));
                 XDocument xDoc = await ReadData(teamDataURI);
-                // LINQ to XML.
+
                 IEnumerable<BoardGame> gameCollection = from Boardgame in xDoc.Descendants("items")
                                                         select new BoardGame
                                                         {
                                                             Name = (from p in Boardgame.Element("item").Elements("name") where p.Attribute("type").Value == "primary" select p.Attribute("value").Value).SingleOrDefault(),
                                                             BoardGameId = int.Parse(Boardgame.Element("item").Attribute("id").Value),
-                                                            ImageWeb = "http:" + Boardgame.Element("item").Element("image") != null ? Boardgame.Element("item").Element("image").Value : string.Empty,
-                                                            ThumbnailWeb = "http:" + Boardgame.Element("item").Element("thumbnail") != null ? Boardgame.Element("item").Element("thumbnail").Value : string.Empty,
+                                                            ImageWeb = "httpClient:" + Boardgame.Element("item").Element("image") != null ? Boardgame.Element("item").Element("image").Value : string.Empty,
+                                                            ThumbnailWeb = "httpClient:" + Boardgame.Element("item").Element("thumbnail") != null ? Boardgame.Element("item").Element("thumbnail").Value : string.Empty,
                                                             Description = WebUtility.HtmlDecode(Boardgame.Element("item").Element("description").Value),
                                                             MaxPlayers = int.Parse(Boardgame.Element("item").Element("maxplayers").Attribute("value").Value),
                                                             MinPlayers = int.Parse(Boardgame.Element("item").Element("minplayers").Attribute("value").Value),
@@ -165,7 +160,7 @@ namespace BggApi
 
                 return gameCollection.FirstOrDefault();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new BoardGame();
             }
@@ -254,7 +249,6 @@ namespace BggApi
                 Uri teamDataURI = new Uri(string.Format(BASE_URL + "/plays?username={0}", Username));
                 XDocument xDoc = await ReadData(teamDataURI);
 
-                // LINQ to XML.
                 IEnumerable<Play> gameCollection = from Boardgame in xDoc.Descendants("play")
                                                    select new Play
                                                    {
@@ -270,7 +264,7 @@ namespace BggApi
 
                 return gameCollection;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new List<Play>();
             }
@@ -320,7 +314,7 @@ namespace BggApi
                                                           };
                 return searchResults;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new List<SearchResult>();
             }
@@ -337,7 +331,7 @@ namespace BggApi
             if (rulesData.WebLinks.Count != 0)
                 return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
 
-            return string.Format("http://www.boardgamegeek.com/boardgame/{0}", boardGameId);
+            return string.Format("httpClient://www.boardgamegeek.com/boardgame/{0}", boardGameId);
         }
 
         public async Task<CollectionItem> LoadCollectionItem(int boardGameId, string username, int userId)
@@ -356,14 +350,13 @@ namespace BggApi
 
             XDocument xDoc = await ReadData(fullCollItemUrl);
 
-            // LINQ to XML.
             IEnumerable<CollectionItem> baseBoardGames = from colItem in xDoc.Descendants("item")
                                                          select new CollectionItem
                                                          {
                                                              Name = GetStringValue(colItem.Element("name")),
                                                              NumberOfPlays = GetIntValue(colItem.Element("numplays")),
                                                              YearPublished = GetIntValue(colItem.Element("yearpublished")),
-                                                             ThumbnailWeb = "http:" + GetStringValue(colItem.Element("thumbnail")),
+                                                             ThumbnailWeb = "httpClient:" + GetStringValue(colItem.Element("thumbnail")),
                                                              BoardGameId = GetIntValue(colItem, "objectid"),
                                                              CollectionItemId = GetIntValue(colItem, "collid"),
                                                              ForTrade = GetBoolValue(colItem.Element("status"), "fortrade"),
@@ -378,13 +371,14 @@ namespace BggApi
                                                              UserRating = GetDecimalValue(colItem.Element("stats").Element("rating"), "value", 0),
                                                              AverageRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("average"), "value", 0),
                                                              GeekRating = GetDecimalValue(colItem.Element("stats").Element("rating").Element("bayesaverage"), "value", 0),
-                                                             ImageWeb = "http:" + GetStringValue(colItem.Element("image")),
+                                                             ImageWeb = "httpClient:" + GetStringValue(colItem.Element("image")),
                                                              MaxPlayers = GetIntValue(colItem.Element("stats"), "maxplayers"),
                                                              MinPlayers = GetIntValue(colItem.Element("stats"), "minplayers"),
                                                              PlayingTime = GetIntValue(colItem.Element("stats"), "playingtime"),
                                                              Rank = GetRanking(colItem.Element("stats").Element("rating").Element("ranks")),
                                                              UserComment = GetStringValue(colItem.Element("comment"))
                                                          };
+
             return baseBoardGames.FirstOrDefault();
         }
 
@@ -456,33 +450,34 @@ namespace BggApi
 
             XDocument data = null;
             int retries = 0;
-            while (data == null && retries < 30)
+
+            try
             {
-                retries++;
-                var request = WebRequest.CreateHttp(requestUrl);
-                request.ContinueTimeout = 15000;
-                using (var response = (HttpWebResponse)(await request.GetResponseAsync()))
+                while (data == null && retries < 30)
                 {
-                    if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
+                    retries++;
+                    var request = WebRequest.CreateHttp(requestUrl);
+                    request.ContinueTimeout = 15000;
+                    using (var response = (HttpWebResponse)(await request.GetResponseAsync()))
                     {
-                        await Task.Delay(100);
-                        continue;
-                    }
-                    using (var reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-                    {
-                        data = XDocument.Parse(await reader.ReadToEndAsync());
+                        if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
+                        {
+                            await Task.Delay(100);
+                            continue;
+                        }
+                        using (var reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                        {
+                            data = XDocument.Parse(await reader.ReadToEndAsync());
+                        }
                     }
                 }
             }
-
-            if (data != null)
-            {
-                return data;
-            }
-            else
+            catch (Exception)
             {
                 throw new Exception("Failed to download BGG data.");
             }
+
+            return data;
         }
 
         private async Task<XDocument> ReadData(Uri requestUrl, CancellationTokenSource cts)
@@ -491,76 +486,44 @@ namespace BggApi
             XDocument data = new XDocument();
             try
             {
-                HttpResponseMessage response = await httpClient.GetAsync(requestUrl).AsTask(cts.Token);
-
-                response.EnsureSuccessStatusCode();
-
-                data = XDocument.Parse(await response.Content.ReadAsStringAsync().AsTask(cts.Token));
+                data = XDocument.Parse(await httpClient.GetStringAsync(requestUrl).AsTask(cts.Token));
             }
             catch (TaskCanceledException)
             {
                 System.Diagnostics.Debug.WriteLine("Cancel for " + requestUrl);
             }
-
-            if (data != null)
-            {
-                return data;
-            }
-            else
+            catch (Exception)
             {
                 throw new Exception("Failed to download BGG data.");
             }
 
+            return data;
         }
 
         private async Task<string> ReadJsonData(Uri requestUrl)
         {
-            // Due to malformed header I cannot use GetContentAsync and ReadAsStringAsync
-            // UTF-8 is now hard-coded...
-
             string content = null;
-            System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+            HttpClient httpClient = new HttpClient();
 
-            using (System.Net.Http.HttpResponseMessage response = await client.GetAsync(requestUrl))
+            try
             {
-                byte[] data = await response.Content.ReadAsByteArrayAsync();
-
-                content = Encoding.UTF8.GetString(data.ToArray(), 0, (int)(data.Length));
+                content = await httpClient.GetStringAsync(requestUrl);
             }
-
-
-            if (content != null)
-            {
-                return content;
-            }
-            else
+            catch (Exception)
             {
                 throw new Exception("Failed to download BGG data.");
             }
+
+            return content;
         }
 
         #region Editing data
-        private async Task<CookieContainer> GetLoginCookies(string username, string password, CookieContainer cookieJar)
+        private async Task GetLoginCookies(string username, string password)
         {
             string postData = string.Format("lasturl=&username={0}&password={1}", username, password);
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+            HttpClient httpClient = new HttpClient();
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("https://www.boardgamegeek.com/login");
-            webRequest.Method = "POST";
-            webRequest.ContentType = "application/x-www-form-urlencoded";
-            webRequest.CookieContainer = cookieJar;
-
-
-            using (Stream webpageStream = await webRequest.GetRequestStreamAsync())
-            {
-                webpageStream.Write(byteArray, 0, byteArray.Length);
-            }
-            using (WebResponse response = await webRequest.GetResponseAsync())
-            {
-
-            }
-
-            return cookieJar;
+            await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/login"), new HttpStringContent(postData));
         }
 
         /// <summary>
@@ -572,13 +535,12 @@ namespace BggApi
         /// <returns></returns>
         public async Task<bool> AddToCollection(string username, string password, int gameId)
         {
-            CookieContainer jar = new CookieContainer();
-            jar = await GetLoginCookies(username, password, jar);
+            await GetLoginCookies(username, password);
 
             string requestBase = "objecttype=thing&objectid={0}&instanceid=21&ajax=1&action=additem";
             string request = string.Format(requestBase, gameId);
 
-            return await ProcessEditRequest(jar, request);
+            return await ProcessEditRequest(request);
         }
 
         /// <summary>
@@ -590,21 +552,19 @@ namespace BggApi
         /// <returns></returns>
         public async Task<bool> RemoveFromCollection(string username, string password, int collectionItemId)
         {
-            CookieContainer jar = new CookieContainer();
-            jar = await GetLoginCookies(username, password, jar);
+            await GetLoginCookies(username, password);
 
             string requestBase = "ajax=1&action=delete&collid={0}";
             string request = string.Format(requestBase, collectionItemId);
 
-            return await ProcessEditRequest(jar, request);
+            return await ProcessEditRequest(request);
         }
 
         public async Task<bool> EditCollectionItemStatus(string username, string password, CollectionItem item)
         {
             // fieldname=status&collid=33940367&own=1&prevowned=1&fortrade=1&want=1&wanttobuy=1&wanttoplay=1&preordered=1&wishlist=1&wishlistpriority=2&ajax=1&action=savedata
             // if parameter is present(no regard to value) then it is set to true on BGG
-            CookieContainer jar = new CookieContainer();
-            jar = await GetLoginCookies(username, password, jar);
+            await GetLoginCookies(username, password);
 
             if (item == null)
                 return false;
@@ -640,7 +600,7 @@ namespace BggApi
 
             request += "&ajax=1&action=savedata";
 
-            return await ProcessEditRequest(jar, request);
+            return await ProcessEditRequest(request);
         }
 
         /// <summary>
@@ -656,59 +616,28 @@ namespace BggApi
         /// <returns></returns>
         public async Task<bool> LogPlay(string username, string password, int gameId, DateTime date, int amount, string comments, int length)
         {
-            //http://www.boardgamegeek.com/geekplay.php?objecttype=thing&objectid=104557&ajax=1&action=new
-
-            CookieContainer jar = new CookieContainer();
-            jar = await GetLoginCookies(username, password, jar);
+            //https://www.boardgamegeek.com/geekplay.php?objecttype=thing&objectid=104557&ajax=1&action=new
+            await GetLoginCookies(username, password);
 
             string requestBase = "dummy=1&ajax=1&action=save&version=2&objecttype=thing&objectid={0}&playid=&action=save&playdate={1}&dateinput={2}&YUIButton=&twitter=0&savetwitterpref=0&location=&quantity={3}&length={4}&incomplete=0&nowinstats=0&comments={5}";
             string request = string.Format(requestBase, gameId, date.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), amount, length, comments);
 
-            byte[] byteArray = Encoding.UTF8.GetBytes(request);
+            HttpClient httpClient = new HttpClient();
+            HttpStringContent requestStringContent = new HttpStringContent(request);
+            requestStringContent.Headers.ContentType = new Windows.Web.Http.Headers.HttpMediaTypeHeaderValue("application/x-www-form-urlencoded");
+            HttpResponseMessage response = await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/geekplay.php"), requestStringContent);
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("https://www.boardgamegeek.com/geekplay.php");
-            webRequest.Method = "POST";
-            webRequest.ContentType = "application/x-www-form-urlencoded";
-            webRequest.CookieContainer = jar;
-
-            using (Stream webpageStream = await webRequest.GetRequestStreamAsync())
-            {
-                webpageStream.Write(byteArray, 0, byteArray.Length);
-            }
-            string responseText;
-            using (WebResponse response = await webRequest.GetResponseAsync())
-            {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    responseText = reader.ReadToEnd();
-                    if (responseText == "You must login to save plays")
-                        return false;
-                }
-            }
-
-            return true;
+            return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
         }
 
-        private async Task<bool> ProcessEditRequest(CookieContainer jar, string request)
+        private async Task<bool> ProcessEditRequest(string request)
         {
-            byte[] byteArray = Encoding.UTF8.GetBytes(request);
+            HttpClient httpClient = new HttpClient();
+            HttpStringContent requestStringContent = new HttpStringContent(request);
+            requestStringContent.Headers.ContentType = new Windows.Web.Http.Headers.HttpMediaTypeHeaderValue("application/x-www-form-urlencoded");
+            HttpResponseMessage response = await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/geekcollection.php"), requestStringContent);
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("https://www.boardgamegeek.com/geekcollection.php");
-            webRequest.Method = "POST";
-            webRequest.ContentType = "application/x-www-form-urlencoded";
-            webRequest.CookieContainer = jar;
-
-            using (Stream webpageStream = await webRequest.GetRequestStreamAsync())
-            {
-                webpageStream.Write(byteArray, 0, byteArray.Length);
-            }
-            using (WebResponse response = await webRequest.GetResponseAsync())
-            {
-                // if response is not OK return false
-            }
-
-            // Should return false if already in collection
-            return true;
+            return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
         }
         #endregion
     }
