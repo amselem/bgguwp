@@ -1,0 +1,116 @@
+﻿<ContentDialog
+    x:Name="EditDialogCurrent"
+    x:Class="BggUwp.Controls.EditItemDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BggUwp.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cnv="using:BggUwp.Common.Converters"
+    mc:Ignorable="d"
+    d:DesignWidth="600"
+    Title="EDIT" 
+    PrimaryButtonText="Save" 
+    SecondaryButtonText="Cancel" 
+    VerticalAlignment="Center" 
+    PrimaryButtonCommand="{Binding EditCommand}"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Style="{StaticResource CustomContentDialog}"
+    >
+
+    <ContentDialog.Resources>
+        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
+        <DataTemplate x:Key="CustomEditTitleBar">
+            <Grid Background="{StaticResource BGGHeaderBlue}" BorderBrush="{StaticResource DarkerGreyBorder}" BorderThickness="0,0,0,1" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="EDIT" Foreground="White" FontWeight="SemiLight" FontSize="21.333"/>
+                <Button Grid.Column="1" Foreground="White" Click="CloseButton_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockButtonStyle}">
+                    <SymbolIcon Symbol="Clear" />
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </ContentDialog.Resources>
+    <ContentDialog.TitleTemplate>
+        <StaticResource ResourceKey="CustomEditTitleBar"/>
+    </ContentDialog.TitleTemplate>
+
+    <Grid Padding="0,10,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Owned" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding EditDialogCollectionItem.Owned, Mode=TwoWay}" IsEnabled="True"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="For trade" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding EditDialogCollectionItem.ForTrade, Mode=TwoWay}" IsEnabled="True"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding EditDialogCollectionItem.WantToPlay, Mode=TwoWay}" IsEnabled="True"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Want to buy" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding EditDialogCollectionItem.WantToBuy, Mode=TwoWay}" IsEnabled="True"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Wishlist" VerticalAlignment="Center"/>
+                <CheckBox x:Name="WishlistBox" Grid.Column="1" IsChecked="{Binding EditDialogCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="True"/>
+            </Grid>
+            <!--<Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Wishlist priority" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Text="{Binding EditDialogCollectionItem.WishlistPriority, Mode=TwoWay}" InputScope="Number" Width="30" HorizontalAlignment="Center"/>
+            </Grid>-->
+        </Grid>
+        <Slider Grid.Row="3" LargeChange="1" Maximum="5" Minimum="1" Value="{Binding EditDialogCollectionItem.WishlistPriority, Mode=TwoWay}" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
+</ContentDialog>

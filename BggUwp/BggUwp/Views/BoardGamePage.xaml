@@ -19,6 +19,7 @@
         <cnv:StringFormatConverter x:Name="StringFormatConverter" />
         <cnv:IntToGridStarNotationConverter x:Name="IntToGridStarNotationConverter" />
         <cnv:RatingColorConverter x:Name="RatingColorConverter" />
+        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
         <DataTemplate x:Key="PlayerPollTemplate">
             <Grid Height="12" Margin="0,3">
                 <Grid.ColumnDefinitions>
@@ -34,6 +35,19 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="RemoveAppBarButton" Icon="Remove" Label="remove from collection" Command="{Binding RemoveCommand}"/>
+            </CommandBar.SecondaryCommands>
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <AppBarButton x:Name="LogPlayAppBarButton" Icon="AddFriend" Label="log play" Click="LogPlay_Click"/>
+            <AppBarButton x:Name="AddAppBarButton" Icon="Add" Label="add" Command="{Binding AddCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="edit" Click="Edit_Click" Visibility="{Binding IsInCollection, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
     <ScrollViewer>
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
             <Grid.RowDefinitions>
@@ -172,6 +186,19 @@
                         <TextBlock Grid.Column="0" Text="your plays" Foreground="{StaticResource BGGTextGrey}"/>
                         <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.NumberOfPlays}" TextWrapping="Wrap"/>
                     </Grid>
+                    <Border Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="rules" Foreground="{StaticResource BGGTextGrey}"/>
+                            <!--<HyperlinkButton Grid.Column="1" NavigateUri="{Binding RulesLink}" Content="PDF (English)"/>-->
+                            <TextBlock Grid.Column="1">
+                                    <Span xml:space="preserve"><Hyperlink NavigateUri="{Binding RulesLink}">PDF (English)</Hyperlink></Span>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
                 </StackPanel>
                 <ItemsControl Grid.Row="2" ItemsSource="{Binding CurrentBoardGame.PlayerPollResults}" Margin="10,10,10,10" ItemTemplate="{StaticResource PlayerPollTemplate}">
                     <ItemsControl.ItemContainerStyle>
@@ -181,7 +208,7 @@
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
                 <TextBlock Grid.Row="3" Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap" MaxLines="25"/>
-                <Grid Grid.Row="4" Padding="0,10,0,0">
+                <Grid Grid.Row="4" Padding="0,10,0,0" Visibility="{Binding IsInCollection, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -199,7 +226,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Owned" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
@@ -207,7 +234,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="For trade" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="1">
@@ -221,15 +248,15 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy}" IsEnabled="False"/>
+                            <TextBlock Grid.Column="0" Text="Want to buy" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="2">
@@ -243,7 +270,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Wishlist" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist}" IsEnabled="False"/>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource CheckBoxInfoStyle}"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.ColumnDefinitions>
@@ -251,7 +278,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Wishlist priority" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -20,6 +20,7 @@ namespace BggUwp.Data
         private SettingsService settingsService = SettingsService.Instance;
         private string BGGUsername { get; set; }
         private string BGGPassword { get; set; }
+        private UserDataItem BGGUser { get; set; }
 
         public static readonly DataService Instance;
 
@@ -29,13 +30,14 @@ namespace BggUwp.Data
             Instance.RetrieveCredentials();
         }
 
-        public void RetrieveCredentials()
+        public async void RetrieveCredentials()
         {
             Windows.Security.Credentials.PasswordCredential credentials = StorageService.RetrieveUserCredentials();
             if (credentials != null)
             {
                 BGGUsername = credentials.UserName;
                 BGGPassword = credentials.Password;
+                BGGUser = new UserDataItem(await Client.LoadUserDetails(BGGUsername));
             }
             else
             {
@@ -45,7 +47,6 @@ namespace BggUwp.Data
 
         public async Task SaveImage(StorageFolder rootFolder, string url, string fileName)
         {
-
             StorageFile coverpicFile = await rootFolder.TryGetItemAsync(fileName) as StorageFile;
             if (coverpicFile == null) // TODO or is blank
             {
@@ -119,7 +120,6 @@ namespace BggUwp.Data
             }
 
             return tmpCollection;
-            ;
         }
 
         public Task<IEnumerable<Play>> LoadPlays()
@@ -165,9 +165,19 @@ namespace BggUwp.Data
             return new BoardGameDataItem(apiBoardGame);
         }
 
-        public CollectionDataItem LoadCollectionItem(int gameId)
+        public CollectionDataItem LoadCollectionItemFromStorage(int gameId)
         {
             return StorageService.LoadCollectionItem(gameId);
+        }
+
+        public async Task<CollectionDataItem> LoadCollectionItemFromWeb(int gameId)
+        {
+            return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.UserId));
+        }
+
+        public async Task<string> GetRulesLink(int gameId)
+        {
+            return await Client.LoadRules(gameId);
         }
 
         private bool ShouldUpdateData()
@@ -195,9 +205,42 @@ namespace BggUwp.Data
 
         private bool IsThereInternetAccess()
         {
+            //return false;
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
             return (connectionProfile != null &&
                     connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
+        }
+
+        internal async Task AddToCollection(int boardGameId)
+        {
+            await Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
+            // TODO Error handling
+        }
+
+        internal async Task EditCollectionItem(CollectionDataItem collectionItem)
+        {
+            // TODO Create Converter
+            CollectionItem item = new CollectionItem() {
+                    CollectionItemId = collectionItem.CollectionItemId,
+                    ForTrade = collectionItem.ForTrade,
+                    Owned = collectionItem.Owned,
+                    WantToBuy = collectionItem.WantToBuy,
+                    WantToPlay = collectionItem.WantToPlay,
+                    Wishlist = collectionItem.Wishlist,
+                    WishlistPriority = collectionItem.WishlistPriority
+                };
+
+            await Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);
+        }
+
+        internal async Task RemoveCollectionItem(int collectionItemId)
+        {
+            await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
+        }
+
+        internal async Task LogPlay(int gameId, DateTime date, int amount, string comments, int length)
+        {
+            await Client.LogPlay(BGGUsername, BGGPassword, gameId, date, amount, comments, length);
         }
     }
 }

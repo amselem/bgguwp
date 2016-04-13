@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BggUwp.Controls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,20 @@ namespace BggUwp.Views
         public BoardGamePage()
         {
             this.InitializeComponent();
+        }
+
+        private async void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            EditItemDialog editDialog = new EditItemDialog();
+            editDialog.DataContext = (dynamic)this.DataContext;
+            await editDialog.ShowAsync();
+        }
+
+        private async void LogPlay_Click(object sender, RoutedEventArgs e)
+        {
+            LogPlayDialog logPlayDialog = new LogPlayDialog();
+            logPlayDialog.DataContext = (dynamic)this.DataContext;
+            await logPlayDialog.ShowAsync();
         }
     }
 }

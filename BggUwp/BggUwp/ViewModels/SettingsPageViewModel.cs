@@ -91,7 +91,11 @@ namespace BggUwp.ViewModels
 
             StorageService.SaveUserCredentials(UserName, Password);
             DataService.Instance.RetrieveCredentials();
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.All });
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            {
+                RequestedRefreshScope = RefreshDataMessage.RefreshScope.All,
+                RequestedRefreshType = RefreshDataMessage.RefreshType.Web
+            });
         }
 
         private bool CanExecuteLoginCommand()

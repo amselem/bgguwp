@@ -1,0 +1,52 @@
+﻿<ContentDialog
+    x:Name="LogPlayDialogCurrent"
+    x:Class="BggUwp.Controls.LogPlayDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BggUwp.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cnv="using:BggUwp.Common.Converters"
+    xmlns:vm="using:BggUwp.ViewModels" 
+    mc:Ignorable="d"
+    Title="LOG A PLAY"
+    PrimaryButtonText="Log a play"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonCommand="{Binding LogPlayCommand}" 
+    Style="{StaticResource CustomContentDialog}"
+    >
+
+    <ContentDialog.Resources>
+        <DataTemplate x:Key="CustomLogPlayTitleBar">
+            <Grid Background="{StaticResource BGGHeaderBlue}" BorderBrush="{StaticResource DarkerGreyBorder}" BorderThickness="0,0,0,1" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="LOG A PLAY" Foreground="White" FontWeight="SemiLight" FontSize="21.333"/>
+                <Button Grid.Column="1" Foreground="White" Click="CloseButton_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockButtonStyle}">
+                    <SymbolIcon Symbol="Clear" />
+                </Button>
+            </Grid>
+        </DataTemplate>
+        <cnv:DateTimeToDateTimeOffsetConverter x:Name="DateTimeToDateTimeOffsetConverter" />
+    </ContentDialog.Resources>
+    <ContentDialog.TitleTemplate>
+        <StaticResource ResourceKey="CustomLogPlayTitleBar"/>
+    </ContentDialog.TitleTemplate>
+
+    <Grid>
+        <StackPanel Padding="0,10,0,0">
+            <CalendarDatePicker Date="{Binding CurrentPlayItem.PlayDate, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" DateChanged="CalendarDatePicker_DateChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="select a play date"/>
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding CurrentPlayItem.NumberOfPlays, Mode=TwoWay}" HorizontalAlignment="Left" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Amount" Header="Amount"/>
+                <TextBox Grid.Column="1" Text="{Binding CurrentPlayItem.Length, Mode=TwoWay}" HorizontalAlignment="Right" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Length" Header="Length"/>
+            </Grid>
+            <TextBox Text="{Binding CurrentPlayItem.UserComment, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Your comment"/>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

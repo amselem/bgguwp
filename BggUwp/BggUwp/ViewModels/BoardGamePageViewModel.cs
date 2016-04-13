@@ -1,5 +1,7 @@
 ﻿using BggUwp.Data;
 using BggUwp.Data.Models;
+using BggUwp.Messaging;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +15,7 @@ namespace BggUwp.ViewModels
 {
     public class BoardGamePageViewModel : ViewModelBase
     {
-        Windows.UI.Core.CoreDispatcher dispatcher; 
+        Windows.UI.Core.CoreDispatcher dispatcher;
 
         public BoardGamePageViewModel()
         {
@@ -23,7 +25,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        public BoardGameDataItem _CurrentBoardGame = new BoardGameDataItem();
+        private BoardGameDataItem _CurrentBoardGame = new BoardGameDataItem();
         public BoardGameDataItem CurrentBoardGame
         {
             get
@@ -41,7 +43,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        public CollectionDataItem _CurrentCollectionItem = new CollectionDataItem();
+        private CollectionDataItem _CurrentCollectionItem;
         public CollectionDataItem CurrentCollectionItem
         {
             get
@@ -56,7 +58,63 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _CurrentCollectionItem, value);
+                if (value != null)
+                {
+                    IsInCollection = true;
+                    EditDialogCollectionItem = new CollectionDataItem(CurrentCollectionItem);
+                }
+                else
+                {
+                    IsInCollection = false;
+                }
             }
+        }
+
+        private CollectionDataItem _EditDialogCollectionItem;
+        public CollectionDataItem EditDialogCollectionItem
+        {
+            get
+            {
+                return _EditDialogCollectionItem;
+            }
+            set
+            {
+                Set(ref _EditDialogCollectionItem, value);
+            }
+        }
+
+        private bool _IsInCollection;
+        public bool IsInCollection
+        {
+            get
+            {
+                return _IsInCollection;
+            }
+            set
+            {
+                Set(ref _IsInCollection, value);
+                OnStatusChanged();
+            }
+        }
+
+        private Uri _RulesLink;
+        public Uri RulesLink
+        {
+            get
+            {
+                return _RulesLink;
+            }
+            set
+            {
+                Set(ref _RulesLink, value);
+            }
+        }
+
+        private void OnStatusChanged()
+        {
+            AddCommand.RaiseCanExecuteChanged();
+            EditCommand.RaiseCanExecuteChanged();
+            RemoveCommand.RaiseCanExecuteChanged();
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
@@ -69,8 +127,140 @@ namespace BggUwp.ViewModels
         private async void LoadData(int gameId)
         {
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
-            CurrentCollectionItem = DataService.Instance.LoadCollectionItem(gameId);
+            CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
+            RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
             // TODO Implement collection item null scenario
+        }
+
+        private DelegateCommand _AddCommand;
+        public DelegateCommand AddCommand
+        {
+            get
+            {
+                return _AddCommand ??
+                    (_AddCommand = new DelegateCommand(ExecuteAddCommand, CanExecuteAddCommand));
+            }
+            set
+            {
+                Set(ref _AddCommand, value);
+            }
+        }
+
+        private async void ExecuteAddCommand()
+        {
+            if (!CanExecuteAddCommand())
+                return;
+
+            await DataService.Instance.AddToCollection(CurrentBoardGame.BoardGameId);
+            //await Task.Delay(2500);
+            //CurrentCollectionItem = DataService.Instance.LoadCollectionItem(CurrentBoardGame.BoardGameId);
+            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(CurrentBoardGame.BoardGameId);
+            StorageService.SaveCollectionItem(CurrentCollectionItem);
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            {
+                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+            });
+        }
+
+        private bool CanExecuteAddCommand()
+        {
+            return !IsInCollection;
+        }
+
+        private DelegateCommand _EditCommand;
+        public DelegateCommand EditCommand
+        {
+            get
+            {
+                return _EditCommand ??
+                    (_EditCommand = new DelegateCommand(ExecuteEditCommand, CanExecuteEditCommand));
+            }
+            set
+            {
+                Set(ref _EditCommand, value);
+            }
+        }
+
+        private async void ExecuteEditCommand()
+        {
+            if (!CanExecuteEditCommand())
+                return;
+
+            CurrentCollectionItem = new CollectionDataItem(EditDialogCollectionItem);
+            await DataService.Instance.EditCollectionItem(CurrentCollectionItem);
+            StorageService.SaveCollectionItem(CurrentCollectionItem);
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            {
+                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+            });
+        }
+
+        private bool CanExecuteEditCommand()
+        {
+            return IsInCollection;
+        }
+
+        private DelegateCommand _RemoveCommand;
+        public DelegateCommand RemoveCommand
+        {
+            get
+            {
+                return _RemoveCommand ??
+                    (_RemoveCommand = new DelegateCommand(ExecuteRemoveCommand, CanExecuteRemoveCommand));
+            }
+            set
+            {
+                Set(ref _RemoveCommand, value);
+            }
+        }
+
+        private async void ExecuteRemoveCommand()
+        {
+            if (!CanExecuteRemoveCommand())
+                return;
+
+            await DataService.Instance.RemoveCollectionItem(CurrentCollectionItem.CollectionItemId);
+            StorageService.RemoveCollectionItem(CurrentCollectionItem);
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            {
+                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+            });
+            CurrentCollectionItem = null;
+        }
+
+        private bool CanExecuteRemoveCommand()
+        {
+            return IsInCollection;
+        }
+
+        private PlayDataItem _CurrentPlayItem = new PlayDataItem() { PlayDate = DateTime.Now };
+        public PlayDataItem CurrentPlayItem
+        {
+            get
+            {
+                return _CurrentPlayItem;
+            }
+            set
+            {
+                Set(ref _CurrentPlayItem, value);
+            }
+        }
+
+        public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>
+        {
+            await DataService.Instance.LogPlay(CurrentBoardGame.BoardGameId, CurrentPlayItem.PlayDate, CurrentPlayItem.NumberOfPlays, CurrentPlayItem.UserComment, CurrentPlayItem.Length);         
+            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Plays });
+
+            if (CurrentCollectionItem != null)
+                CurrentCollectionItem.NumberOfPlays++; // TODO Should reload collection item
+        });
+
+        public void SelectedDateChanged(Windows.UI.Xaml.Controls.CalendarDatePicker cal, Windows.UI.Xaml.Controls.CalendarDatePickerDateChangedEventArgs args)
+        {
+            CurrentPlayItem.PlayDate = args.NewDate.Value.DateTime;
         }
     }
 }

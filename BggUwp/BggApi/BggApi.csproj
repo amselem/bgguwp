@@ -113,6 +113,7 @@
     <Compile Include="Models\Abstract\BasicItem.cs" />
     <Compile Include="Models\BoardGame.cs" />
     <Compile Include="Models\CollectionItem.cs" />
+    <Compile Include="Models\CollectionItemInNewApi.cs" />
     <Compile Include="Models\HotItem.cs" />
     <Compile Include="Models\Play.cs" />
     <Compile Include="Models\Player.cs" />
