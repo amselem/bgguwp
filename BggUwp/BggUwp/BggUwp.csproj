@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Common\BindableFlyout.cs" />
     <Compile Include="Common\Converters\DateTimeToDateTimeOffsetConverter.cs" />
+    <Compile Include="Common\Converters\DecimalToDoubleConverter.cs" />
     <Compile Include="Controls\EditItemDialog.xaml.cs">
       <DependentUpon>EditItemDialog.xaml</DependentUpon>
     </Compile>

@@ -227,7 +227,8 @@ namespace BggUwp.Data
                     WantToBuy = collectionItem.WantToBuy,
                     WantToPlay = collectionItem.WantToPlay,
                     Wishlist = collectionItem.Wishlist,
-                    WishlistPriority = collectionItem.WishlistPriority
+                    WishlistPriority = collectionItem.WishlistPriority,
+                    UserRating = collectionItem.UserRating,
                 };
 
             await Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);

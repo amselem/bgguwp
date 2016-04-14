@@ -20,6 +20,7 @@
 
     <ContentDialog.Resources>
         <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
+        <cnv:DecimalToDoubleConverter x:Name="DecimalToDoubleConverter" />
         <DataTemplate x:Key="CustomEditTitleBar">
             <Grid Background="{StaticResource BGGHeaderBlue}" BorderBrush="{StaticResource DarkerGreyBorder}" BorderThickness="0,0,0,1" Padding="10">
                 <Grid.ColumnDefinitions>
@@ -39,6 +40,7 @@
 
     <Grid Padding="0,10,0,0">
         <Grid.RowDefinitions>
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -111,6 +113,8 @@
                 <TextBox Grid.Column="1" Text="{Binding EditDialogCollectionItem.WishlistPriority, Mode=TwoWay}" InputScope="Number" Width="30" HorizontalAlignment="Center"/>
             </Grid>-->
         </Grid>
-        <Slider Grid.Row="3" LargeChange="1" Maximum="5" Minimum="1" Value="{Binding EditDialogCollectionItem.WishlistPriority, Mode=TwoWay}" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <Slider Grid.Row="3" LargeChange="1" Maximum="5" Minimum="1" Value="{Binding EditDialogCollectionItem.WishlistPriority, Mode=TwoWay, Converter={StaticResource DoubleToIntConverter}}" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}" TickFrequency="1" Header="Wishlist priority"/>
+        <Slider Grid.Row="4" LargeChange="1" Maximum="10" Minimum="1" Value="{Binding EditDialogCollectionItem.UserRating, Mode=TwoWay, Converter={StaticResource DoubleToIntConverter}}" TickFrequency="1" Header="Your rating" StepFrequency="0.5"/>
+        <TextBox Grid.Row="5" Header="Comment" Text="{Binding EditDialogCollectionItem.UserComment, Mode=TwoWay}" InputScope="Text" PlaceholderText="Your comment about the game"  />
     </Grid>
 </ContentDialog>

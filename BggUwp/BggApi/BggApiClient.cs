@@ -598,6 +598,12 @@ namespace BggApi
                 request += "&wishlist={0}&wishlistpriority={1}";
                 request = string.Format(request, Convert.ToInt32(item.Wishlist), item.WishlistPriority);
             }
+            if (item.UserRating > 0)
+            {
+                string ratingRequestBase = "fieldname=rating&collid={0}&rating={1}&ajax=1&action=savedata";
+                string ratingRequest = string.Format(ratingRequestBase, item.CollectionItemId, item.UserRating);
+                await ProcessEditRequest(ratingRequest);
+            }
 
             request += "&ajax=1&action=savedata";
 
