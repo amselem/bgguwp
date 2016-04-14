@@ -115,6 +115,6 @@
         </Grid>
         <Slider Grid.Row="3" LargeChange="1" Maximum="5" Minimum="1" Value="{Binding EditDialogCollectionItem.WishlistPriority, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}" TickFrequency="1" Header="Wishlist priority"/>
         <Slider Grid.Row="4" LargeChange="1" Maximum="10" Minimum="1" Value="{Binding EditDialogCollectionItem.UserRating, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" TickFrequency="1" Header="Your rating" StepFrequency="0.5"/>
-        <TextBox Grid.Row="5" Header="Comment" Text="{Binding EditDialogCollectionItem.UserComment, Mode=TwoWay}" InputScope="Text" PlaceholderText="Your comment about the game"  />
+        <TextBox Grid.Row="5" Header="Comment" Text="{Binding EditDialogCollectionItem.UserComment, Mode=TwoWay}" InputScope="Text" PlaceholderText="Your comment about the game" MinHeight="100" />
     </Grid>
 </ContentDialog>

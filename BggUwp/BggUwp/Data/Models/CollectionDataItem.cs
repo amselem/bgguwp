@@ -22,6 +22,7 @@ namespace BggUwp.Data.Models
             AverageRating = apiItem.AverageRating;
             Rank = apiItem.Rank;
             NumberOfPlays = apiItem.NumberOfPlays;
+            UserComment = apiItem.UserComment;
 
             CollectionItemId = apiItem.CollectionItemId;
             Owned = apiItem.Owned;
@@ -50,6 +51,7 @@ namespace BggUwp.Data.Models
             AverageRating = item.AverageRating;
             Rank = item.Rank;
             NumberOfPlays = item.NumberOfPlays;
+            UserComment = item.UserComment;
 
             CollectionItemId = item.CollectionItemId;
             Owned = item.Owned;
@@ -239,6 +241,19 @@ namespace BggUwp.Data.Models
             set
             {
                 Set(ref _NumberOfPlays, value);
+            }
+        }
+
+        private string _UserComment = string.Empty;
+        public string UserComment
+        {
+            get
+            {
+                return _UserComment;
+            }
+            set
+            {
+                Set(ref _UserComment, value);
             }
         }
     }

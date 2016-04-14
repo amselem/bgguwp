@@ -604,6 +604,12 @@ namespace BggApi
                 string ratingRequest = string.Format(ratingRequestBase, item.CollectionItemId, item.UserRating);
                 await ProcessEditRequest(ratingRequest);
             }
+            if (!String.IsNullOrEmpty(item.UserComment))
+            {
+                string commentRequestBase = "fieldname=comment&collid={0}&value={1}&ajax=1&action=savedata";
+                string commentRequest = string.Format(commentRequestBase, item.CollectionItemId, Uri.EscapeDataString(item.UserComment));
+                await ProcessEditRequest(commentRequest);
+            }
 
             request += "&ajax=1&action=savedata";
 
