@@ -519,10 +519,12 @@ namespace BggApi
         #region Editing data
         private async Task GetLoginCookies(string username, string password)
         {
-            string postData = string.Format("lasturl=&username={0}&password={1}", username, password);
+            string request = string.Format("lasturl=&username={0}&password={1}", username, password);
             HttpClient httpClient = new HttpClient();
 
-            await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/login"), new HttpStringContent(postData));
+            HttpStringContent requestStringContent = new HttpStringContent(request);
+            requestStringContent.Headers.ContentType = new Windows.Web.Http.Headers.HttpMediaTypeHeaderValue("application/x-www-form-urlencoded");
+            await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/login"), requestStringContent);
         }
 
         /// <summary>
