@@ -7,6 +7,8 @@ using Windows.UI;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml;
 using Windows.UI.Popups;
+using GalaSoft.MvvmLight.Messaging;
+using BggUwp.Messaging;
 
 namespace BggUwp
 {
@@ -17,11 +19,14 @@ namespace BggUwp
     {
         public App() {
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
-Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
-Microsoft.ApplicationInsights.WindowsCollectors.Session);
+                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
+                Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
+
             StorageService.CreateDatabaseIfThereisNone();
             this.UnhandledException += App_UnhandledException;
+            Messenger.Default.Register<StatusMessage>(this, ShowStatusBar);
+            Messenger.Default.Register<ProgressMessage>(this, ShowProgressBar);
         }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)
@@ -36,12 +41,51 @@ Microsoft.ApplicationInsights.WindowsCollectors.Session);
             {
                 var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
                 statusBar.BackgroundColor = ((SolidColorBrush)App.Current.Resources["BGGHeaderBlue"]).Color;
+                statusBar.ForegroundColor = Color.FromArgb(255, 255, 255, 255);
                 statusBar.BackgroundOpacity = 1;
-                //statusBar.ProgressIndicator.Text = "BGG Uwp";
-                //statusBar.ProgressIndicator.ShowAsync();
-                //statusBar.ProgressIndicator.ProgressValue = 0;
             }
             await Task.CompletedTask;
+        }
+
+        private async void ShowProgressBar(ProgressMessage obj)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                statusBar.ProgressIndicator.Text = obj.Message;
+                statusBar.ProgressIndicator.ProgressValue = null;
+                if (obj.State == ProgressMessage.ProgressState.Started)
+                {
+                    await statusBar.ProgressIndicator.ShowAsync();
+                }
+                else
+                {
+                    await statusBar.ProgressIndicator.HideAsync();
+                }
+            }
+        }
+
+        private async void ShowStatusBar(StatusMessage obj)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+
+                statusBar.ProgressIndicator.Text = obj.Message;
+                statusBar.ProgressIndicator.ProgressValue = 0;
+                if (obj.Status == StatusMessage.StatusType.Error)
+                {
+                    statusBar.BackgroundColor = Color.FromArgb(0, 192, 57, 43);
+                }
+                else
+                {
+                    statusBar.BackgroundColor = Color.FromArgb(0, 39, 174, 96);
+                }
+                await statusBar.ProgressIndicator.ShowAsync();
+                await Task.Delay(2000);
+                await statusBar.ProgressIndicator.HideAsync();
+                statusBar.BackgroundColor = ((SolidColorBrush)App.Current.Resources["BGGHeaderBlue"]).Color;
+            }
         }
 
         /// <summary>
