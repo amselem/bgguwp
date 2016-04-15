@@ -35,9 +35,7 @@ namespace BggUwp.Views
 
         private async void LogPlay_Click(object sender, RoutedEventArgs e)
         {
-            LogPlayDialog logPlayDialog = new LogPlayDialog();
-            logPlayDialog.DataContext = (dynamic)this.DataContext;
-            await logPlayDialog.ShowAsync();
+            await CurrentLogPlayDialog.ShowAsync();
         }
     }
 }

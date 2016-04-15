@@ -110,6 +110,19 @@ namespace BggUwp.ViewModels
             }
         }
 
+        private LogPlayViewModel _LogPlayDialogVM;
+        public LogPlayViewModel LogPlayDialogVM
+        {
+            get
+            {
+                return _LogPlayDialogVM;
+            }
+            set
+            {
+                Set(ref _LogPlayDialogVM, value);
+            }
+        }
+
         private void OnStatusChanged()
         {
             AddCommand.RaiseCanExecuteChanged();
@@ -129,6 +142,7 @@ namespace BggUwp.ViewModels
             CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
             EditDialogVM = new EditDialogViewModel(gameId);
+            LogPlayDialogVM = new LogPlayViewModel(gameId);
             // TODO Implement collection item null scenario
         }
 
@@ -206,33 +220,6 @@ namespace BggUwp.ViewModels
         private bool CanExecuteRemoveCommand()
         {
             return IsInCollection;
-        }
-
-        private PlayDataItem _CurrentPlayItem = new PlayDataItem() { PlayDate = DateTime.Now };
-        public PlayDataItem CurrentPlayItem
-        {
-            get
-            {
-                return _CurrentPlayItem;
-            }
-            set
-            {
-                Set(ref _CurrentPlayItem, value);
-            }
-        }
-
-        public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>
-        {
-            await DataService.Instance.LogPlay(CurrentBoardGame.BoardGameId, CurrentPlayItem.PlayDate, CurrentPlayItem.NumberOfPlays, CurrentPlayItem.UserComment, CurrentPlayItem.Length);         
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Plays });
-
-            if (CurrentCollectionItem != null)
-                CurrentCollectionItem.NumberOfPlays++; // TODO Should reload collection item
-        });
-
-        public void SelectedDateChanged(Windows.UI.Xaml.Controls.CalendarDatePicker cal, Windows.UI.Xaml.Controls.CalendarDatePickerDateChangedEventArgs args)
-        {
-            CurrentPlayItem.PlayDate = args.NewDate.Value.DateTime;
         }
     }
 }
