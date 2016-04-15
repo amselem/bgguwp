@@ -22,6 +22,7 @@ namespace BggUwp.ViewModels
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
+                Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
             }
         }
 
@@ -61,25 +62,11 @@ namespace BggUwp.ViewModels
                 if (value != null)
                 {
                     IsInCollection = true;
-                    EditDialogCollectionItem = new CollectionDataItem(CurrentCollectionItem);
                 }
                 else
                 {
                     IsInCollection = false;
                 }
-            }
-        }
-
-        private CollectionDataItem _EditDialogCollectionItem;
-        public CollectionDataItem EditDialogCollectionItem
-        {
-            get
-            {
-                return _EditDialogCollectionItem;
-            }
-            set
-            {
-                Set(ref _EditDialogCollectionItem, value);
             }
         }
 
@@ -110,10 +97,22 @@ namespace BggUwp.ViewModels
             }
         }
 
+        private EditDialogViewModel _EditDialogVM;
+        public EditDialogViewModel EditDialogVM
+        {
+            get
+            {
+                return _EditDialogVM;
+            }
+            set
+            {
+                Set(ref _EditDialogVM, value);
+            }
+        }
+
         private void OnStatusChanged()
         {
             AddCommand.RaiseCanExecuteChanged();
-            EditCommand.RaiseCanExecuteChanged();
             RemoveCommand.RaiseCanExecuteChanged();
         }
 
@@ -129,7 +128,16 @@ namespace BggUwp.ViewModels
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
             CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
+            EditDialogVM = new EditDialogViewModel(gameId);
             // TODO Implement collection item null scenario
+        }
+
+        private void RefreshData(RefreshDataMessage msg)
+        {
+            if (msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.BoardGame)
+            {
+                CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(CurrentBoardGame.BoardGameId);
+            }
         }
 
         private DelegateCommand _AddCommand;
@@ -152,8 +160,6 @@ namespace BggUwp.ViewModels
                 return;
 
             await DataService.Instance.AddToCollection(CurrentBoardGame.BoardGameId);
-            //await Task.Delay(2500);
-            //CurrentCollectionItem = DataService.Instance.LoadCollectionItem(CurrentBoardGame.BoardGameId);
             CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(CurrentBoardGame.BoardGameId);
             StorageService.SaveCollectionItem(CurrentCollectionItem);
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
@@ -166,40 +172,6 @@ namespace BggUwp.ViewModels
         private bool CanExecuteAddCommand()
         {
             return !IsInCollection;
-        }
-
-        private DelegateCommand _EditCommand;
-        public DelegateCommand EditCommand
-        {
-            get
-            {
-                return _EditCommand ??
-                    (_EditCommand = new DelegateCommand(ExecuteEditCommand, CanExecuteEditCommand));
-            }
-            set
-            {
-                Set(ref _EditCommand, value);
-            }
-        }
-
-        private async void ExecuteEditCommand()
-        {
-            if (!CanExecuteEditCommand())
-                return;
-
-            CurrentCollectionItem = new CollectionDataItem(EditDialogCollectionItem);
-            await DataService.Instance.EditCollectionItem(CurrentCollectionItem);
-            StorageService.SaveCollectionItem(CurrentCollectionItem);
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
-            {
-                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
-                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
-            });
-        }
-
-        private bool CanExecuteEditCommand()
-        {
-            return IsInCollection;
         }
 
         private DelegateCommand _RemoveCommand;

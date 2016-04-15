@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:BggUwp.ViewModels" 
     xmlns:cnv="using:BggUwp.Common.Converters"
+    xmlns:controls="using:BggUwp.Controls"
     mc:Ignorable="d"
     d:DesignHeight="800">
 
@@ -57,6 +58,9 @@
             <Grid x:Name="Header" Grid.Row="0" Background="{StaticResource BGGHeaderBlue}" Padding="10,0,0,0">
                 <TextBlock Text="{Binding CurrentBoardGame.Name}" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
             </Grid>
+            <controls:EditItemDialog x:Name="CurrentEditDialog" DataContext="{Binding EditDialogVM}">
+
+            </controls:EditItemDialog>
             <Grid x:Name="Content" Grid.Row="1" Padding="10,10,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

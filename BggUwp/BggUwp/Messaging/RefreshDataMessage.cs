@@ -12,7 +12,8 @@ namespace BggUwp.Messaging
         {
             All,
             Collection,
-            Plays
+            Plays,
+            BoardGame
         }
 
         public RefreshScope RequestedRefreshScope;

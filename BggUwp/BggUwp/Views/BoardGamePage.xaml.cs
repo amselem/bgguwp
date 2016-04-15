@@ -30,9 +30,7 @@ namespace BggUwp.Views
 
         private async void Edit_Click(object sender, RoutedEventArgs e)
         {
-            EditItemDialog editDialog = new EditItemDialog();
-            editDialog.DataContext = (dynamic)this.DataContext;
-            await editDialog.ShowAsync();
+            await CurrentEditDialog.ShowAsync();
         }
 
         private async void LogPlay_Click(object sender, RoutedEventArgs e)
