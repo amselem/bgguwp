@@ -322,10 +322,14 @@ namespace BggApi
         public async Task<string> LoadRules(int boardGameId)
         {
             string baseRulesUrl =
-                "https://boardgamegeek.com/item/weblinks?ajax=1&domain=&filter=%7B%22languagefilter%22:0,%22categoryfilter%22:%222702%22%7D"; // TODO Set language filter
+                "http://boardgamegeek.com/item/weblinks?ajax=1&domain=&filter=%7B%22languagefilter%22:0,%22categoryfilter%22:%222702%22%7D"; // TODO Set language filter
             Uri rulesUrl = new Uri(string.Format(baseRulesUrl + "&objectid={0}&objecttype=thing&pageid=1&showcount={1}&version=v2", boardGameId, 20));
 
             string data = await ReadJsonData(rulesUrl);
+
+            if (String.IsNullOrEmpty(data))
+                return string.Format("http://www.boardgamegeek.com/boardgame/{0}", boardGameId);
+
             RulesItem rulesData = JsonConvert.DeserializeObject<RulesItem>(data);
             if (rulesData.WebLinks.Count != 0)
                 return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
