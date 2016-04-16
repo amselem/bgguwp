@@ -17,6 +17,7 @@
     PrimaryButtonCommand="{Binding EditCommand}"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     Style="{StaticResource CustomContentDialog}"
+    FullSizeDesired="False"
     >
 
     <ContentDialog.Resources>

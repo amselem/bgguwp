@@ -15,6 +15,7 @@
     VerticalAlignment="Center" 
     PrimaryButtonCommand="{Binding LoginCommand}" 
     Style="{StaticResource CustomContentDialog}"
+    FullSizeDesired="False"
     >
     <ContentDialog.Resources>
         <DataTemplate x:Key="CustomLoginTitleBar">
