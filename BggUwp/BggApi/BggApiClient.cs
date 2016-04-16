@@ -232,11 +232,11 @@ namespace BggApi
             int rank;
 
             if (val == null)
-                rank = -1;
+                rank = 0;
             else if (val.ToLower().Trim() == "not ranked")
-                rank = -1;
+                rank = 0;
             else if (!int.TryParse(val, out rank))
-                rank = -1;
+                rank = 0;
 
             return rank;
         }
@@ -400,7 +400,7 @@ namespace BggApi
 
             return xatt.Value;
         }
-        private int GetIntValue(XElement element, string attribute = null, int defaultValue = -1)
+        private int GetIntValue(XElement element, string attribute = null, int defaultValue = 0)
         {
             string val = GetStringValue(element, attribute, null);
             if (val == null)
@@ -423,7 +423,7 @@ namespace BggApi
 
             return retVal == 1;
         }
-        private decimal GetDecimalValue(XElement element, string attribute = null, decimal defaultValue = -1)
+        private decimal GetDecimalValue(XElement element, string attribute = null, decimal defaultValue = 0)
         {
             string val = GetStringValue(element, attribute, null);
             if (val == null)
