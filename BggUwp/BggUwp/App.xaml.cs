@@ -82,7 +82,7 @@ namespace BggUwp
                     statusBar.BackgroundColor = Color.FromArgb(0, 39, 174, 96);
                 }
                 await statusBar.ProgressIndicator.ShowAsync();
-                await Task.Delay(2000);
+                await Task.Delay(3000);
                 await statusBar.ProgressIndicator.HideAsync();
                 statusBar.BackgroundColor = ((SolidColorBrush)App.Current.Resources["BGGHeaderBlue"]).Color;
             }

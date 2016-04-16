@@ -173,14 +173,16 @@ namespace BggUwp.ViewModels
             if (!CanExecuteAddCommand())
                 return;
 
-            await DataService.Instance.AddToCollection(CurrentBoardGame.BoardGameId);
-            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(CurrentBoardGame.BoardGameId);
-            StorageService.SaveCollectionItem(CurrentCollectionItem);
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            if (await DataService.Instance.AddToCollection(CurrentBoardGame.BoardGameId))
             {
-                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
-                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
-            });
+                CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(CurrentBoardGame.BoardGameId);
+                StorageService.SaveCollectionItem(CurrentCollectionItem);
+                Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+                {
+                    RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                    RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+                });
+            }
         }
 
         private bool CanExecuteAddCommand()
@@ -207,14 +209,16 @@ namespace BggUwp.ViewModels
             if (!CanExecuteRemoveCommand())
                 return;
 
-            await DataService.Instance.RemoveCollectionItem(CurrentCollectionItem.CollectionItemId);
-            StorageService.RemoveCollectionItem(CurrentCollectionItem);
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            if (await DataService.Instance.RemoveCollectionItem(CurrentCollectionItem.CollectionItemId))
             {
-                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
-                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
-            });
-            CurrentCollectionItem = null;
+                StorageService.RemoveCollectionItem(CurrentCollectionItem);
+                Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+                {
+                    RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                    RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+                });
+                CurrentCollectionItem = null;
+            }
         }
 
         private bool CanExecuteRemoveCommand()

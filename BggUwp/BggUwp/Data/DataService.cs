@@ -2,6 +2,8 @@
 using BggApi.Models;
 using BggUwp.Data.Models;
 using BggUwp.Data.Models.Abstract;
+using BggUwp.Messaging;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -180,17 +182,41 @@ namespace BggUwp.Data
             return await Client.LoadRules(gameId);
         }
 
+        private bool CanEdit()
+        {
+            if (IsThereInternetAccess() == false)
+            {
+                Messenger.Default.Send(new StatusMessage()
+                {
+                    Status = StatusMessage.StatusType.Error,
+                    Message = "There is no internet access"
+                });
+                return false;
+            }
+
+
+            if (String.IsNullOrEmpty(BGGPassword) || String.IsNullOrEmpty(BGGUsername) || BGGPassword == "default")
+            {
+                Messenger.Default.Send(new StatusMessage()
+                {
+                    Status = StatusMessage.StatusType.Error,
+                    Message = "You're not logged in with password"
+                });
+                return false;
+            }
+
+            return true;
+        }
+
         private bool ShouldUpdateData()
         {
-            bool flag = true;
-
             if (settingsService.UpdateDataOnlyOnWiFi == true && IsOnWiFi() == false)
-                flag = false;
+                return false;
 
             if (IsThereInternetAccess() == false)
-                flag = false;
+                return false;
 
-            return flag;
+            return true;
         }
 
         private bool IsOnWiFi()
@@ -205,22 +231,33 @@ namespace BggUwp.Data
 
         private bool IsThereInternetAccess()
         {
-            //return false;
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
             return (connectionProfile != null &&
                     connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
         }
 
-        internal async Task AddToCollection(int boardGameId)
+        internal async Task<bool> AddToCollection(int boardGameId)
         {
-            await Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
-            // TODO Error handling
+            bool isSuccess = true;
+            if (CanEdit())
+            {
+                await Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
+            }
+            else
+            {
+                isSuccess = false;
+            }
+
+            return isSuccess;
         }
 
         internal async Task EditCollectionItem(CollectionDataItem collectionItem)
         {
-            // TODO Create Converter
-            CollectionItem item = new CollectionItem() {
+            if (CanEdit())
+            {
+                // TODO Create Converter
+                CollectionItem item = new CollectionItem()
+                {
                     CollectionItemId = collectionItem.CollectionItemId,
                     ForTrade = collectionItem.ForTrade,
                     Owned = collectionItem.Owned,
@@ -232,17 +269,31 @@ namespace BggUwp.Data
                     UserComment = collectionItem.UserComment
                 };
 
-            await Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);
+                await Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);
+            }
         }
 
-        internal async Task RemoveCollectionItem(int collectionItemId)
+        internal async Task<bool> RemoveCollectionItem(int collectionItemId)
         {
-            await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
+            bool isSuccess = true;
+            if (CanEdit())
+            {
+                await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
+            }
+            else
+            {
+                isSuccess = false;
+            }
+
+            return isSuccess;
         }
 
         internal async Task LogPlay(int gameId, DateTime date, int amount, string comments, int length)
         {
-            await Client.LogPlay(BGGUsername, BGGPassword, gameId, date, amount, comments, length);
+            if (CanEdit())
+            {
+                await Client.LogPlay(BGGUsername, BGGPassword, gameId, date, amount, comments, length);
+            }
         }
     }
 }

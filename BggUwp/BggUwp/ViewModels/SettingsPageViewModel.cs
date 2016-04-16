@@ -43,7 +43,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        string _Password = "default";
+        string _Password = "";
         public string Password
         {
             get
