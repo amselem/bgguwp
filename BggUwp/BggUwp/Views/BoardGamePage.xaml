@@ -213,7 +213,10 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
-                <TextBlock Grid.Row="3" Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap" MaxLines="25"/>
+                <StackPanel Grid.Row="3">
+                    <ToggleButton x:Name="openDescription" Style="{StaticResource ExpanderHeaderToggleButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="Description" />
+                    <TextBlock  Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap" MaxLines="25" Visibility="{Binding ElementName=openDescription, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
                 <Grid Grid.Row="4" Padding="0,10,0,0" Visibility="{Binding IsInCollection, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
