@@ -21,8 +21,6 @@
     >
 
     <ContentDialog.Resources>
-        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
-        <cnv:DecimalToDoubleConverter x:Name="DecimalToDoubleConverter" />
         <DataTemplate x:Key="CustomEditTitleBar">
             <Grid Background="{StaticResource BGGHeaderBlue}" BorderBrush="{StaticResource DarkerGreyBorder}" BorderThickness="0,0,0,1" Padding="10">
                 <Grid.ColumnDefinitions>
@@ -111,18 +109,28 @@
                     <TextBlock Grid.Column="0" Text="wishlist" VerticalAlignment="Center" Foreground="{StaticResource BGGTextGrey}"/>
                     <CheckBox x:Name="WishlistBox" Grid.Column="1" IsChecked="{Binding EditableCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="True"/>
                 </Grid>
-                <Grid Grid.Column="1" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="30"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="wishlist priority" VerticalAlignment="Center" Foreground="{StaticResource BGGTextGrey}"/>
-                    <TextBlock Grid.Column="1" Text="{Binding EditableCollectionItem.WishlistPriority}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Grid>
             </Grid>
         </Border>
-        <Slider Grid.Row="3" LargeChange="1" Maximum="5" Minimum="1" Value="{Binding EditableCollectionItem.WishlistPriority, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}" TickFrequency="1" Header="Wishlist priority"/>
-        <Slider Grid.Row="4" LargeChange="1" Maximum="10" Minimum="1" Value="{Binding EditableCollectionItem.UserRating, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" TickFrequency="1" Header="Your rating" StepFrequency="0.5"/>
+        <Slider Grid.Row="3" LargeChange="1" Maximum="5" Minimum="1" Value="{Binding EditableCollectionItem.WishlistPriority, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}" TickFrequency="1">
+            <Slider.Header>
+                <TextBlock>
+                    <Run Text="Wishlist priority"
+                    /><Run Text=" ("
+                    /><Run Text="{Binding EditableCollectionItem.WishlistPriority, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}"
+                    /><Run Text=")"/>
+                </TextBlock>
+            </Slider.Header>
+        </Slider>
+        <Slider Grid.Row="4" LargeChange="1" Maximum="10" Minimum="1" Value="{Binding EditableCollectionItem.UserRating, Mode=TwoWay, Converter={StaticResource ChangeTypeConverter}}" TickFrequency="1" StepFrequency="0.5">
+            <Slider.Header>
+                <TextBlock>
+                    <Run Text="Your rating"
+                    /><Run Text=" ("
+                    /><Run Text="{Binding EditableCollectionItem.UserRating, Mode=TwoWay, ConverterParameter=\{0:#0.0\}, Converter={StaticResource StringFormatConverter}}"
+                    /><Run Text=")"/>
+                </TextBlock>
+            </Slider.Header>
+        </Slider>
         <TextBox Grid.Row="5" Header="Comment" Text="{Binding EditableCollectionItem.UserComment, Mode=TwoWay}" InputScope="Text" PlaceholderText="Your comment about the game" MinHeight="100" />
     </Grid>
 </ContentDialog>

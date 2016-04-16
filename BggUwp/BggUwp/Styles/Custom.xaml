@@ -16,6 +16,8 @@
 
     <cnv:ImagePathToUriConverter x:Key="ImagePathToUriConverter" />
     <cnv:StringFormatConverter x:Key="StringFormatConverter" />
+    <cnv:ChangeTypeConverter x:Name="ChangeTypeConverter" />
+    <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
 
     <Style x:Key="TitleTextStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>

@@ -17,10 +17,6 @@
         <vm:MainPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
-    <Page.Resources>
-
-    </Page.Resources>
-
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.SecondaryCommands>

@@ -17,10 +17,8 @@
 
     <Page.Resources>
         <cnv:ListToStringConverter x:Name="ListToStringConverter" />
-        <cnv:StringFormatConverter x:Name="StringFormatConverter" />
         <cnv:IntToGridStarNotationConverter x:Name="IntToGridStarNotationConverter" />
         <cnv:RatingColorConverter x:Name="RatingColorConverter" />
-        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
         <DataTemplate x:Key="PlayerPollTemplate">
             <Grid Height="12" Margin="0,3">
                 <Grid.ColumnDefinitions>

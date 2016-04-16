@@ -14,10 +14,6 @@
         <vm:SearchPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
-    <Page.Resources>
-        <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
-    </Page.Resources>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10,20,10,0">
         <ScrollViewer>
         <StackPanel>
