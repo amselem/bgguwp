@@ -477,7 +477,8 @@ namespace BggApi
             }
             catch (Exception ex)
             {
-                throw new Exception("Failed to download BGG data.", ex.InnerException);
+                if (System.Diagnostics.Debugger.IsAttached)
+                    throw new Exception("Failed to download BGG data.", ex.InnerException);
             }
 
             return data;
@@ -497,7 +498,8 @@ namespace BggApi
             }
             catch (Exception ex)
             {
-                throw new Exception("Failed to download BGG data.", ex.InnerException);
+                if (System.Diagnostics.Debugger.IsAttached)
+                    throw new Exception("Failed to download BGG data.", ex.InnerException);
             }
 
             return data;
@@ -514,21 +516,34 @@ namespace BggApi
             }
             catch (Exception ex)
             {
-                throw new Exception("Failed to download BGG data.", ex.InnerException);
+                if (System.Diagnostics.Debugger.IsAttached)
+                    throw new Exception("Failed to download BGG data.", ex.InnerException);
             }
 
             return content;
         }
 
         #region Editing data
-        private async Task GetLoginCookies(string username, string password)
+        private async Task<bool> GetLoginCookies(string username, string password)
         {
             string request = string.Format("lasturl=&username={0}&password={1}", username, password);
             HttpClient httpClient = new HttpClient();
 
             HttpStringContent requestStringContent = new HttpStringContent(request);
             requestStringContent.Headers.ContentType = new Windows.Web.Http.Headers.HttpMediaTypeHeaderValue("application/x-www-form-urlencoded");
-            await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/login"), requestStringContent);
+            try
+            {
+                await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/login"), requestStringContent);
+            }
+            catch (Exception ex)
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                    throw new Exception("Failed to log user in.", ex.InnerException);
+
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -642,7 +657,19 @@ namespace BggApi
             HttpClient httpClient = new HttpClient();
             HttpStringContent requestStringContent = new HttpStringContent(request);
             requestStringContent.Headers.ContentType = new Windows.Web.Http.Headers.HttpMediaTypeHeaderValue("application/x-www-form-urlencoded");
-            HttpResponseMessage response = await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/geekplay.php"), requestStringContent);
+            HttpResponseMessage response;
+            try
+            {
+                response = await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/geekplay.php"), requestStringContent);
+            }
+            catch (Exception ex)
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                    throw new Exception("Failed to log a play.", ex.InnerException);
+
+                return false;
+            }
+
 
             return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
         }
@@ -652,7 +679,18 @@ namespace BggApi
             HttpClient httpClient = new HttpClient();
             HttpStringContent requestStringContent = new HttpStringContent(request);
             requestStringContent.Headers.ContentType = new Windows.Web.Http.Headers.HttpMediaTypeHeaderValue("application/x-www-form-urlencoded");
-            HttpResponseMessage response = await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/geekcollection.php"), requestStringContent);
+            HttpResponseMessage response;
+            try
+            {
+                response = await httpClient.PostAsync(new Uri("https://www.boardgamegeek.com/geekcollection.php"), requestStringContent);
+            }
+            catch (Exception ex)
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                    throw new Exception("Failed to process edit data request.", ex.InnerException);
+
+                return false;
+            }
 
             return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
         }
