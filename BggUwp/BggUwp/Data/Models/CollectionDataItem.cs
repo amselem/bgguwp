@@ -178,6 +178,10 @@ namespace BggUwp.Data.Models
             }
             set
             {
+                if (value == false)
+                {
+                    WishlistPriority = 0;
+                }
                 Set(ref _Wishlist, value);
             }
         }

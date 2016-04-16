@@ -597,12 +597,12 @@ namespace BggApi
                 request += "&wanttoplay={0}";
                 request = string.Format(request, Convert.ToInt32(item.WantToPlay));
             }
-            if (item.Wishlist && item.WishlistPriority > 0)
+            if (item.Wishlist)
             {
                 request += "&wishlist={0}&wishlistpriority={1}";
                 request = string.Format(request, Convert.ToInt32(item.Wishlist), item.WishlistPriority);
             }
-            if (item.UserRating > 0)
+            if (item.UserRating >= 0)
             {
                 string ratingRequestBase = "fieldname=rating&collid={0}&rating={1}&ajax=1&action=savedata";
                 string ratingRequest = string.Format(ratingRequestBase, item.CollectionItemId, item.UserRating);
