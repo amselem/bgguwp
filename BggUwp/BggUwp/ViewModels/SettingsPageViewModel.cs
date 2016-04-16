@@ -73,10 +73,11 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _userName, value);
+                LoginCommand.RaiseCanExecuteChanged();
             }
         }
 
-        string _Password = "";
+        string _Password = "default";
         public string Password
         {
             get
@@ -131,7 +132,13 @@ namespace BggUwp.ViewModels
             return true;
         }
 
-        public void GoToSettingsPage() => NavigationService.Navigate(typeof(Views.SettingsPage));
+        public void GoToSettingsPage()
+        {
+            NavigationService.Navigate(typeof(Views.SettingsPage));
+            NavigationService.Frame.BackStack.Remove(NavigationService.Frame.BackStack.LastOrDefault());
+            NavigationService.Frame.BackStack.Remove(NavigationService.Frame.BackStack.LastOrDefault());
+        }
+            
     }
 
     public class SynchronizationPartViewModel : ViewModelBase

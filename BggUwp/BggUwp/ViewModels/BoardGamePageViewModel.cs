@@ -51,6 +51,7 @@ namespace BggUwp.ViewModels
             {
                 if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
                 {
+                    IsInCollection = true;
                     return DesignDataService.LoadCollectionItem();
                 }
 
