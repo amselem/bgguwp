@@ -23,6 +23,40 @@ namespace BggUwp.ViewModels
                 settingsService = SettingsService.Instance;
                 if (StorageService.RetrieveUserCredentials() != null)
                 {
+                    AccountStatusText = "Logged as " + StorageService.RetrieveUserCredentials().UserName;
+                }
+            }
+        }
+
+        string _AccountStatusText = "Sign in to BGG";
+        public string AccountStatusText
+        {
+            get
+            {
+                return _AccountStatusText;
+            }
+            set
+            {
+                Set(ref _AccountStatusText, value);
+            }
+        }
+
+        public void GoToAccountPartPage() => NavigationService.Navigate(typeof(Views.AccountPartPage));
+        public void GoToSynchronizatonPartPage() => NavigationService.Navigate(typeof(Views.SynchronizationPartPage));
+        public void GoToFeedbackPartPage() => NavigationService.Navigate(typeof(Views.FeedbackPartPage));
+    }
+
+    public class AccountPartViewModel : ViewModelBase
+    {
+        private SettingsService settingsService;
+
+        public AccountPartViewModel()
+        {
+            if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                settingsService = SettingsService.Instance;
+                if (StorageService.RetrieveUserCredentials() != null)
+                {
                     UserName = StorageService.RetrieveUserCredentials().UserName;
                 }
             }
@@ -38,8 +72,6 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _userName, value);
-                AccountStatusText = "Logged as " + UserName;
-                LoginCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -53,20 +85,6 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _Password, value);
-                LoginCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        string _AccountStatusText = "Sign in to BGG";
-        public string AccountStatusText
-        {
-            get
-            {
-                return _AccountStatusText;
-            }
-            set
-            {
-                Set(ref _AccountStatusText, value);
             }
         }
 
@@ -96,6 +114,12 @@ namespace BggUwp.ViewModels
                 RequestedRefreshScope = RefreshDataMessage.RefreshScope.All,
                 RequestedRefreshType = RefreshDataMessage.RefreshType.Web
             });
+            Messenger.Default.Send(new StatusMessage()
+            {
+                Status = StatusMessage.StatusType.Success,
+                Message = "Login successful"
+            });
+            GoToSettingsPage();
         }
 
         private bool CanExecuteLoginCommand()
@@ -104,6 +128,22 @@ namespace BggUwp.ViewModels
                 return false;
 
             return true;
+        }
+
+        public void GoToSettingsPage() => NavigationService.Navigate(typeof(Views.SettingsPage));
+    }
+
+    public class SynchronizationPartViewModel : ViewModelBase
+    {
+        private SettingsService settingsService;
+
+        public SynchronizationPartViewModel()
+        {
+            if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                settingsService = SettingsService.Instance;
+                ShouldUpdateOnlyOnWiFi = settingsService.UpdateDataOnlyOnWiFi;
+            }
         }
 
         bool _ShouldUpdateOnlyOnWiFi = false;
@@ -118,6 +158,34 @@ namespace BggUwp.ViewModels
                 settingsService.UpdateDataOnlyOnWiFi = value;
                 Set(ref _ShouldUpdateOnlyOnWiFi, value);
             }
+        }
+    }
+
+    public class FeedbackPartViewModel : ViewModelBase
+    {
+        public FeedbackPartViewModel()
+        {
+        }
+
+        public DelegateCommand ReportBugCommand => new DelegateCommand(async () =>
+        {
+            await SendEmail("[Bug] ");
+        });
+
+        public DelegateCommand SendFeedbackCommand => new DelegateCommand(async () =>
+        {
+            await SendEmail("[Feedback] ");
+        });
+
+        private async Task SendEmail(string subject)
+        {
+            var emailMessage = new Windows.ApplicationModel.Email.EmailMessage();
+
+            var emailRecipient = new Windows.ApplicationModel.Email.EmailRecipient("bgguwp@gmail.com");
+            emailMessage.To.Add(emailRecipient);
+            emailMessage.Subject = subject;
+
+            await Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(emailMessage);
         }
     }
 }

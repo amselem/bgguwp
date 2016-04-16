@@ -142,8 +142,14 @@
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SearchPageViewModel.cs" />
     <Compile Include="ViewModels\PlaysViewModel.cs" />
+    <Compile Include="Views\AccountPartPage.xaml.cs">
+      <DependentUpon>AccountPartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BoardGamePage.xaml.cs">
       <DependentUpon>BoardGamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FeedbackPartPage.xaml.cs">
+      <DependentUpon>FeedbackPartPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -153,6 +159,9 @@
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SynchronizationPartPage.xaml.cs">
+      <DependentUpon>SynchronizationPartPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -196,7 +205,15 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Views\AccountPartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BoardGamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FeedbackPartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -209,6 +226,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SynchronizationPartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

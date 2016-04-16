@@ -17,9 +17,52 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
-            <Button x:Name="Account" Content="{Binding AccountStatusText}" Click="Account_Click" Margin="10,100,0,0" />
-            <ToggleSwitch x:Name="WiFiOnlySwitch" Header="Update data only on WiFi" IsOn="{Binding ShouldUpdateOnlyOnWiFi, Mode=TwoWay}" />
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="Header" Grid.Row="0" Background="{StaticResource BGGHeaderBlue}" Padding="10,0">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="SETTINGS" Foreground="White" VerticalAlignment="Center" IsColorFontEnabled="False" Style="{StaticResource TitleTextBlockStyle}" FontWeight="Bold" FontFamily="Segoe UI Black"/>
+                <TextBlock Text="Adjust your preferences" Foreground="White" FontSize="12" VerticalAlignment="Center" IsColorFontEnabled="False" FontFamily="Segoe UI Light"/>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="Content" Grid.Row="1" Padding="10,10,10,0">
+            <StackPanel>
+                <Grid Margin="0,10,0,10" PointerPressed="{x:Bind ViewModel.GoToAccountPartPage}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="ACCOUNT" FontSize="18.667" FontFamily="Segoe UI Semibold"/>
+                        <TextBlock Text="{Binding AccountStatusText}" Foreground="{StaticResource BGGTextGrey}" FontSize="12"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;" VerticalAlignment="Center" FontSize="32" HorizontalAlignment="Right"/>
+                </Grid>
+                <Grid Margin="0,10,0,10" PointerPressed="{x:Bind ViewModel.GoToSynchronizatonPartPage}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="SYNCHRONIZATION" FontSize="18.667" FontFamily="Segoe UI Semibold"/>
+                        <TextBlock Text="WiFi behaviour" Foreground="{StaticResource BGGTextGrey}" FontSize="12"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" FontFamily="Segoe MDL2 Assets" Text="&#xE895;" VerticalAlignment="Center" FontSize="32" HorizontalAlignment="Right"/>
+                </Grid>
+                <Grid Margin="0,10,0,10" PointerPressed="{x:Bind ViewModel.GoToFeedbackPartPage}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="FEEDBACK" FontSize="18.667" FontFamily="Segoe UI Semibold"/>
+                        <TextBlock Text="Send feedback/bug report" Foreground="{StaticResource BGGTextGrey}" FontSize="12"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" FontFamily="Segoe MDL2 Assets" Text="&#xE90A;" VerticalAlignment="Center" FontSize="32" HorizontalAlignment="Right"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

@@ -132,7 +132,19 @@ namespace BggUwp.ViewModels
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
             int gameId = (int)parameter;
-            LoadData(gameId);
+            if (DataService.Instance.IsThereInternetAccess())
+            {
+                LoadData(gameId);
+            }
+            else
+            {
+                Messenger.Default.Send(new StatusMessage()
+                {
+                    Status = StatusMessage.StatusType.Error,
+                    Message = "There is no internet access"
+                });
+            }
+
             await Task.CompletedTask;
         }
 

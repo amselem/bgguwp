@@ -229,7 +229,7 @@ namespace BggUwp.Data
             return false;
         }
 
-        private bool IsThereInternetAccess()
+        public bool IsThereInternetAccess()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
             return (connectionProfile != null &&

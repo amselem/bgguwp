@@ -1,5 +1,4 @@
-﻿using BggUwp.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,9 +20,9 @@ namespace BggUwp.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SettingsPage : Page
+    public sealed partial class SynchronizationPartPage : Page
     {
-        public SettingsPage()
+        public SynchronizationPartPage()
         {
             this.InitializeComponent();
         }
