@@ -51,28 +51,30 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
+        <Border Grid.Row="0" Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Owned" VerticalAlignment="Center"/>
-                <CheckBox Grid.Column="1" IsChecked="{Binding EditableCollectionItem.Owned, Mode=TwoWay}" IsEnabled="True"/>
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="owned" VerticalAlignment="Center" Foreground="{StaticResource BGGTextGrey}"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Owned, Mode=TwoWay}" IsEnabled="True" Style="{StaticResource CheckBoxInfoStyle}"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="for trade" VerticalAlignment="Center" Foreground="{StaticResource BGGTextGrey}"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.ForTrade, Mode=TwoWay}" IsEnabled="True" Style="{StaticResource CheckBoxInfoStyle}"/>
+                </Grid>
             </Grid>
-            <Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="For trade" VerticalAlignment="Center"/>
-                <CheckBox Grid.Column="1" IsChecked="{Binding EditableCollectionItem.ForTrade, Mode=TwoWay}" IsEnabled="True"/>
-            </Grid>
-        </Grid>
+        </Border>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -83,40 +85,42 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Want to play" VerticalAlignment="Center"/>
-                <CheckBox Grid.Column="1" IsChecked="{Binding EditableCollectionItem.WantToPlay, Mode=TwoWay}" IsEnabled="True"/>
+                <TextBlock Grid.Column="0" Text="want to play" VerticalAlignment="Center" Foreground="{StaticResource BGGTextGrey}"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToPlay, Mode=TwoWay}" IsEnabled="True" Style="{StaticResource CheckBoxInfoStyle}"/>
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Want to buy" VerticalAlignment="Center"/>
-                <CheckBox Grid.Column="1" IsChecked="{Binding EditableCollectionItem.WantToBuy, Mode=TwoWay}" IsEnabled="True"/>
+                <TextBlock Grid.Column="0" Text="want to buy" VerticalAlignment="Center" Foreground="{StaticResource BGGTextGrey}"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.WantToBuy, Mode=TwoWay}" IsEnabled="True" Style="{StaticResource CheckBoxInfoStyle}"/>
             </Grid>
         </Grid>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
+        <Border Grid.Row="2" Margin="0" Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+            <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Wishlist" VerticalAlignment="Center"/>
-                <CheckBox x:Name="WishlistBox" Grid.Column="1" IsChecked="{Binding EditableCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="True"/>
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="wishlist" VerticalAlignment="Center" Foreground="{StaticResource BGGTextGrey}"/>
+                    <CheckBox x:Name="WishlistBox" Grid.Column="1" IsChecked="{Binding CurrentCollectionItem.Wishlist, Mode=TwoWay}" IsEnabled="True" Style="{StaticResource CheckBoxInfoStyle}"/>
+                </Grid>
+                <Grid Grid.Column="1" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="wishlist priority" VerticalAlignment="Center" Foreground="{StaticResource BGGTextGrey}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentCollectionItem.WishlistPriority}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
             </Grid>
-            <!--<Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Wishlist priority" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Text="{Binding EditableCollectionItem.WishlistPriority, Mode=TwoWay}" InputScope="Number" Width="30" HorizontalAlignment="Center"/>
-            </Grid>-->
-        </Grid>
+        </Border>
         <Slider Grid.Row="3" LargeChange="1" Maximum="5" Minimum="1" Value="{Binding EditableCollectionItem.WishlistPriority, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" Visibility="{Binding IsChecked, ElementName=WishlistBox, Converter={StaticResource BooleanToVisibilityConverter}}" TickFrequency="1" Header="Wishlist priority"/>
         <Slider Grid.Row="4" LargeChange="1" Maximum="10" Minimum="1" Value="{Binding EditableCollectionItem.UserRating, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" TickFrequency="1" Header="Your rating" StepFrequency="0.5"/>
         <TextBox Grid.Row="5" Header="Comment" Text="{Binding EditableCollectionItem.UserComment, Mode=TwoWay}" InputScope="Text" PlaceholderText="Your comment about the game" MinHeight="100" />
