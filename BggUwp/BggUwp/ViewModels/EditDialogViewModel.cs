@@ -54,18 +54,28 @@ namespace BggUwp.ViewModels
             if (!CanExecuteEditCommand())
                 return;
 
-            await DataService.Instance.EditCollectionItem(EditableCollectionItem);
-            StorageService.SaveCollectionItem(EditableCollectionItem);
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+            if (await DataService.Instance.EditCollectionItem(EditableCollectionItem))
             {
-                RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
-                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
-            });
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+                StorageService.SaveCollectionItem(EditableCollectionItem);
+                Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+                {
+                    RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
+                    RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+                });
+                Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+                {
+                    RequestedRefreshScope = RefreshDataMessage.RefreshScope.BoardGame,
+                    RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+                });
+            }
+            else
             {
-                RequestedRefreshScope = RefreshDataMessage.RefreshScope.BoardGame,
-                RequestedRefreshType = RefreshDataMessage.RefreshType.Local
-            });
+                Messenger.Default.Send(new StatusMessage()
+                {
+                    Status = StatusMessage.StatusType.Error,
+                    Message = "Editing an item was unsuccessful."
+                });
+            }
         }
 
         private bool CanExecuteEditCommand()

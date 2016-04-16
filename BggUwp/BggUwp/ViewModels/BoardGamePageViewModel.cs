@@ -196,6 +196,14 @@ namespace BggUwp.ViewModels
                     RequestedRefreshType = RefreshDataMessage.RefreshType.Local
                 });
             }
+            else
+            {
+                Messenger.Default.Send(new StatusMessage()
+                {
+                    Status = StatusMessage.StatusType.Error,
+                    Message = "Adding an item was unsuccessful."
+                });
+            }
         }
 
         private bool CanExecuteAddCommand()
@@ -231,6 +239,14 @@ namespace BggUwp.ViewModels
                     RequestedRefreshType = RefreshDataMessage.RefreshType.Local
                 });
                 CurrentCollectionItem = null;
+            }
+            else
+            {
+                Messenger.Default.Send(new StatusMessage()
+                {
+                    Status = StatusMessage.StatusType.Error,
+                    Message = "Removing an item was unsuccessful."
+                });
             }
         }
 

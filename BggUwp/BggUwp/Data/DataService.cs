@@ -238,20 +238,15 @@ namespace BggUwp.Data
 
         internal async Task<bool> AddToCollection(int boardGameId)
         {
-            bool isSuccess = true;
             if (CanEdit())
             {
-                await Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
-            }
-            else
-            {
-                isSuccess = false;
+                return await Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
             }
 
-            return isSuccess;
+            return false;
         }
 
-        internal async Task EditCollectionItem(CollectionDataItem collectionItem)
+        internal async Task<bool> EditCollectionItem(CollectionDataItem collectionItem)
         {
             if (CanEdit())
             {
@@ -269,23 +264,20 @@ namespace BggUwp.Data
                     UserComment = collectionItem.UserComment
                 };
 
-                await Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);
+                return await Client.EditCollectionItemStatus(BGGUsername, BGGPassword, item);
             }
+
+            return false;
         }
 
         internal async Task<bool> RemoveCollectionItem(int collectionItemId)
         {
-            bool isSuccess = true;
             if (CanEdit())
             {
-                await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
-            }
-            else
-            {
-                isSuccess = false;
+                return await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
             }
 
-            return isSuccess;
+            return false;
         }
 
         internal async Task LogPlay(int gameId, DateTime date, int amount, string comments, int length)
