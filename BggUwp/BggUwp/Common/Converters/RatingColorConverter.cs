@@ -18,8 +18,8 @@ namespace BggUwp.Common.Converters
             if (value == null)
                 return DefaultBrush;
 
-            decimal val;
-            if (!decimal.TryParse(value.ToString(), out val))
+            double val;
+            if (!double.TryParse(value.ToString(), out val))
                 return DefaultBrush;
 
             if (val < 0 || val > 10)
@@ -29,7 +29,7 @@ namespace BggUwp.Common.Converters
             return new SolidColorBrush(gradeColor);
         }
 
-        private Color GetGradeColor(decimal val)
+        private Color GetGradeColor(double val)
         {
             //http://stackoverflow.com/questions/2011832/generate-color-gradient-in-c-sharp
 
@@ -56,9 +56,9 @@ namespace BggUwp.Common.Converters
             }
 
 
-            var rAverage = rMin + (int)((rMax - rMin) * decimal.Divide((val * 10), 50));
-            var gAverage = gMin + (int)((gMax - gMin) * decimal.Divide((val * 10), 50));
-            var bAverage = bMin + (int)((bMax - bMin) * decimal.Divide((val * 10), 50));
+            var rAverage = rMin + (int)((rMax - rMin) * (val * 10) / 50);
+            var gAverage = gMin + (int)((gMax - gMin) * (val * 10) / 50);
+            var bAverage = bMin + (int)((bMax - bMin) * (val * 10) / 50);
 
 
             return Color.FromArgb(255, (byte)rAverage, (byte)gAverage, (byte)bAverage);

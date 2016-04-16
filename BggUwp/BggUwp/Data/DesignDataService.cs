@@ -61,7 +61,7 @@ namespace BggUwp.Data
                 MaxPlayers = 2,
                 PlayingTime = 200,
                 Rank = 1678,
-                UserRating = (Decimal)8.9,
+                UserRating = (Double)8.9,
                 Owned = true
             };
             data.Add(item2);
@@ -115,10 +115,10 @@ namespace BggUwp.Data
         {
             BoardGameDataItem bg = new BoardGameDataItem()
             {
-                AverageRating = (Decimal)(7.9),
+                AverageRating = (Double)(7.9),
                 BoardGameId = 7923,
                 Description = "It is a detailed description of a game, but you can get some additional game info at website.",
-                GeekRating = (Decimal)(6.7),
+                GeekRating = (Double)(6.7),
                 MaxPlayers = 5,
                 MinPlayers = 2,
                 Name = "Eldritch Horror",
@@ -178,9 +178,9 @@ namespace BggUwp.Data
                 MinPlayers = 2,
                 PlayingTime = 240,
                 IsExpansion = false,
-                UserRating = (decimal)5.5,
-                GeekRating = (decimal)6.7,
-                AverageRating = (decimal)7.9,
+                UserRating = (double)5.5,
+                GeekRating = (double)6.7,
+                AverageRating = (double)7.9,
                 Rank = 57,
                 NumberOfPlays = 21,
 

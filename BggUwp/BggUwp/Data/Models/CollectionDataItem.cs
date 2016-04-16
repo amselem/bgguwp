@@ -207,8 +207,8 @@ namespace BggUwp.Data.Models
                 Set(ref _PreOrdered, value);
             }
         }
-        private decimal _UserRating = 0; // Rating given by current user
-        public decimal UserRating
+        private double _UserRating = 0; // Rating given by current user
+        public double UserRating
         {
             get
             {

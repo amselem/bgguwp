@@ -85,7 +85,7 @@ namespace BggUwp.Data.Models
             {
                 if (Total == 0)
                     return 0;
-                return (int)Math.Round(((decimal)Best / (decimal)Total) * 100);
+                return (int)Math.Round(((double)Best / (double)Total) * 100);
             }
         }
         
@@ -95,7 +95,7 @@ namespace BggUwp.Data.Models
             {
                 if (Total == 0)
                     return 0;
-                return (int)Math.Round(((decimal)Recommended / (decimal)Total) * 100);
+                return (int)Math.Round(((double)Recommended / (double)Total) * 100);
             }
         }
        
@@ -105,7 +105,7 @@ namespace BggUwp.Data.Models
             {
                 if (Total == 0)
                     return 0;
-                return (int)Math.Round(((decimal)NotRecommended / (decimal)Total) * 100);
+                return (int)Math.Round(((double)NotRecommended / (double)Total) * 100);
             }
         }
 

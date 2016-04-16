@@ -13,8 +13,8 @@ namespace BggApi.Models.Abstract
         public int MaxPlayers { get; set; }
         public int PlayingTime { get; set; }
         public bool IsExpansion { get; set; } // Not explicitly given by API, but present in links
-        public decimal AverageRating { get; set; } // Average rating from community
-        public decimal GeekRating { get; set; } // BayesAverage field
+        public double AverageRating { get; set; } // Average rating from community
+        public double GeekRating { get; set; } // BayesAverage field
         public int Rank { get; set; }
         public int NumberOfPlays { get; set; }
     }

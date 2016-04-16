@@ -148,8 +148,8 @@ namespace BggApi
                                                             MinPlayers = int.Parse(Boardgame.Element("item").Element("minplayers").Attribute("value").Value),
                                                             YearPublished = int.Parse(Boardgame.Element("item").Element("yearpublished").Attribute("value").Value),
                                                             PlayingTime = int.Parse(Boardgame.Element("item").Element("playingtime").Attribute("value").Value),
-                                                            AverageRating = decimal.Parse(Boardgame.Element("item").Element("statistics").Element("ratings").Element("average").Attribute("value").Value),
-                                                            GeekRating = decimal.Parse(Boardgame.Element("item").Element("statistics").Element("ratings").Element("bayesaverage").Attribute("value").Value),
+                                                            AverageRating = double.Parse(Boardgame.Element("item").Element("statistics").Element("ratings").Element("average").Attribute("value").Value),
+                                                            GeekRating = double.Parse(Boardgame.Element("item").Element("statistics").Element("ratings").Element("bayesaverage").Attribute("value").Value),
                                                             Rank = GetRanking(Boardgame.Element("item").Element("statistics").Element("ratings").Element("ranks")),
                                                             Publishers = (from p in Boardgame.Element("item").Elements("link") where p.Attribute("type").Value == "boardgamepublisher" select p.Attribute("value").Value).ToList(),
                                                             Designers = (from p in Boardgame.Element("item").Elements("link") where p.Attribute("type").Value == "boardgamedesigner" select p.Attribute("value").Value).ToList(),
@@ -423,14 +423,14 @@ namespace BggApi
 
             return retVal == 1;
         }
-        private decimal GetDecimalValue(XElement element, string attribute = null, decimal defaultValue = 0)
+        private double GetDecimalValue(XElement element, string attribute = null, double defaultValue = 0)
         {
             string val = GetStringValue(element, attribute, null);
             if (val == null)
                 return defaultValue;
 
-            decimal retVal;
-            if (!decimal.TryParse(val, out retVal))
+            double retVal;
+            if (!double.TryParse(val, out retVal))
                 return defaultValue;
 
             return retVal;
@@ -597,7 +597,7 @@ namespace BggApi
                 request += "&wanttoplay={0}";
                 request = string.Format(request, Convert.ToInt32(item.WantToPlay));
             }
-            if (item.Wishlist)
+            if (item.Wishlist && item.WishlistPriority > 0)
             {
                 request += "&wishlist={0}&wishlistpriority={1}";
                 request = string.Format(request, Convert.ToInt32(item.Wishlist), item.WishlistPriority);

@@ -54,8 +54,8 @@
             }
         }
 
-        private decimal _GeekRating = 0;
-        public decimal GeekRating
+        private double _GeekRating = 0;
+        public double GeekRating
         {
             get
             {
@@ -67,8 +67,8 @@
             }
         }
 
-        private decimal _AverageRating = 0;
-        public decimal AverageRating
+        private double _AverageRating = 0;
+        public double AverageRating
         {
             get
             {

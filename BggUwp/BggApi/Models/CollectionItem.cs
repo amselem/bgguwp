@@ -19,7 +19,7 @@ namespace BggApi.Models
         public bool Wishlist { get; set; }
         public int WishlistPriority { get; set; } // > 0 if wishlist is true
         public bool PreOrdered { get; set; }
-        public decimal UserRating { get; set; }
+        public double UserRating { get; set; }
         public string UserComment { get; set; }
     }
 }
