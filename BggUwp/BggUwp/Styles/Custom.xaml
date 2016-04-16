@@ -218,12 +218,26 @@
                           DisplayMemberPath="DisplayName"/>
             </StackPanel>
             <StackPanel>
-                <TextBlock TextWrapping="Wrap" Text="Players" FontSize="14" Margin="0,0,0,2"/>
-                <Slider Value="{Binding CollectionVM.CurrentPlayerFilter.Amount, Mode=TwoWay}" Maximum="10" LargeChange="2" TickFrequency="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Foreground="{StaticResource BGGHeaderBlue}"/>
+                <Slider Value="{Binding CollectionVM.CurrentPlayerFilter.Amount, Mode=TwoWay}" Maximum="10" LargeChange="2" TickFrequency="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Foreground="{StaticResource BGGHeaderBlue}">
+                    <Slider.Header>
+                        <TextBlock>
+                            <Run Text="Players"/>
+                            <Run Text="&#x2265;"/>
+                            <Run Text="{Binding CollectionVM.CurrentPlayerFilter.Amount, Mode=TwoWay}"/>
+                        </TextBlock>
+                    </Slider.Header>
+                </Slider>
             </StackPanel>
             <StackPanel>
-                <TextBlock TextWrapping="Wrap" Text="Play time" FontSize="14" Margin="0,0,0,2"/>
-                <Slider Value="{Binding CollectionVM.CurrentPlayTimeFilter.Amount, Mode=TwoWay}" Maximum="240" LargeChange="60" TickFrequency="30" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Foreground="{StaticResource BGGHeaderBlue}" SmallChange="30" StepFrequency="30"/>
+                <Slider Value="{Binding CollectionVM.CurrentPlayTimeFilter.Amount, Mode=TwoWay}" Maximum="240" LargeChange="60" TickFrequency="30" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Foreground="{StaticResource BGGHeaderBlue}" SmallChange="30" StepFrequency="30">
+                    <Slider.Header>
+                        <TextBlock>
+                            <Run Text="Play time"/>
+                            <Run Text="&#x2264;"/>
+                            <Run Text="{Binding CollectionVM.CurrentPlayTimeFilter.Amount, Mode=TwoWay}"/>
+                        </TextBlock>
+                    </Slider.Header>
+                </Slider>
             </StackPanel>
         </StackPanel>
     </ControlTemplate>
