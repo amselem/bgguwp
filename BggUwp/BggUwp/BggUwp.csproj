@@ -142,6 +142,9 @@
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SearchPageViewModel.cs" />
     <Compile Include="ViewModels\PlaysViewModel.cs" />
+    <Compile Include="Views\AboutPartPage.xaml.cs">
+      <DependentUpon>AboutPartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AccountPartPage.xaml.cs">
       <DependentUpon>AccountPartPage.xaml</DependentUpon>
     </Compile>
@@ -204,6 +207,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\AboutPartPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountPartPage.xaml">
       <SubType>Designer</SubType>

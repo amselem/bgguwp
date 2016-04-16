@@ -44,6 +44,7 @@ namespace BggUwp.ViewModels
         public void GoToAccountPartPage() => NavigationService.Navigate(typeof(Views.AccountPartPage));
         public void GoToSynchronizatonPartPage() => NavigationService.Navigate(typeof(Views.SynchronizationPartPage));
         public void GoToFeedbackPartPage() => NavigationService.Navigate(typeof(Views.FeedbackPartPage));
+        public void GoToAboutPartPage() => NavigationService.Navigate(typeof(Views.AboutPartPage));
     }
 
     public class AccountPartViewModel : ViewModelBase
@@ -186,6 +187,13 @@ namespace BggUwp.ViewModels
             emailMessage.Subject = subject;
 
             await Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(emailMessage);
+        }
+    }
+
+    public class AboutPartViewModel : ViewModelBase
+    {
+        public AboutPartViewModel()
+        {
         }
     }
 }
