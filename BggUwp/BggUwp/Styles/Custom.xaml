@@ -406,7 +406,8 @@
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" 
                                                                        Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltListAccentLowBrush}" />
+                                            <!--<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltListAccentLowBrush}" />-->
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BGGHeaderBlue}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -459,9 +460,9 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
+                        <!--BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"-->
                         <ContentPresenter x:Name="ContentPresenter"
-                                          BorderBrush="{TemplateBinding BorderBrush}"
-                                          BorderThickness="{TemplateBinding BorderThickness}"
                                           Content="{TemplateBinding Content}"
                                           ContentTransitions="{TemplateBinding ContentTransitions}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"

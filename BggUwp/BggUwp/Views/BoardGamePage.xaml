@@ -208,9 +208,7 @@
                             <TextBlock Grid.Column="0" Text="rules" Foreground="{StaticResource BGGTextGrey}"/>
                             <!--<HyperlinkButton Grid.Column="1" NavigateUri="{Binding RulesLink}" Content="PDF (English)"/>-->
                             <TextBlock Grid.Column="1">
-								<Span xml:space="preserve"><Hyperlink NavigateUri="{Binding RulesLink}">
-										<Run Text="PDF (English)"/>
-									</Hyperlink></Span>
+								<Span xml:space="preserve"><Hyperlink NavigateUri="{Binding RulesLink}"><Run Text="PDF (English)"/></Hyperlink></Span>
                             </TextBlock>
                         </Grid>
                     </Border>
@@ -223,8 +221,15 @@
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
                 <StackPanel Grid.Row="3">
-                    <ToggleButton x:Name="openDescription" Style="{StaticResource ExpanderHeaderToggleButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="Description" />
-                    <TextBlock  Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap" MaxLines="25" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=openDescription}" />
+                    <ToggleButton x:Name="openDescription" Style="{StaticResource ExpanderHeaderToggleButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="Description" >
+                        <!--<Interactivity:Interaction.Behaviors>
+                            <Core:DataTriggerBehavior Binding="{Binding IsInCollection, FallbackValue=True, Mode=TwoWay, TargetNullValue=True}" Value="True" ComparisonCondition="NotEqual">
+                                <Core:ChangePropertyAction TargetObject="{Binding ElementName=openDescription}" PropertyName="IsChecked" Value="True"/>
+                                <Core:ChangePropertyAction TargetObject="{Binding ElementName=openDescription}" PropertyName="Foreground" Value="{StaticResource BGGTextGrey}"/>
+                            </Core:DataTriggerBehavior>
+                        </Interactivity:Interaction.Behaviors>-->
+                    </ToggleButton>
+                    <TextBlock Text="{Binding CurrentBoardGame.Description}" TextWrapping="Wrap" MaxLines="35" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=openDescription}" />
                 </StackPanel>
                 <Grid Grid.Row="4" Padding="0,10,0,0" Visibility="{Binding IsInCollection, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.RowDefinitions>

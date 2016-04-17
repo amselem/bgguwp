@@ -71,7 +71,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private bool _IsInCollection;
+        private bool _IsInCollection = false;
         public bool IsInCollection
         {
             get
