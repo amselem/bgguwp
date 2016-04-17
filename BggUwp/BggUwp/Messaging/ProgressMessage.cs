@@ -15,6 +15,6 @@ namespace BggUwp.Messaging
         }
 
         public ProgressState State;
-        public string Message;
+        public string Message = String.Empty;
     }
 }

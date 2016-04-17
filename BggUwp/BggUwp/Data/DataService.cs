@@ -73,6 +73,11 @@ namespace BggUwp.Data
             ObservableCollection<HotDataItem> hotItems = new ObservableCollection<HotDataItem>();
             if (ShouldUpdateData()) // && has not download for X hours
             {
+                Messenger.Default.Send(new ProgressMessage()
+                {
+                    State = ProgressMessage.ProgressState.Started,
+                    Message = "Downloading popular games..."
+                });
                 // update hotItems in background    
                 await Task.Run(async () =>
                 {
@@ -91,6 +96,10 @@ namespace BggUwp.Data
                         StorageService.SaveAllHotItems(hotItems);
                     }
                 });
+                Messenger.Default.Send(new ProgressMessage()
+                {
+                    State = ProgressMessage.ProgressState.Finished
+                });
             }
 
             return hotItems;
@@ -99,8 +108,13 @@ namespace BggUwp.Data
         internal async Task<ObservableCollection<CollectionDataItem>> LoadCollection()
         {
             ObservableCollection<CollectionDataItem> tmpCollection = new ObservableCollection<CollectionDataItem>();
-            if (ShouldUpdateData()) // && has not download for X hours
+            if (ShouldUpdateData() && !String.IsNullOrEmpty(BGGUsername)) // && has not download for X hours
             {
+                Messenger.Default.Send(new ProgressMessage()
+                {
+                    State = ProgressMessage.ProgressState.Started,
+                    Message = "Downloading collection..."
+                });
                 // update collection in background    
                 await Task.Run(async () =>
                 {
@@ -119,6 +133,10 @@ namespace BggUwp.Data
                         StorageService.SaveAllCollectionItems(tmpCollection);
                     }
                 });
+                Messenger.Default.Send(new ProgressMessage()
+                {
+                    State = ProgressMessage.ProgressState.Finished
+                });
             }
 
             return tmpCollection;
@@ -131,13 +149,22 @@ namespace BggUwp.Data
 
         public async Task<ObservableCollection<SearchResultDataItem>> SearchBgg(string query, System.Threading.CancellationTokenSource cts)
         {
-            // TODO If no Internet access display error message
-
-            IEnumerable<SearchResult> searchResults = await Client.Search(query, cts);
             ObservableCollection<SearchResultDataItem> resultsCollection = new ObservableCollection<SearchResultDataItem>();
-            foreach (var result in searchResults)
+            if (IsThereInternetAccess() == true)
             {
-                resultsCollection.Add(new SearchResultDataItem(result));
+                IEnumerable<SearchResult> searchResults = await Client.Search(query, cts);
+                foreach (var result in searchResults)
+                {
+                    resultsCollection.Add(new SearchResultDataItem(result));
+                }
+            }
+            else
+            {
+                Messenger.Default.Send(new StatusMessage()
+                {
+                    Status = StatusMessage.StatusType.Error,
+                    Message = "There is no internet access"
+                });
             }
 
             return resultsCollection;
@@ -163,7 +190,16 @@ namespace BggUwp.Data
 
         public async Task<BoardGameDataItem> LoadBoardGame(int gameId)
         {
+            Messenger.Default.Send(new ProgressMessage()
+            {
+                State = ProgressMessage.ProgressState.Started,
+                Message = "Downloading board game info..."
+            });
             var apiBoardGame = await Client.LoadBoardGame(gameId);
+            Messenger.Default.Send(new ProgressMessage()
+            {
+                State = ProgressMessage.ProgressState.Finished,
+            });
             return new BoardGameDataItem(apiBoardGame);
         }
 
@@ -193,7 +229,6 @@ namespace BggUwp.Data
                 });
                 return false;
             }
-
 
             if (String.IsNullOrEmpty(BGGPassword) || String.IsNullOrEmpty(BGGUsername) || BGGPassword == "default")
             {

@@ -15,6 +15,6 @@ namespace BggUwp.Messaging
         }
 
         public StatusType Status;
-        public string Message;
+        public string Message = String.Empty;
     }
 }

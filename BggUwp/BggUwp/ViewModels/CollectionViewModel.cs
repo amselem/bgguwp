@@ -90,7 +90,6 @@ namespace BggUwp.ViewModels
         {
             await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
             {
-                // TODO Display loading bar
                 ObservableCollection<CollectionDataItem> tmp = await DataService.Instance.LoadCollection();
                 if (tmp.Count() > 0)
                 {
