@@ -13,34 +13,37 @@ namespace BggUwp.Common.Converters
     {
         // ColorScale class by James Ramsden: http://james-ramsden.com/convert-from-hsl-to-rgb-colour-codes-in-c/
 
+        /// <summary>
+        /// Hue(0-360), Saturation(0-100), Luminosity(0-100)
+        /// </summary>
         class ColorScale
         {
-            public static Color ColorFromHSL(double h, double s, double l)
+            public static Color ColorFromHSL(double hue, double saturation, double luminosity)
             {
-                h /= 360;
-                s /= 100;
-                l /= 100;
-                double r = 0, g = 0, b = 0;
-                if (l != 0)
+                hue /= 360;
+                saturation /= 100;
+                luminosity /= 100;
+                double red = 0, green = 0, blue = 0;
+                if (luminosity != 0)
                 {
-                    if (s == 0)
-                        r = g = b = l;
+                    if (saturation == 0)
+                        red = green = blue = luminosity;
                     else
                     {
                         double temp2;
-                        if (l < 0.5)
-                            temp2 = l * (1.0 + s);
+                        if (luminosity < 0.5)
+                            temp2 = luminosity * (1.0 + saturation);
                         else
-                            temp2 = l + s - (l * s);
+                            temp2 = luminosity + saturation - (luminosity * saturation);
 
-                        double temp1 = 2.0 * l - temp2;
+                        double temp1 = 2.0 * luminosity - temp2;
 
-                        r = GetColorComponent(temp1, temp2, h + 1.0 / 3.0);
-                        g = GetColorComponent(temp1, temp2, h);
-                        b = GetColorComponent(temp1, temp2, h - 1.0 / 3.0);
+                        red = GetColorComponent(temp1, temp2, hue + 1.0 / 3.0);
+                        green = GetColorComponent(temp1, temp2, hue);
+                        blue = GetColorComponent(temp1, temp2, hue - 1.0 / 3.0);
                     }
                 }
-                return Color.FromArgb(255, (byte)(255 * r), (byte)(255 * g), (byte)(255 * b));
+                return Color.FromArgb(255, (byte)(255 * red), (byte)(255 * green), (byte)(255 * blue));
             }
 
             private static double GetColorComponent(double temp1, double temp2, double temp3)
@@ -79,7 +82,7 @@ namespace BggUwp.Common.Converters
             double hue = 0.375*val*val + 5.94166303*val + 4.383353333, saturation = 42, luminance = 60;
             Double.TryParse(parameter.ToString(), out luminance);
 
-            Color gradeColor = ColorScale.ColorFromHSL(hue, saturation, luminance); // hue(0-360), saturation(0-100), luminance(0-100)
+            Color gradeColor = ColorScale.ColorFromHSL(hue, saturation, luminance); // hue(0-360), saturation(0-100), luminosity(0-100)
             return new SolidColorBrush(gradeColor);
         }
 
