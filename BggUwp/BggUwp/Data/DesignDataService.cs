@@ -230,5 +230,28 @@ namespace BggUwp.Data
 
             return searchResults;
         }
+
+        public static ObservableCollection<PlayerDataItem> LoadPlayersList()
+        {
+            ObservableCollection<PlayerDataItem> players = new ObservableCollection<PlayerDataItem>();
+            players.Add(new PlayerDataItem()
+            {
+                Name = "Mim Daesh",
+            });
+            players.Add(new PlayerDataItem()
+            {
+                Name = "John Doe",
+                UserId = 19213,
+                PlayerId = 1001801,
+                Username = "UWPTester"
+            });
+            players.Add(new PlayerDataItem()
+            {
+                Name = "Dean Mormo",
+                PlayerId = 192
+            });
+
+            return players;
+        }
     }
 }

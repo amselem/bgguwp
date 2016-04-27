@@ -31,6 +31,7 @@ namespace BggUwp.Views
                     break;
                 case 2:
                     HideAllAppBarButtons();
+                    PlayersAppBarButton.Visibility = Visibility.Visible;
                     break;
             }
         }
@@ -38,6 +39,7 @@ namespace BggUwp.Views
         private void HideAllAppBarButtons()
         {
             FindAppBarButton.Visibility = Visibility.Collapsed;
+            PlayersAppBarButton.Visibility = Visibility.Collapsed;
             FilterAppBarButton.Visibility = Visibility.Collapsed;
             SortAppBarButton.Visibility = Visibility.Collapsed;
         }

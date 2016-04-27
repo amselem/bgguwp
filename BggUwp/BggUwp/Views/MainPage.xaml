@@ -44,6 +44,7 @@
                 </Button.Flyout>
             </AppBarButton>
             <AppBarButton x:Name="FindAppBarButton" Icon="Find" Label="search" Click="{x:Bind ViewModel.GoToSearchPage}" />
+            <AppBarButton x:Name="PlayersAppBarButton" Icon="People" Label="players" Click="{x:Bind ViewModel.GoToPlayersPage}" />
         </CommandBar>
     </Page.BottomAppBar>
 
