@@ -92,7 +92,7 @@ namespace BggUwp.Data
                 PlayDate = DateTime.Today,
                 UserComment = "DULL!",
                 NumberOfPlays = 1,
-                Players = new List<PlayerDataItem>()
+                Players = new List<PlayerStatsDataItem>()
             };
             data.Add(play1);
 
@@ -104,7 +104,7 @@ namespace BggUwp.Data
                 PlayDate = DateTime.Now,
                 UserComment = "Terrifying experience in dark environment.",
                 NumberOfPlays = 12,
-                Players = new List<PlayerDataItem>()
+                Players = new List<PlayerStatsDataItem>()
             };
             data.Add(play2);
 

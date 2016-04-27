@@ -2,10 +2,10 @@
 
 namespace BggUwp.Data.Models
 {
-    public class PlayerDataItem : Player
+    public class PlayerStatsDataItem : Player
     {
-        public PlayerDataItem() { }
-        public PlayerDataItem(Player apiPlayer)
+        public PlayerStatsDataItem() { }
+        public PlayerStatsDataItem(Player apiPlayer)
         {
             Username = apiPlayer.Username;
             UserId = apiPlayer.UserId;

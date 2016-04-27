@@ -20,10 +20,10 @@ namespace BggUwp.Data.Models
             UserComment = apiPlay.UserComment;
             PlayDate = apiPlay.PlayDate;
 
-            Players = new List<PlayerDataItem>();
+            Players = new List<PlayerStatsDataItem>();
             foreach (var player in apiPlay.Players)
             {
-                Players.Add(new PlayerDataItem(player));
+                Players.Add(new PlayerStatsDataItem(player));
             }
         }
 
@@ -46,6 +46,6 @@ namespace BggUwp.Data.Models
                 Set(ref _playDate, value);
             }
         }
-        public List<PlayerDataItem> Players { get; set; }
+        public List<PlayerStatsDataItem> Players { get; set; }
     }
 }
