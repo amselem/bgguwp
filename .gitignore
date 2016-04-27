@@ -234,3 +234,5 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+/BggUwp/BggUwp/Package.StoreAssociation.xml
+/BggUwp/BggUwp/_pkginfo.txt

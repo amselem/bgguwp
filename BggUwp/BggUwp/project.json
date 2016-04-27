@@ -5,7 +5,7 @@
     "MvvmLightLibs": "5.2.0",
     "Newtonsoft.Json": "8.0.3",
     "SQLite.Net-PCL": "3.1.1",
-    "Template10": "1.1.8"
+    "Template10": "1.1.10"
   },
   "frameworks": {
     "uap10.0": {}
