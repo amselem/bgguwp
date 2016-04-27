@@ -259,7 +259,7 @@ namespace BggApi
                                                        NumberOfPlays = int.Parse(Boardgame.Attribute("quantity").Value),
                                                        Length = int.Parse(Boardgame.Attribute("length").Value),
                                                        UserComment = GetStringValue(Boardgame.Element("comments")),
-                                                       Players = LoadPlayersList(Boardgame.Element("players"))
+                                                       Players = LoadPlayersStatsList(Boardgame.Element("players"))
                                                    };
 
                 return gameCollection;
@@ -269,9 +269,9 @@ namespace BggApi
                 return new List<Play>();
             }
         }
-        private List<PlayerStats> LoadPlayersList(XElement xElement)
+        private List<PlayerStats> LoadPlayersStatsList(XElement xElement)
         {
-            List<PlayerStats> players = new List<PlayerStats>();
+            List<PlayerStats> playersStats = new List<PlayerStats>();
 
             if (xElement != null)
             {
@@ -288,9 +288,20 @@ namespace BggApi
                         IsNewPlayer = GetBoolValue(p, "new"),
                         IsWinner = GetBoolValue(p, "win")
                     };
-                    players.Add(pResult);
+                    playersStats.Add(pResult);
                 }
             }
+
+            return playersStats;
+        }
+
+        public async Task<IEnumerable<Player>> LoadPlayersList(string username, string password)
+        {
+            Uri playersListUri = new Uri("http://www.boardgamegeek.com/geekplay.php?action=searchplayersandusers&ajax=1&showcount=100");
+
+            await GetLoginCookies(username, password);
+            string data = await ReadJsonData(playersListUri);
+            IEnumerable<Player> players = JsonConvert.DeserializeObject<IEnumerable<Player>>(data);
 
             return players;
         }

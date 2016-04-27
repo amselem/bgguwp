@@ -218,6 +218,23 @@ namespace BggUwp.Data
             return await Client.LoadRules(gameId);
         }
 
+        public async Task<ObservableCollection<PlayerDataItem>> GetPlayersList()
+        {
+            if (CanEdit())
+            {
+                ObservableCollection<PlayerDataItem> tmpPlayers = new ObservableCollection<PlayerDataItem>();
+                var apiPlayers = await Client.LoadPlayersList(BGGUsername, BGGPassword);
+                foreach (var apiPlayer in apiPlayers)
+                {
+                    tmpPlayers.Add(new PlayerDataItem(apiPlayer));
+                }
+
+                return tmpPlayers;
+            }
+
+            return null;
+        }
+
         private bool CanEdit()
         {
             if (IsThereInternetAccess() == false)
