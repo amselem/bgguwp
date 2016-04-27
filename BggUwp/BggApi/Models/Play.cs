@@ -16,6 +16,6 @@ namespace BggApi.Models
         public int Length { get; set; }
         public string UserComment { get; set; }
         public DateTime PlayDate { get; set; }
-        public List<Player> Players { get; set; }
+        public List<PlayerStats> Players { get; set; }
     }
 }

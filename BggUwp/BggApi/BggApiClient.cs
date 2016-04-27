@@ -269,15 +269,15 @@ namespace BggApi
                 return new List<Play>();
             }
         }
-        private List<Player> LoadPlayersList(XElement xElement)
+        private List<PlayerStats> LoadPlayersList(XElement xElement)
         {
-            List<Player> players = new List<Player>();
+            List<PlayerStats> players = new List<PlayerStats>();
 
             if (xElement != null)
             {
                 foreach (XElement p in xElement.Elements("player"))
                 {
-                    Player pResult = new Player()
+                    PlayerStats pResult = new PlayerStats()
                     {
                         Username = p.Attribute("username").Value,
                         UserId = int.Parse(p.Attribute("userid").Value),

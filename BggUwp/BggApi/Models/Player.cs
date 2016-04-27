@@ -9,13 +9,9 @@ namespace BggApi.Models
 {
     public class Player
     {
-        public string Username { get; set; }
+        public string Username { get; set; } // only for BGG user player
         public int UserId { get; set; }
-        public string Name { get; set; }
-        public string StartPosition { get; set; }
-        public string Color { get; set; }
-        public int Score { get; set; }
-        public bool IsNewPlayer { get; set; } // Ideal toggle for creating new player profile
-        public bool IsWinner { get; set; }
+        public int PlayerId { get; set; } // uplayerid field in JSON API
+        public string Name { get; set; } // BGG detects non-BGG-user players by name field
     }
 }

@@ -2,19 +2,20 @@
 
 namespace BggUwp.Data.Models
 {
-    public class PlayerStatsDataItem : Player
+    public class PlayerStatsDataItem : PlayerStats
     {
         public PlayerStatsDataItem() { }
-        public PlayerStatsDataItem(Player apiPlayer)
+        public PlayerStatsDataItem(PlayerStats apiPlayerStats)
         {
-            Username = apiPlayer.Username;
-            UserId = apiPlayer.UserId;
-            Name = apiPlayer.Name;
-            StartPosition = apiPlayer.StartPosition;
-            Color = apiPlayer.Color;
-            Score = apiPlayer.Score;
-            IsNewPlayer = apiPlayer.IsNewPlayer;
-            IsWinner = apiPlayer.IsWinner;
+            Username = apiPlayerStats.Username;
+            UserId = apiPlayerStats.UserId;
+            PlayerId = apiPlayerStats.PlayerId;
+            Name = apiPlayerStats.Name;
+            StartPosition = apiPlayerStats.StartPosition;
+            Color = apiPlayerStats.Color;
+            Score = apiPlayerStats.Score;
+            IsNewPlayer = apiPlayerStats.IsNewPlayer;
+            IsWinner = apiPlayerStats.IsWinner;
         }
     }
 }
