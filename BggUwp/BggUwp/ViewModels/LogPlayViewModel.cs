@@ -37,8 +37,18 @@ namespace BggUwp.ViewModels
 
         public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>
         {
-            await DataService.Instance.LogPlay(CurrentPlayItem.BoardGameId, CurrentPlayItem.PlayDate, CurrentPlayItem.NumberOfPlays, CurrentPlayItem.UserComment, CurrentPlayItem.Length);
-            Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Plays });
+            if (await DataService.Instance.LogPlay(CurrentPlayItem.BoardGameId, CurrentPlayItem.PlayDate, CurrentPlayItem.NumberOfPlays, CurrentPlayItem.UserComment, CurrentPlayItem.Length))
+            {
+                Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage() { RequestedRefreshScope = RefreshDataMessage.RefreshScope.Plays });
+            }
+            else
+            {
+                Messenger.Default.Send(new StatusMessage()
+                {
+                    Status = StatusMessage.StatusType.Error,
+                    Message = "There was an error while logging play"
+                });
+            }
         });
 
         public void SelectedDateChanged(Windows.UI.Xaml.Controls.CalendarDatePicker cal, Windows.UI.Xaml.Controls.CalendarDatePickerDateChangedEventArgs args)

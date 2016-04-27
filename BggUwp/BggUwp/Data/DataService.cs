@@ -315,12 +315,14 @@ namespace BggUwp.Data
             return false;
         }
 
-        internal async Task LogPlay(int gameId, DateTime date, int amount, string comments, int length)
+        internal async Task<bool> LogPlay(int gameId, DateTime date, int amount, string comments, int length)
         {
             if (CanEdit())
             {
-                await Client.LogPlay(BGGUsername, BGGPassword, gameId, date, amount, comments, length);
+                 return await Client.LogPlay(BGGUsername, BGGPassword, gameId, date, amount, comments, length);
             }
+
+            return false;
         }
     }
 }

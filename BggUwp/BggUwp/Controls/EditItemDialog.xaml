@@ -142,6 +142,6 @@
                 </TextBlock>
             </Slider.Header>
         </Slider>
-        <TextBox Grid.Row="5" Header="Comment" Text="{Binding EditableCollectionItem.UserComment, Mode=TwoWay}" InputScope="Text" PlaceholderText="Your comment about the game" MinHeight="100" />
+        <TextBox Grid.Row="5" Header="Comment" Text="{Binding EditableCollectionItem.UserComment, Mode=TwoWay}" InputScope="Text" PlaceholderText="Your comment about the game" MinHeight="100" TextWrapping="Wrap" />
     </Grid>
 </ContentDialog>
