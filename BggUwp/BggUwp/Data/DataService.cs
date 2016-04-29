@@ -218,7 +218,7 @@ namespace BggUwp.Data
             return await Client.LoadRules(gameId);
         }
 
-        public async Task<ObservableCollection<PlayerDataItem>> GetPlayersList()
+        public async Task<ObservableCollection<PlayerDataItem>> LoadPlayersList()
         {
             if (CanEdit())
             {
@@ -233,6 +233,28 @@ namespace BggUwp.Data
             }
 
             return null;
+        }
+
+        public bool AddPlayer(PlayerDataItem player)
+        {
+            if (StorageService.LoadPlayer(player.Username) != null)
+            {
+                return false;
+            }
+
+            StorageService.SavePlayer(player);
+            return true;
+        }
+
+        public bool DeletePlayer(PlayerDataItem player)
+        {
+            if (StorageService.LoadPlayer(player.Username) == null)
+            {
+                return false;
+            }
+
+            StorageService.SavePlayer(player);
+            return true;
         }
 
         private bool CanEdit()

@@ -64,6 +64,7 @@ namespace BggUwp.Data
             {
                 db.CreateTable<HotDataItem>();
                 db.CreateTable<CollectionDataItem>();
+                db.CreateTable<PlayerDataItem>();
             }
         }
 
@@ -164,6 +165,35 @@ namespace BggUwp.Data
             using (var db = DbConnection)
             {
                 db.Delete(collectionItem);
+            }
+        }
+
+        public static IEnumerable<PlayerDataItem> LoadAllPlayers()
+        {
+            IEnumerable<PlayerDataItem> players;
+            using (var db = DbConnection)
+            {
+                players = db.Table<PlayerDataItem>().ToList();
+            }
+            return players;
+        }
+
+        public static PlayerDataItem LoadPlayer(string name)
+        {
+            PlayerDataItem player = new PlayerDataItem();
+            using (var db = DbConnection)
+            {
+                player = db.Find<PlayerDataItem>(a => a.Name == name);
+            }
+            return player;
+        }
+
+        public static void SavePlayer(PlayerDataItem player)
+        {
+            using (var db = DbConnection)
+            {
+                db.Delete(player);
+                db.Insert(player);
             }
         }
 

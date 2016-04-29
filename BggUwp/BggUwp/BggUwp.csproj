@@ -144,6 +144,7 @@
     <Compile Include="Messaging\RefreshDataMessage.cs" />
     <Compile Include="Messaging\StatusMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AddPlayerDialogViewModel.cs" />
     <Compile Include="ViewModels\BoardGamePageViewModel.cs" />
     <Compile Include="ViewModels\CollectionViewModel.cs" />
     <Compile Include="ViewModels\LogPlayViewModel.cs" />

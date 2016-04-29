@@ -19,7 +19,7 @@ namespace BggUwp.ViewModels
 
         private async void LoadPlayers()
         {
-            PlayersList = await DataService.Instance.GetPlayersList();
+            PlayersList = await DataService.Instance.LoadPlayersList();
         }
 
         public ObservableCollection<PlayerDataItem> _PlayersList = new ObservableCollection<PlayerDataItem>();
