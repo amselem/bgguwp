@@ -82,15 +82,22 @@ namespace BggUwp.ViewModels
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                FilteredPlayersList = new ObservableCollection<PlayerDataItem>(PlayersList.Where(p => p.Name.Contains(sender.Text)).ToList());
+                FilteredPlayersList = new ObservableCollection<PlayerDataItem>(
+                    PlayersList.Where(p => p.Name.IndexOf(sender.Text, 0, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList());
             }
         }
 
         public void PlayerChoosen(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var player = args.ChosenSuggestion as PlayerDataItem;
-            CurrentPlayItem.Players.Add(new PlayerStatsDataItem(player));
-            //sender.Text = String.Empty;
+            if (args.ChosenSuggestion != null)
+            {
+                var selectedPlayer = new PlayerStatsDataItem(args.ChosenSuggestion as PlayerDataItem);
+                if (CurrentPlayItem.Players.Where(p => p.Name == selectedPlayer.Name).ToList().Count == 0)
+                {
+                    CurrentPlayItem.Players.Add(selectedPlayer);
+                }
+                //sender.Text = String.Empty;
+            }
         }
 
         public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>
