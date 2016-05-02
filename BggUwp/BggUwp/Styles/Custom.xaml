@@ -44,7 +44,7 @@
                     <RowDefinition Height="2*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="1" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding Name}" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="1" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding BoardGameName}" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
                 <Grid Grid.Row="2">
                     <Border  Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
                         <Grid >
@@ -74,7 +74,7 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding Name}" TextWrapping="NoWrap"/>
+                <TextBlock Grid.Row="0" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" Text="{Binding BoardGameName}" TextWrapping="NoWrap"/>
 
                 <Grid Grid.Row="1">
                     <Border Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">

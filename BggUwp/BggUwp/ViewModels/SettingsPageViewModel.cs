@@ -58,21 +58,21 @@ namespace BggUwp.ViewModels
                 settingsService = SettingsService.Instance;
                 if (StorageService.RetrieveUserCredentials() != null)
                 {
-                    UserName = StorageService.RetrieveUserCredentials().UserName;
+                    Username = StorageService.RetrieveUserCredentials().UserName;
                 }
             }
         }
 
-        string _userName = default(string);
-        public string UserName
+        string _Username = default(string);
+        public string Username
         {
             get
             {
-                return _userName;
+                return _Username;
             }
             set
             {
-                Set(ref _userName, value);
+                Set(ref _Username, value);
                 LoginCommand.RaiseCanExecuteChanged();
             }
         }
@@ -109,7 +109,7 @@ namespace BggUwp.ViewModels
             if (!CanExecuteLoginCommand())
                 return;
 
-            StorageService.SaveUserCredentials(UserName, Password);
+            StorageService.SaveUserCredentials(Username, Password);
             DataService.Instance.RetrieveCredentials();
             Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
             {
@@ -126,7 +126,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteLoginCommand()
         {
-            if (String.IsNullOrEmpty(UserName))
+            if (String.IsNullOrEmpty(Username))
                 return false;
 
             return true;

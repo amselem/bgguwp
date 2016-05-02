@@ -16,21 +16,21 @@ namespace BggUwp.Data
             ObservableCollection<HotDataItem> data = new ObservableCollection<HotDataItem>();
             HotDataItem item1 = new HotDataItem()
             {
-                Name = "Design time HotItems item",
+                BoardGameName = "Design time HotItems item",
                 YearPublished = 1999
             };
             data.Add(item1);
 
             HotDataItem item2 = new HotDataItem()
             {
-                Name = "Design time HotItems item - second item",
+                BoardGameName = "Design time HotItems item - second item",
                 YearPublished = 2993
             };
             data.Add(item2);
 
             HotDataItem item3 = new HotDataItem()
             {
-                Name = "Design time HotItems item - third item",
+                BoardGameName = "Design time HotItems item - third item",
                 YearPublished = 996
             };
             data.Add(item3);
@@ -43,7 +43,7 @@ namespace BggUwp.Data
             ObservableCollection<CollectionDataItem> data = new ObservableCollection<CollectionDataItem>();
             CollectionDataItem item1 = new CollectionDataItem()
             {
-                Name = "Design time item",
+                BoardGameName = "Design time item",
                 YearPublished = 1999,
                 MinPlayers = 2,
                 MaxPlayers = 7,
@@ -55,7 +55,7 @@ namespace BggUwp.Data
 
             CollectionDataItem item2 = new CollectionDataItem()
             {
-                Name = "Design time item - second item",
+                BoardGameName = "Design time item - second item",
                 YearPublished = 2999,
                 MinPlayers = 2,
                 MaxPlayers = 2,
@@ -68,7 +68,7 @@ namespace BggUwp.Data
             
             CollectionDataItem item3 = new CollectionDataItem()
             {
-                Name = "Design time item - third item",
+                BoardGameName = "Design time item - third item",
                 YearPublished = 3999,
                 MinPlayers = 6,
                 MaxPlayers = 15,
@@ -121,7 +121,7 @@ namespace BggUwp.Data
                 GeekRating = (Double)(6.7),
                 MaxPlayers = 5,
                 MinPlayers = 2,
-                Name = "Eldritch Horror",
+                BoardGameName = "Eldritch Horror",
                 PlayingTime = 240,
                 Rank = 57,
                 YearPublished = 1996,
@@ -170,7 +170,7 @@ namespace BggUwp.Data
         {
             CollectionDataItem ci = new CollectionDataItem()
             {
-                Name = "Eldritch Horror",
+                BoardGameName = "Eldritch Horror",
                 YearPublished = 1996,
                 BoardGameId = 7923,
                 ThumbnailPath = 7923 + "_th.jpg",

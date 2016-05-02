@@ -5,16 +5,16 @@ namespace BggUwp.Data.Models.Abstract
 {
     public abstract class BaseItem : BindableBase
     {
-        private string _Name = "";
-        public string Name
+        private string _BoardGameName = "";
+        public string BoardGameName
         {
             get
             {
-                return _Name;
+                return _BoardGameName;
             }
             set
             {
-                Set(ref _Name, value);
+                Set(ref _BoardGameName, value);
             }
         }
 
@@ -42,19 +42,6 @@ namespace BggUwp.Data.Models.Abstract
             set
             {
                 Set(ref _ThumbnailPath, value);
-            }
-        }
-
-        private int _YearPublished = 0;
-        public int YearPublished
-        {
-            get
-            {
-                return _YearPublished;
-            }
-            set
-            {
-                Set(ref _YearPublished, value);
             }
         }
     }

@@ -4,6 +4,7 @@ using BggUwp.Messaging;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,12 @@ namespace BggUwp.ViewModels
         public LogPlayViewModel(int gameId)
         {
             CurrentPlayItem.BoardGameId = gameId;
+            LoadData();
+        }
+
+        private async void LoadData()
+        {
+            PlayersList = await DataService.Instance.LoadPlayersList();
         }
 
         private PlayDataItem _CurrentPlayItem = new PlayDataItem() { PlayDate = DateTime.Now };
@@ -32,6 +39,23 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _CurrentPlayItem, value);
+            }
+        }
+
+        public ObservableCollection<PlayerDataItem> _PlayersList = new ObservableCollection<PlayerDataItem>();
+        public ObservableCollection<PlayerDataItem> PlayersList
+        {
+            get
+            {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadPlayersList();
+                }
+                return _PlayersList;
+            }
+            set
+            {
+                Set(ref _PlayersList, value);
             }
         }
 

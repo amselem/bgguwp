@@ -10,7 +10,7 @@ namespace BggUwp.Data.Models
         public BoardGameDataItem() { }
         public BoardGameDataItem(BoardGame apiItem)
         {
-            Name = apiItem.Name;
+            BoardGameName = apiItem.Name;
             YearPublished = apiItem.YearPublished;
             BoardGameId = apiItem.BoardGameId;
             ImageWebLink = "http:" + apiItem.ImageWeb;

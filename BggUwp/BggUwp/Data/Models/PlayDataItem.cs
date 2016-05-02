@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using BggApi.Models;
 using Template10.Mvvm;
+using BggUwp.Data.Models.Abstract;
 
 namespace BggUwp.Data.Models
 {
-    public class PlayDataItem : ViewModelBase
+    public class PlayDataItem : BaseItem
     {
         public PlayDataItem() { }
 
@@ -28,9 +29,6 @@ namespace BggUwp.Data.Models
         }
 
         public int PlayId { get; set; }
-        public string BoardGameName { get; set; }
-        public int BoardGameId { get; set; }
-        public string ThumbnailPath { get; set; }
         public int NumberOfPlays { get; set; }
         public int Length { get; set; }
         public string UserComment { get; set; }

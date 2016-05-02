@@ -238,7 +238,7 @@ namespace BggUwp.Data
                     _DefaultSorters.Add(new BoardgameSorter
                     {
                         DisplayName = "By name A-Z",
-                        SortFunction = collection => collection.OrderBy(x => x.Name)
+                        SortFunction = collection => collection.OrderBy(x => x.BoardGameName)
                     });
 
                     _DefaultSorters.Add(new BoardgameSorter
@@ -270,7 +270,7 @@ namespace BggUwp.Data
             {
                 return SortFunction(collection);
             }
-            return collection.OrderBy(x => x.Name);
+            return collection.OrderBy(x => x.BoardGameName);
         }
     }
 }

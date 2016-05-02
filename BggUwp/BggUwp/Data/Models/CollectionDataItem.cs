@@ -9,7 +9,7 @@ namespace BggUwp.Data.Models
         public CollectionDataItem() { }
         public CollectionDataItem(CollectionItem apiItem)
         {
-            Name = apiItem.Name;
+            BoardGameName = apiItem.Name;
             YearPublished = apiItem.YearPublished;
             BoardGameId = apiItem.BoardGameId;
             ThumbnailPath = apiItem.BoardGameId.ToString() + "_th.jpg";
@@ -38,7 +38,7 @@ namespace BggUwp.Data.Models
 
         public CollectionDataItem(CollectionDataItem item)
         {
-            Name = item.Name;
+            BoardGameName = item.BoardGameName;
             YearPublished = item.YearPublished;
             BoardGameId = item.BoardGameId;
             ThumbnailPath = item.BoardGameId.ToString() + "_th.jpg";

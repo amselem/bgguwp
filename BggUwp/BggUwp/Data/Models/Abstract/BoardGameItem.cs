@@ -1,7 +1,20 @@
 ﻿namespace BggUwp.Data.Models.Abstract
 {
-    public abstract class BoardGameItem : BaseItem 
+    public class BoardGameItem : BaseItem 
     {
+        private int _YearPublished = 0;
+        public int YearPublished
+        {
+            get
+            {
+                return _YearPublished;
+            }
+            set
+            {
+                Set(ref _YearPublished, value);
+            }
+        }
+
         private int _MinPlayers = 0;
         public int MinPlayers
         {

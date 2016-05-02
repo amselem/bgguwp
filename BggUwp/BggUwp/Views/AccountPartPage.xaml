@@ -25,7 +25,7 @@
         </Grid>
         <Grid x:Name="Content" Grid.Row="1" Padding="10,10,10,0">
             <StackPanel>
-                <TextBox Header="Username" Text="{Binding UserName, Mode=TwoWay}" PlaceholderText="Enter your BGG username" Margin="0,5,0,5"/>
+                <TextBox Header="Username" Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Enter your BGG username" Margin="0,5,0,5"/>
                 <PasswordBox Header="Password" PlaceholderText="Enter your BGG password" PasswordChanged="PasswordBox_PasswordChanged" Margin="0,5,0,5"/>
                 <TextBlock Text="Hint: You can type only your username. If no password is provided, editing data features will be disabled." TextWrapping="Wrap" Foreground="{StaticResource BGGTextGrey}" Margin="0,5,0,5" FontSize="13.333"/>
                 <Button Content="Log in to BGG" Command="{Binding LoginCommand}" HorizontalAlignment="Right" Margin="0,5,0,5"/>

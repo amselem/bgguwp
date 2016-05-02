@@ -26,7 +26,7 @@ namespace BggUwp.Data.Models
 
         public SearchResultDataItem(HotDataItem collectionItem)
         {
-            Title = collectionItem.Name;
+            Title = collectionItem.BoardGameName;
             if (collectionItem.YearPublished > 0)
             {
                 Title += " (" + collectionItem.YearPublished + ")";
@@ -39,7 +39,7 @@ namespace BggUwp.Data.Models
 
         public SearchResultDataItem(CollectionDataItem hotItem)
         {
-            Title = hotItem.Name;
+            Title = hotItem.BoardGameName;
             if (hotItem.YearPublished > 0)
             {
                 Title += " (" + hotItem.YearPublished + ")";
