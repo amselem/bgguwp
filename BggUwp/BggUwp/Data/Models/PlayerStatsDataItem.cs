@@ -14,6 +14,7 @@ namespace BggUwp.Data.Models
             StartPosition = apiPlayerStats.StartPosition;
             Color = apiPlayerStats.Color;
             Score = apiPlayerStats.Score;
+            Rating = apiPlayerStats.Rating;
             IsNewPlayer = apiPlayerStats.IsNewPlayer;
             IsWinner = apiPlayerStats.IsWinner;
         }

@@ -11,6 +11,7 @@ namespace BggApi.Models
         public string StartPosition { get; set; }
         public string Color { get; set; }
         public int Score { get; set; }
+        public int Rating { get; set; }
         public bool IsNewPlayer { get; set; } // Ideal toggle for creating new player profile
         public bool IsWinner { get; set; }
     }

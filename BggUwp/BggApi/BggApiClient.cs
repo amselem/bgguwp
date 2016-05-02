@@ -285,6 +285,7 @@ namespace BggApi
                         StartPosition = p.Attribute("startposition").Value,
                         Color = p.Attribute("username").Value,
                         Score = GetIntValue(p, "score", 0),
+                        Rating = GetIntValue(p, "rating", 0),
                         IsNewPlayer = GetBoolValue(p, "new"),
                         IsWinner = GetBoolValue(p, "win")
                     };
