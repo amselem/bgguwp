@@ -34,13 +34,14 @@
     <ContentDialog.TitleTemplate>
         <StaticResource ResourceKey="CustomLogPlayTitleBar"/>
     </ContentDialog.TitleTemplate>
-    <ContentDialog.DataContext>
-        <vm:LogPlayViewModel x:Name="ViewModel" />
-    </ContentDialog.DataContext>
-    
+
     <Grid>
         <StackPanel Padding="0,10,0,0">
-            <CalendarDatePicker Date="{Binding CurrentPlayItem.PlayDate, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" DateChanged="{x:Bind ViewModel.SelectedDateChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="select a play date"/>
+            <CalendarDatePicker 
+                Date="{Binding CurrentPlayItem.PlayDate, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" 
+                DateChanged="{x:Bind ViewModel.SelectedDateChanged}" 
+                PlaceholderText="select a play date" 
+                HorizontalAlignment="Stretch" />
             <Grid Margin="0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -49,6 +50,14 @@
                 <TextBox Grid.Column="0" Text="{Binding CurrentPlayItem.NumberOfPlays, Mode=TwoWay}" HorizontalAlignment="Left" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Amount" Header="Amount"/>
                 <TextBox Grid.Column="1" Text="{Binding CurrentPlayItem.Length, Mode=TwoWay}" HorizontalAlignment="Right" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Length" Header="Length"/>
             </Grid>
+            <AutoSuggestBox ItemsSource="{Binding FilteredPlayersList}"
+                            TextChanged="{x:Bind ViewModel.FilterPlayers}"
+                            QuerySubmitted="{x:Bind ViewModel.PlayerChoosen}"
+                            QueryIcon="AddFriend"
+                            DisplayMemberPath="Name" 
+                            TextMemberPath="Name" 
+                            PlaceholderText="Type player's name" 
+                            Margin="0,5,0,20" />
             <TextBox Text="{Binding CurrentPlayItem.UserComment, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Your comment"/>
         </StackPanel>
     </Grid>

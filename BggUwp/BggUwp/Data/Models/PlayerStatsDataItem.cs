@@ -17,5 +17,13 @@ namespace BggUwp.Data.Models
             IsNewPlayer = apiPlayerStats.IsNewPlayer;
             IsWinner = apiPlayerStats.IsWinner;
         }
+
+        public PlayerStatsDataItem(PlayerDataItem player)
+        {
+            Username = player.Username;
+            UserId = player.UserId;
+            PlayerId = player.PlayerId;
+            Name = player.Name;
+        }
     }
 }

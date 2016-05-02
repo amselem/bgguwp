@@ -151,11 +151,11 @@ namespace BggUwp.ViewModels
 
         private async void LoadData(int gameId)
         {
+            EditDialogVM = new EditDialogViewModel(gameId);
+            LogPlayDialogVM = new LogPlayViewModel(gameId);
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
             CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
-            EditDialogVM = new EditDialogViewModel(gameId);
-            LogPlayDialogVM = new LogPlayViewModel(gameId);
             // TODO Implement collection item null scenario
         }
 

@@ -9,15 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using Windows.UI.Xaml.Controls;
 
 namespace BggUwp.ViewModels
 {
     public class LogPlayViewModel : ViewModelBase
     {
-        public LogPlayViewModel()
-        {
-
-        }
+        public LogPlayViewModel() { }
         public LogPlayViewModel(int gameId)
         {
             CurrentPlayItem.BoardGameId = gameId;
@@ -29,7 +27,7 @@ namespace BggUwp.ViewModels
             PlayersList = await DataService.Instance.LoadPlayersList();
         }
 
-        private PlayDataItem _CurrentPlayItem = new PlayDataItem() { PlayDate = DateTime.Now };
+        private PlayDataItem _CurrentPlayItem = new PlayDataItem() { PlayDate = DateTime.Now, Players = new ObservableCollection<PlayerStatsDataItem>() };
         public PlayDataItem CurrentPlayItem
         {
             get
@@ -56,7 +54,36 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _PlayersList, value);
+                FilteredPlayersList = new ObservableCollection<PlayerDataItem>(PlayersList);
             }
+        }
+
+        public ObservableCollection<PlayerDataItem> _FilteredPlayersList = new ObservableCollection<PlayerDataItem>();
+        public ObservableCollection<PlayerDataItem> FilteredPlayersList
+        {
+            get
+            {
+                return _FilteredPlayersList;
+            }
+            set
+            {
+                Set(ref _FilteredPlayersList, value);
+            }
+        }
+
+        public void FilterPlayers(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                FilteredPlayersList = new ObservableCollection<PlayerDataItem>(PlayersList.Where(p => p.Name.Contains(sender.Text)).ToList());
+            }
+        }
+
+        public void PlayerChoosen(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            var player = args.ChosenSuggestion as PlayerDataItem;
+            CurrentPlayItem.Players.Add(new PlayerStatsDataItem(player));
+            sender.Text = String.Empty;
         }
 
         public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>
@@ -75,7 +102,7 @@ namespace BggUwp.ViewModels
             }
         });
 
-        public void SelectedDateChanged(Windows.UI.Xaml.Controls.CalendarDatePicker cal, Windows.UI.Xaml.Controls.CalendarDatePickerDateChangedEventArgs args)
+        public void SelectedDateChanged(CalendarDatePicker cal, CalendarDatePickerDateChangedEventArgs args)
         {
             CurrentPlayItem.PlayDate = args.NewDate.Value.DateTime;
         }

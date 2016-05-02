@@ -192,8 +192,7 @@ namespace BggUwp.Data
         {
             using (var db = DbConnection)
             {
-                db.Delete(player);
-                db.Insert(player);
+                db.InsertOrReplace(player);
             }
         }
 

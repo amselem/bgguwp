@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BggApi.Models;
 using Template10.Mvvm;
 using BggUwp.Data.Models.Abstract;
+using System.Collections.ObjectModel;
 
 namespace BggUwp.Data.Models
 {
@@ -21,7 +22,7 @@ namespace BggUwp.Data.Models
             UserComment = apiPlay.UserComment;
             PlayDate = apiPlay.PlayDate;
 
-            Players = new List<PlayerStatsDataItem>();
+            Players = new ObservableCollection<PlayerStatsDataItem>();
             foreach (var player in apiPlay.Players)
             {
                 Players.Add(new PlayerStatsDataItem(player));
@@ -44,6 +45,6 @@ namespace BggUwp.Data.Models
                 Set(ref _playDate, value);
             }
         }
-        public List<PlayerStatsDataItem> Players { get; set; }
+        public ObservableCollection<PlayerStatsDataItem> Players { get; set; }
     }
 }
