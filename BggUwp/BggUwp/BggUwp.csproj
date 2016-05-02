@@ -104,7 +104,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\BindableFlyout.cs" />
+    <Compile Include="Controls\BindableFlyout.cs" />
     <Compile Include="Common\Converters\ChangeTypeConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToDateTimeOffsetConverter.cs" />
     <Compile Include="Common\Converters\NullValueConverter.cs" />
