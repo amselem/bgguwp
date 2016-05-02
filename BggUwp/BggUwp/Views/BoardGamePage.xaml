@@ -57,7 +57,7 @@
             </Grid.RowDefinitions>
 
             <Grid x:Name="Header" Grid.Row="0" Background="{StaticResource BGGHeaderBlue}" Padding="10,0,0,0">
-                <TextBlock Text="{Binding CurrentBoardGame.Name}" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding CurrentBoardGame.BoardGameName}" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
             </Grid>
 
             <controls:EditItemDialog x:Name="CurrentEditDialog" DataContext="{Binding EditDialogVM}" d:IsHidden="True" />

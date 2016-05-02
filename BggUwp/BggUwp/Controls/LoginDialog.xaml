@@ -38,7 +38,7 @@
     <Grid>
         <!-- login form -->
         <StackPanel Margin="20, 16">
-            <TextBox Header="Username" Text="{Binding UserName, Mode=TwoWay}" PlaceholderText="Enter your BGG username"/>
+            <TextBox Header="Username" Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Enter your BGG username"/>
             <PasswordBox Header="Password" PlaceholderText="Enter your BGG password" PasswordChanged="PasswordBox_PasswordChanged"/>
             <TextBlock Text="Hint: You can type only your username. If no password is provided, editing data features will be disabled." TextWrapping="Wrap" Foreground="{StaticResource BGGTextGrey}" Margin="0,5,0,0" FontSize="13.333"/>
         </StackPanel>
