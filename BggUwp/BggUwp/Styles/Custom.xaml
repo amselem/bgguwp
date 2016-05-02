@@ -18,6 +18,7 @@
     <cnv:StringFormatConverter x:Key="StringFormatConverter" />
     <cnv:ChangeTypeConverter x:Name="ChangeTypeConverter" />
     <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
+    <cnv:NullValueConverter NullString="" x:Name="NullValueConverter" />
 
     <Style x:Key="TitleTextStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
@@ -199,7 +200,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="Team" Grid.Column="0" PlaceholderText="Team/Color" Text="{Binding Color}" />
-                    <TextBox x:Name="Score" Grid.Column="2" PlaceholderText="Score" Text="{Binding Score}" InputScope="Digits" />
+                    <TextBox x:Name="Score" Grid.Column="2" PlaceholderText="Score" Text="{Binding Score, Mode=TwoWay, Converter={StaticResource NullValueConverter}}" InputScope="Digits" />
                 </Grid>
                 <Grid Grid.Row="1" Margin="5">
                     <Grid.ColumnDefinitions>
@@ -208,7 +209,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="StartPosition" Grid.Column="0" PlaceholderText="Start position" Text="{Binding StartPosition}" />
-                    <TextBox x:Name="PlayRating" Grid.Column="2" PlaceholderText="Play rating" Text="{Binding Rating}" InputScope="Digits" />
+                    <TextBox x:Name="PlayRating" Grid.Column="2" PlaceholderText="Play rating" Text="{Binding Rating, Mode=TwoWay, Converter={StaticResource NullValueConverter}}" InputScope="Digits" />
                 </Grid>
                 <Grid Grid.Row="2" Margin="5">
                     <Grid.ColumnDefinitions>
@@ -361,7 +362,7 @@
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition />
                                             </Grid.RowDefinitions>
                                             <ContentControl x:Name="Title"
 												Content="{TemplateBinding Title}"
@@ -524,7 +525,7 @@
 							AutomationProperties.AccessibilityView="Raw"
 							Foreground="{StaticResource BGGHeaderBlue}"/>
 
-                        <FontIcon Glyph="&#xE974;" FontSize="13" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Foreground="{StaticResource BGGHeaderBlue}">
+                        <FontIcon Glyph="&#xE974;" FontSize="13" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Foreground="{StaticResource BGGHeaderBlue}" Margin="3,0,0,0">
                             <FontIcon.RenderTransform>
                                 <RotateTransform x:Name="IconTransform" />
                             </FontIcon.RenderTransform>
