@@ -8,6 +8,12 @@
     xmlns:vm="using:BggUwp.ViewModels" 
     mc:Ignorable="d">
 
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="AddPlayerAppBarButton" Icon="AddFriend" Label="add player" Click="AddPlayer_Click" />
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Page.DataContext>
         <vm:PlayersPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
@@ -17,7 +23,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        
         <Grid x:Name="Header" Grid.Row="0" Background="{StaticResource BGGHeaderBlue}" Padding="10,0,0,0">
             <TextBlock Text="Players" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
         </Grid>

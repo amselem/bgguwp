@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BggUwp.Controls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,12 @@ namespace BggUwp.Views
         public PlayersPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void AddPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            AddPlayerDialog tmp = new AddPlayerDialog();
+            await tmp.ShowAsync();
         }
     }
 }

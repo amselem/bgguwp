@@ -109,6 +109,9 @@
     <Compile Include="Common\Converters\DateTimeToDateTimeOffsetConverter.cs" />
     <Compile Include="Common\Converters\NullValueConverter.cs" />
     <Compile Include="Common\Converters\ValueConverterGroup .cs" />
+    <Compile Include="Controls\AddPlayerDialog.xaml.cs">
+      <DependentUpon>AddPlayerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EditItemDialog.xaml.cs">
       <DependentUpon>EditItemDialog.xaml</DependentUpon>
     </Compile>
@@ -250,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\AddPlayerDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\EditItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
