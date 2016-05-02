@@ -18,8 +18,11 @@ namespace BggUwp.ViewModels
         public LogPlayViewModel() { }
         public LogPlayViewModel(int gameId)
         {
-            CurrentPlayItem.BoardGameId = gameId;
-            LoadData();
+            if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                CurrentPlayItem.BoardGameId = gameId;
+                LoadData();
+            }
         }
 
         private async void LoadData()
@@ -32,6 +35,10 @@ namespace BggUwp.ViewModels
         {
             get
             {
+                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+                {
+                    return DesignDataService.LoadPlay();
+                }
                 return _CurrentPlayItem;
             }
             set
@@ -83,7 +90,7 @@ namespace BggUwp.ViewModels
         {
             var player = args.ChosenSuggestion as PlayerDataItem;
             CurrentPlayItem.Players.Add(new PlayerStatsDataItem(player));
-            sender.Text = String.Empty;
+            //sender.Text = String.Empty;
         }
 
         public DelegateCommand LogPlayCommand => new DelegateCommand(async () =>

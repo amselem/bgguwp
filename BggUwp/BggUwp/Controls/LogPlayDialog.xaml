@@ -14,6 +14,7 @@
     SecondaryButtonText="Cancel"
     PrimaryButtonCommand="{Binding LogPlayCommand}" 
     Style="{StaticResource CustomContentDialog}"
+    d:DesignWidth="500"
     >
 
     <ContentDialog.Resources>
@@ -34,7 +35,9 @@
     <ContentDialog.TitleTemplate>
         <StaticResource ResourceKey="CustomLogPlayTitleBar"/>
     </ContentDialog.TitleTemplate>
-
+    <ContentDialog.DataContext>
+        <vm:LogPlayViewModel />
+    </ContentDialog.DataContext>
     <Grid>
         <StackPanel Padding="0,10,0,0">
             <CalendarDatePicker 
@@ -50,6 +53,7 @@
                 <TextBox Grid.Column="0" Text="{Binding CurrentPlayItem.NumberOfPlays, Mode=TwoWay}" HorizontalAlignment="Left" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Amount" Header="Amount"/>
                 <TextBox Grid.Column="1" Text="{Binding CurrentPlayItem.Length, Mode=TwoWay}" HorizontalAlignment="Right" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Length" Header="Length"/>
             </Grid>
+            <TextBox Text="{Binding CurrentPlayItem.UserComment, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Your comment" MinHeight="50"/>
             <AutoSuggestBox ItemsSource="{Binding FilteredPlayersList}"
                             TextChanged="{x:Bind ViewModel.FilterPlayers}"
                             QuerySubmitted="{x:Bind ViewModel.PlayerChoosen}"
@@ -58,7 +62,18 @@
                             TextMemberPath="Name" 
                             PlaceholderText="Type player's name" 
                             Margin="0,5,0,20" />
-            <TextBox Text="{Binding CurrentPlayItem.UserComment, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Your comment"/>
+            <ScrollViewer>
+                <ListView x:Name="SelectedPlayers" 
+                      ItemsSource="{Binding CurrentPlayItem.Players}" 
+                      ItemTemplate="{StaticResource SelectedPlayersItemTemplate}" 
+                      Margin="0,10,0,0">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </ContentDialog>

@@ -38,6 +38,47 @@ namespace BggUwp.Data
             return data;
         }
 
+        internal static PlayDataItem LoadPlay()
+        {
+            return new PlayDataItem()
+            {
+                PlayId = 9123,
+                BoardGameId = 72513,
+                BoardGameName = "Arkham Horror",
+                Length = 90,
+                NumberOfPlays = 3,
+                UserComment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                PlayDate = DateTime.Today,
+                Players = new ObservableCollection<PlayerStatsDataItem>()
+                {
+                    new PlayerStatsDataItem()
+                    {
+                        Name = "Rachael K. Napper",
+                        Color = "Viking",
+                        StartPosition = "North",
+                        Score = 91,
+                        IsWinner = true
+                    },
+                    new PlayerStatsDataItem()
+                    {
+                        Name = "Dorian G. Yoder"
+                    },
+                    new PlayerStatsDataItem()
+                    {
+                        Name = "Nathan D. Gard"
+                    },
+                    new PlayerStatsDataItem()
+                    {
+                        Name = "Roosevelt O. Solomon"
+                    },
+                    new PlayerStatsDataItem()
+                    {
+                        Name = "Chris V. Huey"
+                    },
+                }
+            };
+        }
+
         public static ObservableCollection<CollectionDataItem> LoadCollection()
         {
             ObservableCollection<CollectionDataItem> data = new ObservableCollection<CollectionDataItem>();
