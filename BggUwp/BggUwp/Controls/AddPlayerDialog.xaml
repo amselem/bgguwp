@@ -45,9 +45,9 @@
 
     <Grid>
         <StackPanel Margin="20, 16">
-            <TextBox Header="Name" Text="{Binding Name, Mode=TwoWay}" PlaceholderText="Enter player's name"/>
+            <TextBox Header="Name" Text="{Binding CurrentPlayer.Name, Mode=TwoWay}" PlaceholderText="Enter player's name"/>
             <TextBlock Text="Hint: Player's name must be unique due to BoardGameGeek site constraints" TextWrapping="Wrap" Foreground="{StaticResource BGGTextGrey}" Margin="0,5,0,0" FontSize="13.333"/>
-            <TextBox Header="BGG username" Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Enter player's BGG username(not required)"/>
+            <TextBox Header="BGG username" Text="{Binding CurrentPlayer.Username, Mode=TwoWay}" PlaceholderText="Enter player's BGG username(not required)"/>
         </StackPanel>
     </Grid>
 </ContentDialog>
