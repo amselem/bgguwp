@@ -7,7 +7,9 @@
     xmlns:vm="using:BggUwp.ViewModels" 
     xmlns:cnv="using:BggUwp.Common.Converters"
     xmlns:controls="using:BggUwp.Controls"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:ff="using:FFImageLoading"
     x:Class="BggUwp.Views.BoardGamePage"
     mc:Ignorable="d"
     d:DesignHeight="900">
@@ -76,7 +78,22 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="{Binding CurrentBoardGame.ImageWebLink, FallbackValue=ms-appx:///Assets/SampleCoverPicHD.jpg}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                    <!--<Image Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding CurrentBoardGame.ImageWebLink, FallbackValue=ms-appx:///Assets/SampleCoverPicHD.jpg}"
+                                DecodePixelType="Logical" DecodePixelHeight="250" CreateOptions="None"/>
+                        </Image.Source>
+                    </Image>-->
+                    <ff:FFImage 
+                        Grid.Column="0"
+                        HorizontalAlignment="Right"
+                        CacheDuration="30"
+                        DownsampleMode="High" 
+                        DownsampleUseDipUnits="True"
+                        DownsampleToViewSize="False"
+                        DownsampleHeight="300"
+                        LoadingPlaceholder="SampleCoverPicHD.jpg"
+                        Source="{Binding CurrentBoardGame.ImageWebLink}" />
                     <Grid Grid.Column="1" HorizontalAlignment="Stretch" Padding="5,0,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>

@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "FFImageLoading.Windows": "2.0.7.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
     "MvvmLightLibs": "5.2.0",
