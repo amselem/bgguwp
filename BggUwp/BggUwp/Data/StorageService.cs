@@ -23,15 +23,13 @@ namespace BggUwp.Data
     }
     public class StorageService
     {
+        #region Helpers
         private static string DbName = "db.sqlite";
 
         private static SQLiteConnection DbConnection
         {
             get
             {
-                var platform = new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT();
-                platform.SQLiteApi.Config(SQLite.Net.Interop.ConfigOption.Serialized);
-
                 return new SQLiteConnection(
                     new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(),
                     Path.Combine(ApplicationData.Current.LocalFolder.Path, DbName));
@@ -66,21 +64,7 @@ namespace BggUwp.Data
                 db.CreateTable<CollectionDataItem>();
             }
         }
-
-        public static bool IsThereAnyData()
-        {
-            
-            HotDataItem item = new HotDataItem();
-
-            using (var db = DbConnection)
-            {
-                // db.TraceListener = new DebugTraceListener();
-
-                item = db.Table<HotDataItem>().ToList().First();
-            }
-
-            return item != null;
-        }
+        #endregion
 
         public static IEnumerable<HotDataItem> LoadAllHotItems()
         {
@@ -94,10 +78,21 @@ namespace BggUwp.Data
 
         public static void SaveAllHotItems(IEnumerable<HotDataItem> items)
         {
-            using (var db = DbConnection)
+            int retries = 0;
+            while (retries < 15)
             {
-                db.DeleteAll<HotDataItem>();
-                db.InsertAll(items);
+                try
+                {
+                    using (var db = DbConnection)
+                    {
+                        db.DeleteAll<HotDataItem>();
+                        db.InsertAll(items);
+                    }
+                    break;
+                }
+                catch (Exception) { }
+                Task.Delay(110).Wait();
+                retries++;
             }
         }
 
@@ -113,10 +108,21 @@ namespace BggUwp.Data
 
         public static void SaveAllCollectionItems(IEnumerable<CollectionDataItem> items)
         {
-            using (var db = DbConnection)
+            int retries = 0;
+            while (retries < 15)
             {
-                db.DeleteAll<CollectionDataItem>();
-                db.InsertAll(items);
+                try
+                {
+                    using (var db = DbConnection)
+                    {
+                        db.DeleteAll<CollectionDataItem>();
+                        db.InsertAll(items);
+                    }
+                    break;
+                }
+                catch (Exception) { }
+                Task.Delay(110).Wait();
+                retries++;
             }
         }
 
