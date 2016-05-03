@@ -14,7 +14,12 @@ namespace BggUwp.Common.Converters
             if (value == null)
                 return NullString;
 
-            if (Double.Parse(value.ToString()) == 0)
+            if (value.ToString().Length > 0)
+                return value.ToString();
+
+            double number = 0;
+            Double.TryParse(value.ToString(), out number);
+            if (number == 0)
                 return NullString;
 
             return value;

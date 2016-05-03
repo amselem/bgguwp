@@ -16,8 +16,12 @@ namespace BggUwp.ViewModels
     {
         public PlayersPageViewModel()
         {
-            LoadPlayers();
-            Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
+            if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                LoadPlayers();
+                Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
+            }
+
         }
 
         private void LoadPlayers()

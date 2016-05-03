@@ -19,6 +19,7 @@
     <cnv:ChangeTypeConverter x:Name="ChangeTypeConverter" />
     <cnv:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter" />
     <cnv:NullValueConverter NullString="" x:Name="NullValueConverter" />
+    <cnv:NullValueConverter NullString="(non-user)" x:Name="UserNullValueConverter" />
 
     <Style x:Key="TitleTextStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
@@ -172,12 +173,32 @@
     </DataTemplate>
     <DataTemplate x:Key="PlayersItemTemplate">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{Binding BggPlayerId}" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" Foreground="{StaticResource BGGHeaderBlue}" FontSize="11.667" FontWeight="Bold" TextWrapping="Wrap"/>
+            <Ellipse x:Name="Ellipse"
+                         Grid.RowSpan="2"
+                         Width ="32"
+                         Height="32"
+                         Margin="6"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"
+                         Fill="{Binding ProfileColor}"/>
+            <TextBlock Grid.Column="1"
+                           Text="{Binding Name}" 
+                           Style="{ThemeResource BaseTextBlockStyle}"
+                           Margin="12,6,0,0"/>
+            <TextBlock  Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{Binding Username, Converter={StaticResource UserNullValueConverter}}" 
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Foreground="{StaticResource BGGTextGrey}"
+                            Margin="12,0,0,6" FontSize="11.333"/>
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="SelectedPlayersItemTemplate">
