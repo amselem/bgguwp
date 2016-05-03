@@ -34,7 +34,7 @@ namespace BggApi
                 IEnumerable<User> users = from Boardgame in xDoc.Descendants("user")
                                           select new User
                                           {
-                                              UserId = int.Parse(Boardgame.Attribute("id").Value),
+                                              BggUserId = int.Parse(Boardgame.Attribute("id").Value),
                                               Username = Boardgame.Attribute("name").Value,
                                               Avatar = GetStringValue(Boardgame.Element("avatarlink"), "value"),
                                               FirstName = GetStringValue(Boardgame.Element("firstname"), "value"),
@@ -280,7 +280,7 @@ namespace BggApi
                     PlayerStats pResult = new PlayerStats()
                     {
                         Username = p.Attribute("username").Value,
-                        UserId = int.Parse(p.Attribute("userid").Value),
+                        BggUserId = int.Parse(p.Attribute("userid").Value),
                         Name = p.Attribute("name").Value,
                         StartPosition = p.Attribute("startposition").Value,
                         Color = p.Attribute("username").Value,

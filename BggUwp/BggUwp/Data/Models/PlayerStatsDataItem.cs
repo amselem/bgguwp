@@ -8,8 +8,8 @@ namespace BggUwp.Data.Models
         public PlayerStatsDataItem(PlayerStats apiPlayerStats)
         {
             Username = apiPlayerStats.Username;
-            UserId = apiPlayerStats.UserId;
-            PlayerId = apiPlayerStats.PlayerId;
+            BggUserId = apiPlayerStats.BggUserId;
+            BggPlayerId = apiPlayerStats.BggPlayerId;
             Name = apiPlayerStats.Name;
             StartPosition = apiPlayerStats.StartPosition;
             Color = apiPlayerStats.Color;
@@ -22,8 +22,8 @@ namespace BggUwp.Data.Models
         public PlayerStatsDataItem(PlayerDataItem player)
         {
             Username = player.Username;
-            UserId = player.UserId;
-            PlayerId = player.PlayerId;
+            BggUserId = player.BggUserId;
+            BggPlayerId = player.BggPlayerId;
             Name = player.Name;
         }
     }

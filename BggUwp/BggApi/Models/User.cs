@@ -9,7 +9,7 @@ namespace BggApi.Models
 {
     public class User
     {
-        public int UserId { get; set; }
+        public int BggUserId { get; set; }
         public string Username { get; set; }
         public string Avatar { get; set; }
         public string FirstName { get; set; }

@@ -6,7 +6,7 @@ namespace BggUwp.Data.Models
     {
         public UserDataItem(User user)
         {
-            UserId = user.UserId;
+            BggUserId = user.BggUserId;
             Username = user.Username;
             Avatar = user.Avatar;
             FirstName = user.FirstName;

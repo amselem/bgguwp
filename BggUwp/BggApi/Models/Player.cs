@@ -14,10 +14,10 @@ namespace BggApi.Models
         public string Username { get; set; } // only for BGG user player
 
         [JsonProperty(PropertyName = "userid")]
-        public int UserId { get; set; }
+        public int BggUserId { get; set; }
 
         [JsonIgnore]
-        public int PlayerId { get; set; } // uplayerid field in JSON API
+        public int BggPlayerId { get; set; } // uplayerid field in JSON API
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; } // BGG detects non-BGG-user players by name field
