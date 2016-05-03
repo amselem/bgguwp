@@ -278,18 +278,21 @@ namespace BggUwp.Data
             players.Add(new PlayerDataItem()
             {
                 Name = "Mim Daesh",
+                ProfileColor = "#16a085"
             });
             players.Add(new PlayerDataItem()
             {
                 Name = "John Doe",
                 BggUserId = 19213,
                 BggPlayerId = 1001801,
-                Username = "UWPTester"
+                Username = "UWPTester",
+                ProfileColor = "#9b59b6"
             });
             players.Add(new PlayerDataItem()
             {
                 Name = "Dean Mormo",
-                BggPlayerId = 192
+                BggPlayerId = 192,
+                ProfileColor = "#c0392b"
             });
 
             return players;

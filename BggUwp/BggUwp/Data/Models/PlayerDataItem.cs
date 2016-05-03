@@ -18,7 +18,7 @@ namespace BggUwp.Data.Models
             BggUserId = apiPlayer.BggUserId;
             BggPlayerId = apiPlayer.BggPlayerId;
             Name = apiPlayer.Name;
-            ProfileColor = "#27ae60";
+            ProfileColor = GetRandomHexColor();
         }
 
         [PrimaryKey, AutoIncrement]
@@ -33,5 +33,31 @@ namespace BggUwp.Data.Models
         public string Name { get; set; } // BGG detects non-BGG-user players by name field
 
         public string ProfileColor { get; set; } 
+
+        private string GetRandomHexColor()
+        {
+            List<string> colorsList = new List<string>()
+            {
+                "#1abc9c",
+                "#16a085",
+                "#2ecc71",
+                "#27ae60",
+                "#3498db",
+                "#2980b9",
+                "#9b59b6",
+                "#8e44ad",
+                "#34495e", // black
+                "#2c3e50", // black
+                "#f39c12",
+                "#e67e22",
+                "#d35400",
+                "#e74c3c",
+                "#c0392b",
+                "#95a5a6", // grey
+                "#7f8c8d"  // grey
+            };
+
+            return colorsList[new Random().Next(0, colorsList.Count)];
+        }
     }
 }
