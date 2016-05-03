@@ -210,7 +210,7 @@ namespace BggUwp.Data
 
         public async Task<CollectionDataItem> LoadCollectionItemFromWeb(int gameId)
         {
-            return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.UserId));
+            return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.BggUserId));
         }
 
         public async Task<string> GetRulesLink(int gameId)
@@ -218,42 +218,45 @@ namespace BggUwp.Data
             return await Client.LoadRules(gameId);
         }
 
-        public async Task<ObservableCollection<PlayerDataItem>> LoadPlayersList()
+        public async Task DownloadPlayersListFromWeb()
         {
             if (CanEdit())
             {
-                ObservableCollection<PlayerDataItem> tmpPlayers = new ObservableCollection<PlayerDataItem>();
                 var apiPlayers = await Client.LoadPlayersList(BGGUsername, BGGPassword);
                 foreach (var apiPlayer in apiPlayers)
                 {
-                    tmpPlayers.Add(new PlayerDataItem(apiPlayer));
+                    if (RoamingStorageService.Instance.LoadPlayer(apiPlayer.Name) == null)
+                    {
+                        RoamingStorageService.Instance.AddPlayer(new PlayerDataItem(apiPlayer));
+                    }
                 }
-
-                return tmpPlayers;
             }
+        }
 
-            return null;
+        public ObservableCollection<PlayerDataItem> LoadPlayers()
+        {
+            return new ObservableCollection<PlayerDataItem>(RoamingStorageService.Instance.LoadAllPlayers());
         }
 
         public bool AddPlayer(PlayerDataItem player)
         {
-            if (StorageService.LoadPlayer(player.Username) != null)
+            if (RoamingStorageService.Instance.LoadPlayer(player.Username) != null)
             {
                 return false;
             }
 
-            StorageService.SavePlayer(player);
+            RoamingStorageService.Instance.AddPlayer(player);
             return true;
         }
 
-        public bool DeletePlayer(PlayerDataItem player)
+        public bool RemovePlayer(PlayerDataItem player)
         {
-            if (StorageService.LoadPlayer(player.Username) == null)
+            if (RoamingStorageService.Instance.LoadPlayer(player.Name) == null || player.Id <= 0)
             {
                 return false;
             }
 
-            StorageService.SavePlayer(player);
+            RoamingStorageService.Instance.DeletePlayer(player.Id);
             return true;
         }
 
