@@ -354,11 +354,26 @@ namespace BggUwp.Data
             return false;
         }
 
-        internal async Task<bool> LogPlay(int gameId, DateTime date, int amount, string comments, int length)
+        internal async Task<bool> LogPlay(int gameId, DateTime date, int amount, string comments, int length, PlayDataItem tmp)
         {
+            Play play = new Play()
+            {   
+                BoardGameId = tmp.BoardGameId,
+                PlayDate = tmp.PlayDate,
+                NumberOfPlays = tmp.NumberOfPlays,
+                UserComment = tmp.UserComment,
+                Length = tmp.Length,
+                Players = new List<PlayerStats>()
+            };
+
+            foreach (var player in tmp.Players)
+            {
+                play.Players.Add((PlayerStats)player);
+            }
+
             if (CanEdit())
             {
-                 return await Client.LogPlay(BGGUsername, BGGPassword, gameId, date, amount, comments, length);
+                 return await Client.LogPlay(BGGUsername, BGGPassword, play);
             }
 
             return false;

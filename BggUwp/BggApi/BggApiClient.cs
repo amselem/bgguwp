@@ -638,7 +638,7 @@ namespace BggApi
             if (!String.IsNullOrEmpty(item.UserComment))
             {
                 string commentRequestBase = "fieldname=comment&collid={0}&value={1}&ajax=1&action=savedata";
-                string commentRequest = string.Format(commentRequestBase, item.CollectionItemId, Uri.EscapeDataString(item.UserComment));
+                string commentRequest = string.Format(commentRequestBase, item.CollectionItemId, EncodeString(item.UserComment));
                 await ProcessEditRequest(commentRequest);
             }
 
@@ -658,13 +658,40 @@ namespace BggApi
         /// <param name="comments"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public async Task<bool> LogPlay(string username, string password, int gameId, DateTime date, int amount, string comments, int length)
+        public async Task<bool> LogPlay(string username, string password, Play playItem)
         {
             //https://www.boardgamegeek.com/geekplay.php?objecttype=thing&objectid=104557&ajax=1&action=new
             await GetLoginCookies(username, password);
 
-            string requestBase = "dummy=1&ajax=1&action=save&version=2&objecttype=thing&objectid={0}&playid=&action=save&playdate={1}&dateinput={2}&YUIButton=&twitter=0&savetwitterpref=0&location=&quantity={3}&length={4}&incomplete=0&nowinstats=0&comments={5}";
-            string request = string.Format(requestBase, gameId, date.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), amount, length, comments);
+            string requestBase = "ajax=1&action=save&objecttype=thing&objectid={0}&playid=&action=save&playdate={1}&dateinput={2}&YUIButton=&twitter=0&savetwitterpref=0&location=&quantity={3}&length={4}&incomplete=0&nowinstats=0&comments={5}";
+            string request = string.Format(requestBase, playItem.BoardGameId, playItem.PlayDate.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), playItem.NumberOfPlays, playItem.Length, EncodeString(playItem.UserComment));
+
+            for (int i = 0; i < playItem.Players.Count; i++)
+            {
+                string playerStringBase = 
+                    "&{0}[name]={1}" +
+                    "&{0}[username]={2}" +
+                    "&{0}[color]={3}" +
+                    "&{0}[position]={4}" +
+                    "&{0}[score]={5}" +
+                    "&{0}[rating]={6}" +
+                    "&{0}[new]={7}" +
+                    "&{0}[win]={8}";
+
+                string playerString = string.Format(playerStringBase, 
+                    "players[" + i + "]",
+                    EncodeString(playItem.Players[i].Name),
+                    EncodeString(playItem.Players[i].Username),
+                    EncodeString(playItem.Players[i].Color),
+                    EncodeString(playItem.Players[i].StartPosition),
+                    playItem.Players[i].Score.ToString(),
+                    playItem.Players[i].Rating.ToString(),
+                    Convert.ToInt32(playItem.Players[i].IsNewPlayer),
+                    Convert.ToInt32(playItem.Players[i].IsWinner)
+                    );
+
+                request += playerString;
+            }
 
             HttpClient httpClient = new HttpClient();
             HttpStringContent requestStringContent = new HttpStringContent(request);
@@ -707,5 +734,17 @@ namespace BggApi
             return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
         }
         #endregion
+
+        private string EncodeString(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return String.Empty;
+            }
+            else
+            {
+                return Uri.EscapeDataString(text);
+            }
+        }
     }
 }

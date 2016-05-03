@@ -19,18 +19,18 @@ namespace BggUwp.Controls
 {
     public sealed partial class LogPlayDialog : ContentDialog
     {
+        public LogPlayDialog()
+        {
+            this.InitializeComponent();
+            DataContext = new ViewModels.LogPlayViewModel();
+        }
+
         public ViewModels.LogPlayViewModel ViewModel
         {
             get
             {
                 return (ViewModels.LogPlayViewModel)DataContext;
             }
-        }
-
-        public LogPlayDialog()
-        {
-            DataContext = new ViewModels.LogPlayViewModel();
-            this.InitializeComponent();
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
