@@ -282,14 +282,14 @@ namespace BggUwp.Data
             players.Add(new PlayerDataItem()
             {
                 Name = "John Doe",
-                UserId = 19213,
-                PlayerId = 1001801,
+                BggUserId = 19213,
+                BggPlayerId = 1001801,
                 Username = "UWPTester"
             });
             players.Add(new PlayerDataItem()
             {
                 Name = "Dean Mormo",
-                PlayerId = 192
+                BggPlayerId = 192
             });
 
             return players;
