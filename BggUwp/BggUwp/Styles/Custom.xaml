@@ -199,7 +199,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="Team" Grid.Column="0" PlaceholderText="Team/Color" Text="{Binding Color}" />
+                    <TextBox x:Name="Team" Grid.Column="0" PlaceholderText="Team/Color" Text="{Binding Color, Mode=TwoWay}" />
                     <TextBox x:Name="Score" Grid.Column="2" PlaceholderText="Score" Text="{Binding Score, Mode=TwoWay, Converter={StaticResource NullValueConverter}}" InputScope="Digits" />
                 </Grid>
                 <Grid Grid.Row="1" Margin="5">
@@ -208,7 +208,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="StartPosition" Grid.Column="0" PlaceholderText="Start position" Text="{Binding StartPosition}" />
+                    <TextBox x:Name="StartPosition" Grid.Column="0" PlaceholderText="Start position" Text="{Binding StartPosition, Mode=TwoWay}" />
                     <TextBox x:Name="PlayRating" Grid.Column="2" PlaceholderText="Play rating" Text="{Binding Rating, Mode=TwoWay, Converter={StaticResource NullValueConverter}}" InputScope="Digits" />
                 </Grid>
                 <Grid Grid.Row="2" Margin="5">
@@ -217,8 +217,8 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <CheckBox x:Name="IsNewPlayer" Grid.Column="0" Content="Is new player?" IsChecked="{Binding IsNewPlayer}" />
-                    <CheckBox x:Name="IsWinner" Grid.Column="2" Content="Is winner?" IsChecked="{Binding IsWinner}" />
+                    <CheckBox x:Name="IsNewPlayer" Grid.Column="0" Content="Is new player?" IsChecked="{Binding IsNewPlayer, Mode=TwoWay}" />
+                    <CheckBox x:Name="IsWinner" Grid.Column="2" Content="Is winner?" IsChecked="{Binding IsWinner, Mode=TwoWay}" />
                 </Grid>
             </Grid>
         </StackPanel>

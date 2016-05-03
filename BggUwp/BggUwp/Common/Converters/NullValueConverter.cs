@@ -22,7 +22,7 @@ namespace BggUwp.Common.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            return System.Convert.ChangeType(value, targetType);
         }
 
         public string NullString { get; set; }
