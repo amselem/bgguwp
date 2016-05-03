@@ -13,6 +13,7 @@ namespace BggUwp.Messaging
             All,
             Collection,
             Plays,
+            Players,
             BoardGame
         }
 
