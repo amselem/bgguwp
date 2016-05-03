@@ -141,6 +141,7 @@
     <Compile Include="Data\Models\PlayerPollResultDataItem.cs" />
     <Compile Include="Data\Models\SearchResultDataItem.cs" />
     <Compile Include="Data\Models\UserDataItem.cs" />
+    <Compile Include="Data\RoamingStorageService.cs" />
     <Compile Include="Data\SettingsService.cs" />
     <Compile Include="Data\StorageService.cs" />
     <Compile Include="Messaging\ProgressMessage.cs" />

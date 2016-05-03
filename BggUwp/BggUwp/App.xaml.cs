@@ -23,10 +23,12 @@ namespace BggUwp
             //    Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
 
-            StorageService.CreateDatabaseIfThereisNone();
             this.UnhandledException += App_UnhandledException;
             Messenger.Default.Register<StatusMessage>(this, ShowStatusBar);
             Messenger.Default.Register<ProgressMessage>(this, ShowProgressBar);
+
+            StorageService.CreateDatabaseIfThereisNone();
+            RoamingStorageService.Instance.CreateDatabaseIfThereisNone();
         }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)

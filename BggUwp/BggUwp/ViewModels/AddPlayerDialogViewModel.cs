@@ -13,12 +13,9 @@ namespace BggUwp.ViewModels
 {
     public class AddPlayerDialogViewModel : ViewModelBase
     {
-        public AddPlayerDialogViewModel()
-        {
-            CurrentPlayer = new PlayerDataItem();
-        }
+        public AddPlayerDialogViewModel() { }
 
-        private PlayerDataItem _CurrentPlayer;
+        private PlayerDataItem _CurrentPlayer = new PlayerDataItem();
         public PlayerDataItem CurrentPlayer
         {
             get
@@ -50,7 +47,15 @@ namespace BggUwp.ViewModels
             if (!CanExecuteSaveCommand())
                 return;
 
-            if (!DataService.Instance.AddPlayer(CurrentPlayer))
+            if (DataService.Instance.AddPlayer(CurrentPlayer))
+            {
+                Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
+                {
+                    RequestedRefreshScope = RefreshDataMessage.RefreshScope.Players,
+                    RequestedRefreshType = RefreshDataMessage.RefreshType.Local
+                });
+            }
+            else
             {
                 Messenger.Default.Send(new StatusMessage()
                 {
@@ -62,7 +67,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteSaveCommand()
         {
-            return String.IsNullOrEmpty(CurrentPlayer.Name);
+            return !String.IsNullOrEmpty(CurrentPlayer.Name);
         }
     }
 }

@@ -104,7 +104,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private void ExecuteLoginCommand()
+        private async void ExecuteLoginCommand()
         {
             if (!CanExecuteLoginCommand())
                 return;
@@ -121,6 +121,7 @@ namespace BggUwp.ViewModels
                 Status = StatusMessage.StatusType.Success,
                 Message = "Login successful"
             });
+            await DataService.Instance.DownloadPlayersListFromWeb();
             GoToSettingsPage();
         }
 

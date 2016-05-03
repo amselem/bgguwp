@@ -1,5 +1,7 @@
 ﻿using BggUwp.Data;
 using BggUwp.Data.Models;
+using BggUwp.Messaging;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,11 +17,20 @@ namespace BggUwp.ViewModels
         public PlayersPageViewModel()
         {
             LoadPlayers();
+            Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
         }
 
-        private async void LoadPlayers()
+        private void LoadPlayers()
         {
-            PlayersList = await DataService.Instance.LoadPlayersList();
+            PlayersList = DataService.Instance.LoadPlayers();
+        }
+
+        private void RefreshData(RefreshDataMessage msg)
+        {
+            if (msg.RequestedRefreshScope == RefreshDataMessage.RefreshScope.Players)
+            {
+                LoadPlayers();
+            }
         }
 
         public ObservableCollection<PlayerDataItem> _PlayersList = new ObservableCollection<PlayerDataItem>();
@@ -39,8 +50,12 @@ namespace BggUwp.ViewModels
             }
         }
 
-        //    public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>
-        //NavigationService.Navigate(typeof(Views.BoardGamePage), ((BaseItem)e.ClickedItem).BoardGameId);
-        public void GoToPlayerPage() => NavigationService.Navigate(typeof(Views.SearchPage));
+        public void RemovePlayer(PlayerDataItem player)
+        {
+            if (DataService.Instance.RemovePlayer(player))
+            {
+                PlayersList.Remove(player);
+            }
+        }
     }
 }

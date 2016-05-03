@@ -10,7 +10,10 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="AddPlayerAppBarButton" Icon="AddFriend" Label="add player" Click="AddPlayer_Click" />
+            <AppBarButton Label="Add player" Icon="AddFriend" Click="AddPlayer_Click" x:Name="AddPlayerAppBarButton" />
+            <AppBarButton Label="Select" Icon="List" Click="SelectPlayers" x:Name="SelectAppBarButton"/>
+            <AppBarButton Label="Delete" Icon="Delete" Click="RemovePlayer" x:Name="RemovePlayerAppBarButton" />
+            <AppBarButton Label="Cancel" Icon="Cancel" Click="CancelSelection" x:Name="CancelSelectionAppBarButton"/>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -27,11 +30,9 @@
         <Grid x:Name="Header" Grid.Row="0" Background="{StaticResource BGGHeaderBlue}" Padding="10,0,0,0">
             <TextBlock Text="Players" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="Players" VerticalAlignment="Top"
+        <ListView Grid.Row="1" x:Name="PlayersListView" VerticalAlignment="Top"
                               ItemsSource="{Binding PlayersList}" 
                               ItemTemplate="{StaticResource PlayersItemTemplate}"
-                              ItemClick="{x:Bind ViewModel.GoToPlayerPage}"
-                              IsItemClickEnabled="True"
                               Margin="0,10,0,0">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">

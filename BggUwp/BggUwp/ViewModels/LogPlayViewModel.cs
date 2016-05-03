@@ -25,9 +25,9 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private async void LoadData()
+        private void LoadData()
         {
-            PlayersList = await DataService.Instance.LoadPlayersList();
+            PlayersList = DataService.Instance.LoadPlayers();
         }
 
         private PlayDataItem _CurrentPlayItem = new PlayDataItem() { PlayDate = DateTime.Now, Players = new ObservableCollection<PlayerStatsDataItem>() };
