@@ -22,8 +22,9 @@ namespace BggUwp
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
-
+            #if DEBUG
             this.UnhandledException += App_UnhandledException;
+            #endif
             Messenger.Default.Register<StatusMessage>(this, ShowStatusBar);
             Messenger.Default.Register<ProgressMessage>(this, ShowProgressBar);
 

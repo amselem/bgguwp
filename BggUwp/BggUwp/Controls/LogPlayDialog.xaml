@@ -36,10 +36,12 @@
     <ContentDialog.TitleTemplate>
         <StaticResource ResourceKey="CustomLogPlayTitleBar"/>
     </ContentDialog.TitleTemplate>
+
     <ContentDialog.DataContext>
         <vm:LogPlayViewModel />
     </ContentDialog.DataContext>
-    <Grid>
+    
+    <Grid Padding="0,10,0,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -57,8 +59,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding CurrentPlayItem.NumberOfPlays, Mode=TwoWay, Converter={StaticResource NullValueConverter}}" HorizontalAlignment="Left" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Amount" Header="Amount"/>
-            <TextBox Grid.Column="1" Text="{Binding CurrentPlayItem.Length, Mode=TwoWay, Converter={StaticResource NullValueConverter}}" HorizontalAlignment="Right" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Length" Header="Length"/>
+            <TextBox Grid.Column="0" Text="{Binding CurrentPlayItem.NumberOfPlays, Mode=TwoWay, Converter={StaticResource NullValueConverter}}" HorizontalAlignment="Left" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Amount" />
+            <TextBox Grid.Column="1" Text="{Binding CurrentPlayItem.Length, Mode=TwoWay, Converter={StaticResource NullValueConverter}}" HorizontalAlignment="Right" TextWrapping="Wrap" InputScope="Digits" PlaceholderText="Length" />
         </Grid>
         <TextBox Grid.Row="2"  Text="{Binding CurrentPlayItem.UserComment, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Your comment" MinHeight="50"/>
         <AutoSuggestBox Grid.Row="3" ItemsSource="{Binding FilteredPlayersList}"

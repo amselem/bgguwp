@@ -32,8 +32,9 @@ namespace BggUwp.Data.Models
 
         public string Name { get; set; } // BGG detects non-BGG-user players by name field
 
-        public string ProfileColor { get; set; } 
+        public string ProfileColor { get; set; }
 
+        private static readonly Random getrandom = new Random();
         private string GetRandomHexColor()
         {
             List<string> colorsList = new List<string>()
@@ -57,7 +58,7 @@ namespace BggUwp.Data.Models
                 "#7f8c8d"  // grey
             };
 
-            return colorsList[new Random().Next(0, colorsList.Count)];
+            return colorsList[getrandom.Next(0, colorsList.Count)];
         }
     }
 }
