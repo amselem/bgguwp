@@ -131,8 +131,9 @@ namespace BggUwp.Data
             IEnumerable<HotDataItem> results;
             using (var db = DbConnection)
             {
-                results = db.Table<HotDataItem>().Where(item => item.BoardGameName.IndexOf(queryString, 0, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
+                results = db.Table<HotDataItem>().Where(item => item.BoardGameName.Contains(queryString)).ToList();
             }
+
             return results;
         }
 
@@ -141,7 +142,7 @@ namespace BggUwp.Data
             IEnumerable<CollectionDataItem> results;
             using (var db = DbConnection)
             {
-                results = db.Table<CollectionDataItem>().Where(item => item.BoardGameName.IndexOf(queryString, 0, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
+                results = db.Table<CollectionDataItem>().Where(item => item.BoardGameName.Contains(queryString)).ToList();
             }
             return results;
         }
