@@ -6,4 +6,5 @@ BggApi is API client project. BoardGameGeek XML API v2 is documented [here](http
 
 ### Links
 Windows Store link: https://www.microsoft.com/store/apps/9NBLGGH4NW7D
+
 App development blog at http://pawelrzepinski.azurewebsites.net/category/bgg-app/ in Polish.
