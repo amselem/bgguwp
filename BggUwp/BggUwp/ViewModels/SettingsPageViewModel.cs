@@ -77,7 +77,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        string _Password = "default";
+        string _Password = default(string);
         public string Password
         {
             get
@@ -87,6 +87,7 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _Password, value);
+                LoginCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -127,7 +128,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteLoginCommand()
         {
-            if (String.IsNullOrEmpty(Username))
+            if (String.IsNullOrEmpty(Username) || String.IsNullOrEmpty(Password))
                 return false;
 
             return true;

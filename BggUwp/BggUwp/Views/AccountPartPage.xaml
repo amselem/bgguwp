@@ -27,7 +27,6 @@
             <StackPanel>
                 <TextBox Header="Username" Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Enter your BGG username" Margin="0,5,0,5"/>
                 <PasswordBox Header="Password" PlaceholderText="Enter your BGG password" PasswordChanged="PasswordBox_PasswordChanged" KeyDown="PasswordBox_KeyDown" Margin="0,5,0,5"/>
-                <TextBlock Text="Hint: You can type only your username. If no password is provided, editing data features will be disabled." TextWrapping="Wrap" Foreground="{StaticResource BGGTextGrey}" Margin="0,5,0,5" FontSize="13.333"/>
                 <Button Content="Log in to BGG" Command="{Binding LoginCommand}" HorizontalAlignment="Right" Margin="0,5,0,5"/>
                 <TextBlock Foreground="{StaticResource BGGTextGrey}" FontSize="13.333" Margin="0,5,0,0">
 			        <Run Text="Don't have an account? "/><Hyperlink NavigateUri="https://www.boardgamegeek.com/register"><Run Text="Sign up here."/></Hyperlink>
