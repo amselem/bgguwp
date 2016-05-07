@@ -32,5 +32,13 @@ namespace BggUwp.Views
             if (this.DataContext != null)
             { ((dynamic)this.DataContext).Password = ((PasswordBox)sender).Password; }
         }
+
+        private void PasswordBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter && this.DataContext != null)
+            {
+                ((dynamic)this.DataContext).ExecuteLoginCommand();
+            }
+        }
     }
 }

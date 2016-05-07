@@ -104,7 +104,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private async void ExecuteLoginCommand()
+        public async void ExecuteLoginCommand()
         {
             if (!CanExecuteLoginCommand())
                 return;
