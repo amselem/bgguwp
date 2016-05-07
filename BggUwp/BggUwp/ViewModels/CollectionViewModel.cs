@@ -116,6 +116,14 @@ namespace BggUwp.ViewModels
             }
         }
 
+        public DelegateCommand ResetFiltersCommand => new DelegateCommand(() =>
+        {
+            CurrentStatusFilter = StatusFilters.First();
+            CurrentExpansionFilter = ExpansionFilters.First();
+            CurrentPlayerFilter.Amount = 0;
+            CurrentPlayTimeFilter.Amount = 0;
+        });
+
         #region Filtering methods
         private StatusFilter _CurrentStatusFilter { get; set; }
         public StatusFilter CurrentStatusFilter
