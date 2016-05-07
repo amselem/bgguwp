@@ -41,7 +41,13 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private async void LoadHotItemsList()
+        private void LoadHotItemsList()
+        {
+            LoadFromStorage();
+            LoadFromWeb();
+        }
+
+        private void LoadFromStorage()
         {
             HotItemsList.Clear();
 
@@ -50,7 +56,10 @@ namespace BggUwp.ViewModels
             {
                 HotItemsList.Add(item);
             }
+        }
 
+        private async void LoadFromWeb()
+        {
             await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
             {
                 ObservableCollection<HotDataItem> tmp = await DataService.Instance.LoadHotItemsList();
@@ -58,5 +67,6 @@ namespace BggUwp.ViewModels
                     HotItemsList = tmp;
             });
         }
+
     }
 }
