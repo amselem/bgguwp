@@ -41,7 +41,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private void LoadHotItemsList()
+        public void LoadHotItemsList()
         {
             LoadFromStorage();
             LoadFromWeb();

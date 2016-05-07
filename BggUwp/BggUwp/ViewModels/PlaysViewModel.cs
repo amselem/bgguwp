@@ -43,7 +43,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private async void LoadPlays()
+        public async void LoadPlays()
         {
             var apiPlays = await DataService.Instance.LoadPlays();
 

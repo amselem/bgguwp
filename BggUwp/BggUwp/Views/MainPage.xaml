@@ -20,6 +20,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="RefreshBarButton" Label="refresh" Click="RefreshBarButton_Click"/>
                 <AppBarButton x:Name="SettingsBarButton" Label="settings" Click="{x:Bind ViewModel.GoToSettingsPage}"/>
             </CommandBar.SecondaryCommands>
             <CommandBar.Content>

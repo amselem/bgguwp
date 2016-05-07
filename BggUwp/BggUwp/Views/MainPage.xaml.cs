@@ -46,11 +46,28 @@ namespace BggUwp.Views
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            // temporary hack
             var context = DataContext as MainPageViewModel;
             var s = sender as MenuFlyoutItem;
             context.CollectionVM.CurrentCollectionSorter = s.DataContext as BoardgameSorter;
             SortFlyout.Hide();
+        }
+
+        private void RefreshBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as MainPageViewModel;
+            switch (Menu.SelectedIndex)
+            {
+                case 0:
+                    context.HotItemsVM.LoadHotItemsList();
+                    break;
+
+                case 1:
+                    context.CollectionVM.LoadCollection();
+                    break;
+                case 2:
+                    context.PlaysVM.LoadPlays();
+                    break;
+            }
         }
     }
 }

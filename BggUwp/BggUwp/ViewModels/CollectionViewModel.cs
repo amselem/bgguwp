@@ -63,7 +63,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private void LoadCollection()
+        public void LoadCollection()
         {
             LoadFromStorage();
             LoadFromWeb();
