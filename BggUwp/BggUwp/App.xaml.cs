@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Popups;
 using GalaSoft.MvvmLight.Messaging;
 using BggUwp.Messaging;
+using Microsoft.HockeyApp;
 
 namespace BggUwp
 {
@@ -21,6 +22,8 @@ namespace BggUwp
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
+            HockeyClient.Current.Configure("b4b61359773644d4a404d23bda2a9adb");
+
             InitializeComponent();
             #if DEBUG
             this.UnhandledException += App_UnhandledException;
