@@ -23,17 +23,14 @@ namespace BggUwp.ViewModels
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
                 Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
                 LoadCollection();
+                CurrentPlayerFilter = SettingsService.Instance.SavedPlayerFilter;
+                CurrentPlayTimeFilter = SettingsService.Instance.SavedPlayTimeFilter;
             }
 
             Collection.CollectionChanged += Collection_CollectionChanged;
 
             CurrentPlayerFilter.PropertyChanged += AnyFilterChangedEvent;
             CurrentPlayTimeFilter.PropertyChanged += AnyFilterChangedEvent;
-        }
-
-        private void CurrentPlayerFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            RepopulateFilteredCollection();
         }
 
         public ObservableCollection<CollectionDataItem> _Collection = new ObservableCollection<CollectionDataItem>();
@@ -125,13 +122,41 @@ namespace BggUwp.ViewModels
         });
 
         #region Filtering methods
+
+        private ExpansionFilter _CurrentExpansionFilter { get; set; }
+        public ExpansionFilter CurrentExpansionFilter
+        {
+            get
+            {
+                if (_CurrentExpansionFilter == null)
+                {
+                    _CurrentExpansionFilter = ExpansionFilters[SettingsService.Instance.SavedExpansionFilter];
+                }
+
+                return _CurrentExpansionFilter;
+            }
+            set
+            {
+                if (_CurrentExpansionFilter != value)
+                {
+                    _CurrentExpansionFilter = value;
+                    SettingsService.Instance.SavedExpansionFilter = ExpansionFilters.IndexOf(value);
+                    RaisePropertyChanged("CurrentExpansionFilter");
+                    RepopulateFilteredCollection();
+                }
+            }
+        }
+
         private StatusFilter _CurrentStatusFilter { get; set; }
         public StatusFilter CurrentStatusFilter
         {
             get
             {
                 if (_CurrentStatusFilter == null)
-                    _CurrentStatusFilter = StatusFilters.First();
+                {
+                    _CurrentStatusFilter = StatusFilters[SettingsService.Instance.SavedStatusFilter];
+                }
+
                 return _CurrentStatusFilter;
             }
             set
@@ -139,6 +164,7 @@ namespace BggUwp.ViewModels
                 if (_CurrentStatusFilter != value)
                 {
                     _CurrentStatusFilter = value;
+                    SettingsService.Instance.SavedStatusFilter = StatusFilters.IndexOf(value);
                     RaisePropertyChanged("CurrentStatusFilter");
                     RepopulateFilteredCollection();
                 }
@@ -176,27 +202,6 @@ namespace BggUwp.ViewModels
                 {
                     _CurrentPlayTimeFilter = value;
                     RaisePropertyChanged("CurrentPlayTimeFilter");
-                    RepopulateFilteredCollection();
-                }
-            }
-        }
-
-        private ExpansionFilter _CurrentExpansionFilter { get; set; }
-        public ExpansionFilter CurrentExpansionFilter
-        {
-            get
-            {
-                if (_CurrentExpansionFilter == null)
-                    _CurrentExpansionFilter = ExpansionFilters.First();
-
-                return _CurrentExpansionFilter;
-            }
-            set
-            {
-                if (_CurrentExpansionFilter != value)
-                {
-                    _CurrentExpansionFilter = value;
-                    RaisePropertyChanged("CurrentExpansionFilter");
                     RepopulateFilteredCollection();
                 }
             }
@@ -246,6 +251,8 @@ namespace BggUwp.ViewModels
         private void AnyFilterChangedEvent(object sender, EventArgs e)
         {
             RepopulateFilteredCollection();
+            SettingsService.Instance.SavedPlayTimeFilter = CurrentPlayTimeFilter;
+            SettingsService.Instance.SavedPlayerFilter = CurrentPlayerFilter;
         }
 
         private void RepopulateFilteredCollection()
