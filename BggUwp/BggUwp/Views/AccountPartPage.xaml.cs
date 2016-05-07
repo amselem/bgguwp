@@ -35,7 +35,7 @@ namespace BggUwp.Views
 
         private void PasswordBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter && this.DataContext != null)
+            if (e.Key == Windows.System.VirtualKey.Enter && e.KeyStatus.RepeatCount == 0 && this.DataContext != null)
             {
                 ((dynamic)this.DataContext).ExecuteLoginCommand();
             }
