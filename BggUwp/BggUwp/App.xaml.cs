@@ -19,15 +19,16 @@ namespace BggUwp
     sealed partial class App : Template10.Common.BootStrapper
     {
         public App() {
+#if !DEBUG
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             HockeyClient.Current.Configure("b4b61359773644d4a404d23bda2a9adb");
-
+#endif
             InitializeComponent();
-            #if DEBUG
+#if DEBUG
             this.UnhandledException += App_UnhandledException;
-            #endif
+#endif
             Messenger.Default.Register<StatusMessage>(this, ShowStatusBar);
             Messenger.Default.Register<ProgressMessage>(this, ShowProgressBar);
 
