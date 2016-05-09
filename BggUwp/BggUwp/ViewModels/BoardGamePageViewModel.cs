@@ -239,7 +239,7 @@ namespace BggUwp.ViewModels
                     RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
                     RequestedRefreshType = RefreshDataMessage.RefreshType.Local
                 });
-                CurrentCollectionItem = null;
+                CurrentCollectionItem = new CollectionDataItem();
             }
             else
             {
