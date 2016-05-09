@@ -566,8 +566,6 @@ namespace BggApi
             }
             catch (Exception ex)
             {
-                //if (System.Diagnostics.Debugger.IsAttached)
-                //    throw new Exception("Failed to log user in.", ex.InnerException);
 
                 throw;
             }
