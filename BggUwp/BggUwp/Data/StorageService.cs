@@ -149,12 +149,12 @@ namespace BggUwp.Data
 
         public static CollectionDataItem LoadCollectionItem(int itemId)
         {
-            CollectionDataItem item = null;
+            CollectionDataItem item = new CollectionDataItem();
             using (var db = DbConnection)
             {
                 item = db.Find<CollectionDataItem>(a => a.BoardGameId == itemId);
             }
-            return item;
+            return item ?? new CollectionDataItem();
         }
 
         public static void SaveCollectionItem(CollectionDataItem collectionItem)

@@ -110,28 +110,18 @@ namespace BggUwp.ViewModels
             if (!CanExecuteLoginCommand())
                 return;
 
-            StorageService.SaveUserCredentials(Username, Password);
-            DataService.Instance.RetrieveCredentials();
-
-            try
+            if (!await DataService.Instance.LoginUser(Username, Password))
             {
-                Messenger.Default.Send(new ProgressMessage()
-                {
-                    State = ProgressMessage.ProgressState.Started,
-                    Message = "Logging in..."
-                });
-                await DataService.Instance.DownloadPlayersListFromWeb();
-            }
-            catch
-            {
-                Messenger.Default.Send(new StatusMessage()
-                {
-                    Status = StatusMessage.StatusType.Error,
-                    Message = "Login failed"
-                });
-
                 return;
             }
+
+            Messenger.Default.Send(new ProgressMessage()
+            {
+                State = ProgressMessage.ProgressState.Started,
+                Message = "Downloading user data..."
+            });
+
+            await DataService.Instance.DownloadPlayersListFromWeb();
 
             Messenger.Default.Send(new ProgressMessage()
             {

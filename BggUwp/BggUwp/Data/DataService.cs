@@ -32,7 +32,40 @@ namespace BggUwp.Data
             Instance.RetrieveCredentials();
         }
 
-        public async void RetrieveCredentials()
+        public async Task<bool> LoginUser(string username, string password)
+        {
+            try
+            {
+                await Client.LoginUser(username, password);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.StartsWith("Unauthorized"))
+                {
+                    Messenger.Default.Send(new StatusMessage()
+                    {
+                        Status = StatusMessage.StatusType.Error,
+                        Message = "Wrong username/password"
+                    });
+                }
+                else
+                {
+                    Messenger.Default.Send(new StatusMessage()
+                    {
+                        Status = StatusMessage.StatusType.Error,
+                        Message = "Login failed"
+                    });
+                }
+
+                return false;
+            }
+
+            StorageService.SaveUserCredentials(username, password);
+            RetrieveCredentials();
+            return true;
+        }
+
+        private async void RetrieveCredentials()
         {
             Windows.Security.Credentials.PasswordCredential credentials = StorageService.RetrieveUserCredentials();
             if (credentials != null)
@@ -210,7 +243,12 @@ namespace BggUwp.Data
 
         public async Task<CollectionDataItem> LoadCollectionItemFromWeb(int gameId)
         {
-            return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.BggUserId));
+            if (IsUserLoggedIn())
+            {
+                return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.BggUserId));
+            }
+
+            return new CollectionDataItem();
         }
 
         public async Task<string> GetRulesLink(int gameId)
@@ -220,7 +258,7 @@ namespace BggUwp.Data
 
         public async Task DownloadPlayersListFromWeb()
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 var apiPlayers = await Client.LoadPlayersList(BGGUsername, BGGPassword);
                 foreach (var apiPlayer in apiPlayers)
@@ -260,7 +298,7 @@ namespace BggUwp.Data
             return true;
         }
 
-        private bool CanEdit()
+        private bool IsUserLoggedIn()
         {
             if (IsThereInternetAccess() == false)
             {
@@ -272,12 +310,12 @@ namespace BggUwp.Data
                 return false;
             }
 
-            if (String.IsNullOrEmpty(BGGPassword) || String.IsNullOrEmpty(BGGUsername) || BGGPassword == "default")
+            if (String.IsNullOrEmpty(BGGPassword) || String.IsNullOrEmpty(BGGUsername))
             {
                 Messenger.Default.Send(new StatusMessage()
                 {
                     Status = StatusMessage.StatusType.Error,
-                    Message = "You're not logged in with password"
+                    Message = "You're not logged in"
                 });
                 return false;
             }
@@ -315,7 +353,7 @@ namespace BggUwp.Data
 
         internal async Task<bool> AddToCollection(int boardGameId)
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 return await Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
             }
@@ -325,7 +363,7 @@ namespace BggUwp.Data
 
         internal async Task<bool> EditCollectionItem(CollectionDataItem collectionItem)
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 // TODO Create Converter
                 CollectionItem item = new CollectionItem()
@@ -349,7 +387,7 @@ namespace BggUwp.Data
 
         internal async Task<bool> RemoveCollectionItem(int collectionItemId)
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 return await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
             }
@@ -374,7 +412,7 @@ namespace BggUwp.Data
                 play.Players.Add((PlayerStats)player);
             }
 
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                  return await Client.LogPlay(BGGUsername, BGGPassword, play);
             }
