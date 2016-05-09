@@ -210,7 +210,7 @@ namespace BggUwp.Data
 
         public async Task<CollectionDataItem> LoadCollectionItemFromWeb(int gameId)
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.BggUserId));
             }
@@ -225,7 +225,7 @@ namespace BggUwp.Data
 
         public async Task DownloadPlayersListFromWeb()
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 var apiPlayers = await Client.LoadPlayersList(BGGUsername, BGGPassword);
                 foreach (var apiPlayer in apiPlayers)
@@ -265,7 +265,7 @@ namespace BggUwp.Data
             return true;
         }
 
-        private bool CanEdit()
+        private bool IsUserLoggedIn()
         {
             if (IsThereInternetAccess() == false)
             {
@@ -320,7 +320,7 @@ namespace BggUwp.Data
 
         internal async Task<bool> AddToCollection(int boardGameId)
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 return await Client.AddToCollection(BGGUsername, BGGPassword, boardGameId);
             }
@@ -330,7 +330,7 @@ namespace BggUwp.Data
 
         internal async Task<bool> EditCollectionItem(CollectionDataItem collectionItem)
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 // TODO Create Converter
                 CollectionItem item = new CollectionItem()
@@ -354,7 +354,7 @@ namespace BggUwp.Data
 
         internal async Task<bool> RemoveCollectionItem(int collectionItemId)
         {
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                 return await Client.RemoveFromCollection(BGGUsername, BGGPassword, collectionItemId);
             }
@@ -379,7 +379,7 @@ namespace BggUwp.Data
                 play.Players.Add((PlayerStats)player);
             }
 
-            if (CanEdit())
+            if (IsUserLoggedIn())
             {
                  return await Client.LogPlay(BGGUsername, BGGPassword, play);
             }
