@@ -210,7 +210,12 @@ namespace BggUwp.Data
 
         public async Task<CollectionDataItem> LoadCollectionItemFromWeb(int gameId)
         {
-            return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.BggUserId));
+            if (CanEdit())
+            {
+                return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.BggUserId));
+            }
+
+            return new CollectionDataItem();
         }
 
         public async Task<string> GetRulesLink(int gameId)
@@ -272,12 +277,12 @@ namespace BggUwp.Data
                 return false;
             }
 
-            if (String.IsNullOrEmpty(BGGPassword) || String.IsNullOrEmpty(BGGUsername) || BGGPassword == "default")
+            if (String.IsNullOrEmpty(BGGPassword) || String.IsNullOrEmpty(BGGUsername))
             {
                 Messenger.Default.Send(new StatusMessage()
                 {
                     Status = StatusMessage.StatusType.Error,
-                    Message = "You're not logged in with password"
+                    Message = "You're not logged in"
                 });
                 return false;
             }

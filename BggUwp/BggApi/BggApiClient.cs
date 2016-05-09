@@ -357,7 +357,25 @@ namespace BggApi
 
             string data = await ReadJsonData(fullCollIdUrl);
             CollectionItemInNewApi collectionItemData = JsonConvert.DeserializeObject<CollectionItemInNewApi>(data);
-            int collId = int.Parse(collectionItemData.items.FirstOrDefault().collid);
+            int collId = 0;
+
+            if (collectionItemData.items.Count > 0)
+            {
+                try
+                {
+                    collId = int.Parse(collectionItemData.items.FirstOrDefault().collid);
+                }
+                catch (Exception ex)
+                {
+                    if (System.Diagnostics.Debugger.IsAttached)
+                        throw new Exception("There is no such collection item.", ex.InnerException);
+                }
+            }
+            else
+            {
+                return new CollectionItem();
+            }
+
             // https://www.boardgamegeek.com/xmlapi2/collection?username=webkoala&collid=6918162
 
             string baseCollItemUrl = "https://www.boardgamegeek.com/xmlapi2/collection"; // TODO Set language filter

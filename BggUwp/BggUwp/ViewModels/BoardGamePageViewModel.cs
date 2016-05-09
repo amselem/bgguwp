@@ -44,7 +44,7 @@ namespace BggUwp.ViewModels
             }
         }
 
-        private CollectionDataItem _CurrentCollectionItem;
+        private CollectionDataItem _CurrentCollectionItem = new CollectionDataItem();
         public CollectionDataItem CurrentCollectionItem
         {
             get
@@ -60,7 +60,7 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _CurrentCollectionItem, value);
-                if (value != null)
+                if (CurrentCollectionItem.CollectionItemId > 0)
                 {
                     IsInCollection = true;
                 }
