@@ -553,8 +553,28 @@ namespace BggApi
             return content;
         }
 
+        public async Task LoginUser(string username, string password)
+        {
+            Uri playersListUri = new Uri("http://www.boardgamegeek.com/geekplay.php?action=searchplayersandusers&ajax=1&showcount=1");
+
+            await GetLoginCookies(username, password);
+            try
+            {
+                string content = null;
+                HttpClient httpClient = new HttpClient();
+                content = await httpClient.GetStringAsync(playersListUri);
+            }
+            catch (Exception ex)
+            {
+                //if (System.Diagnostics.Debugger.IsAttached)
+                //    throw new Exception("Failed to log user in.", ex.InnerException);
+
+                throw;
+            }
+        }
+
         #region Editing data
-        private async Task<bool> GetLoginCookies(string username, string password)
+        public async Task<bool> GetLoginCookies(string username, string password)
         {
             string request = string.Format("lasturl=&username={0}&password={1}", username, password);
             HttpClient httpClient = new HttpClient();

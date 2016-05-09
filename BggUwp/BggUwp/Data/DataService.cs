@@ -32,7 +32,40 @@ namespace BggUwp.Data
             Instance.RetrieveCredentials();
         }
 
-        public async void RetrieveCredentials()
+        public async Task<bool> LoginUser(string username, string password)
+        {
+            try
+            {
+                await Client.LoginUser(username, password);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.StartsWith("Unauthorized"))
+                {
+                    Messenger.Default.Send(new StatusMessage()
+                    {
+                        Status = StatusMessage.StatusType.Error,
+                        Message = "Wrong username/password"
+                    });
+                }
+                else
+                {
+                    Messenger.Default.Send(new StatusMessage()
+                    {
+                        Status = StatusMessage.StatusType.Error,
+                        Message = "Login failed"
+                    });
+                }
+
+                return false;
+            }
+
+            StorageService.SaveUserCredentials(username, password);
+            RetrieveCredentials();
+            return true;
+        }
+
+        private async void RetrieveCredentials()
         {
             Windows.Security.Credentials.PasswordCredential credentials = StorageService.RetrieveUserCredentials();
             if (credentials != null)
