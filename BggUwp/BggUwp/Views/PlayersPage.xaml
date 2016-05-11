@@ -10,10 +10,10 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Label="Add player" Icon="AddFriend" Click="AddPlayer_Click" x:Name="AddPlayerAppBarButton" />
-            <AppBarButton Label="Select" Icon="List" Click="SelectPlayers" x:Name="SelectAppBarButton"/>
-            <AppBarButton Label="Delete" Icon="Delete" Click="RemovePlayer" x:Name="RemovePlayerAppBarButton" />
-            <AppBarButton Label="Cancel" Icon="Cancel" Click="CancelSelection" x:Name="CancelSelectionAppBarButton"/>
+            <AppBarButton Label="add player" Icon="AddFriend" Click="AddPlayer_Click" x:Name="AddPlayerAppBarButton" />
+            <AppBarButton Label="select" Icon="List" Click="SelectPlayers" x:Name="SelectAppBarButton"/>
+            <AppBarButton Label="delete" Icon="Delete" Click="RemovePlayer" x:Name="RemovePlayerAppBarButton" />
+            <AppBarButton Label="cancel" Icon="Cancel" Click="CancelSelection" x:Name="CancelSelectionAppBarButton"/>
         </CommandBar>
     </Page.BottomAppBar>
 

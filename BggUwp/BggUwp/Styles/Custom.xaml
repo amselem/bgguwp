@@ -141,20 +141,15 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="number of plays" FontSize="10.667"/>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="number of plays" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}"/>
                             <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding NumberOfPlays}" FontSize="10.667" FontWeight="Bold"/>
                         </Grid>
                     </Border>
                 </Grid>
                 <Grid Grid.Row="2">
-                    <Border  Background="{StaticResource LightBackground}" BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
-                        <Grid >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="last played" FontSize="10.667" />
-                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding PlayDate, ConverterParameter=\{0:d\}, Converter={StaticResource StringFormatConverter}, Mode=OneWay}" FontSize="10.667" FontWeight="Bold"/>
+                    <Border  BorderBrush="{StaticResource LightBackgroundBorder}" BorderThickness="0,1">
+                        <Grid>
+                            <TextBlock Text="{Binding PlayersDisplay}" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}" TextWrapping="Wrap"/>
                         </Grid>
                     </Border>
                 </Grid>

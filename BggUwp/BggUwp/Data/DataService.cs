@@ -22,7 +22,7 @@ namespace BggUwp.Data
         private SettingsService settingsService = SettingsService.Instance;
         private string BGGUsername { get; set; }
         private string BGGPassword { get; set; }
-        private UserDataItem BGGUser { get; set; }
+        public UserDataItem BGGUser { get; set; }
 
         public static readonly DataService Instance;
 

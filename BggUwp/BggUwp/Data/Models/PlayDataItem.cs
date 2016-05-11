@@ -23,9 +23,30 @@ namespace BggUwp.Data.Models
             PlayDate = apiPlay.PlayDate;
 
             Players = new ObservableCollection<PlayerStatsDataItem>();
+            PlayersDisplay = String.Empty;
+            List<string> playersLabels = new List<string>();
             foreach (var player in apiPlay.Players)
             {
                 Players.Add(new PlayerStatsDataItem(player));
+
+                // TODO remove user label
+                if (!String.IsNullOrEmpty(player.Username))
+                {
+                    playersLabels.Add(player.Username);
+                }
+                else
+                {
+                    playersLabels.Add(player.Name);
+                }
+            }
+
+            if (Players.Count == 0)
+            {
+                PlayersDisplay = "no players";
+            }
+            else
+            {
+                PlayersDisplay = string.Join(", ", playersLabels);
             }
         }
 
@@ -46,5 +67,6 @@ namespace BggUwp.Data.Models
             }
         }
         public ObservableCollection<PlayerStatsDataItem> Players { get; set; }
+        public string PlayersDisplay { get; set; }
     }
 }

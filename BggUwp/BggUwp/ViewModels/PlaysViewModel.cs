@@ -22,19 +22,16 @@ namespace BggUwp.ViewModels
             {
                 dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
                 Messenger.Default.Register<RefreshDataMessage>(this, RefreshData);
-                LoadPlays();
             }
+            LoadPlays();
         }
 
-        private ObservableCollection<PlayDataItem> _PlaysList = new ObservableCollection<PlayDataItem>();
-        public ObservableCollection<PlayDataItem> PlaysList
+        private ObservableCollection<GroupInfoList> _PlaysList = new ObservableCollection<GroupInfoList>();
+        public ObservableCollection<GroupInfoList> PlaysList
         {
             get
             {
-                if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-                {
-                    return DesignDataService.LoadPlays();
-                }
+
                 return _PlaysList;
             }
             set
@@ -45,12 +42,40 @@ namespace BggUwp.ViewModels
 
         public async void LoadPlays()
         {
-            var apiPlays = await DataService.Instance.LoadPlays();
-
-            foreach (var item in apiPlays)
+            var plays = new ObservableCollection<PlayDataItem>();
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                PlaysList.Add(new PlayDataItem(item));
+                plays = DesignDataService.LoadPlays();
             }
+            else
+            {
+                var apiPlays = await DataService.Instance.LoadPlays();
+
+                foreach (var item in apiPlays)
+                {
+                    plays.Add(new PlayDataItem(item));
+                }
+            }
+
+            ObservableCollection<GroupInfoList> groups = new ObservableCollection<GroupInfoList>();
+
+            var query = from item in plays
+                        group item by item.PlayDate into grp
+                        orderby grp.Key descending
+                        select new { GroupName = grp.Key, Items = grp };
+
+            foreach (var grp in query)
+            {
+                GroupInfoList info = new GroupInfoList();
+                info.Key = grp.GroupName;
+                foreach (var item in grp.Items)
+                {
+                    info.Add(item);
+                }
+                groups.Add(info);
+            }
+
+            PlaysList = groups;
         }
 
         private void RefreshData(RefreshDataMessage msg)
