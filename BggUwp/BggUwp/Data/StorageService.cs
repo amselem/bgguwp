@@ -108,6 +108,7 @@ namespace BggUwp.Data
 
         public static void SaveAllCollectionItems(IEnumerable<CollectionDataItem> items)
         {
+            items = items.Distinct();
             int retries = 0;
             while (retries < 15)
             {
@@ -120,7 +121,10 @@ namespace BggUwp.Data
                     }
                     break;
                 }
-                catch (Exception) { }
+                catch (Exception ex)
+                {
+
+                }
                 Task.Delay(110).Wait();
                 retries++;
             }

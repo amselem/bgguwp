@@ -1,10 +1,11 @@
 ﻿using BggUwp.Data.Models.Abstract;
 using BggApi.Models;
 using SQLite.Net.Attributes;
+using System;
 
 namespace BggUwp.Data.Models
 {
-    public class CollectionDataItem : BoardGameItem
+    public class CollectionDataItem : BoardGameItem, IEquatable<CollectionDataItem>
     {
         public CollectionDataItem() { }
         public CollectionDataItem(CollectionItem apiItem)
@@ -259,6 +260,12 @@ namespace BggUwp.Data.Models
             {
                 Set(ref _UserComment, value);
             }
+        }
+
+        public bool Equals(CollectionDataItem other)
+        {
+            if (other == null) return false;
+            return (this.BoardGameId.Equals(other.BoardGameId));
         }
     }
 }

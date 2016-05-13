@@ -22,6 +22,11 @@ namespace BggUwp.ViewModels
             EditableCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
         }
 
+        public EditDialogViewModel(CollectionDataItem item)
+        {
+            EditableCollectionItem = item;
+        }
+
         private CollectionDataItem _EditableCollectionItem;
         public CollectionDataItem EditableCollectionItem
         {

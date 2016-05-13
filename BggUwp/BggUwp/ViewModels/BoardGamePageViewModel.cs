@@ -151,13 +151,14 @@ namespace BggUwp.ViewModels
 
         private async void LoadData(int gameId)
         {
-            EditDialogVM = new EditDialogViewModel(gameId);
             LogPlayDialogVM = new LogPlayViewModel(gameId);
+            EditDialogVM = new EditDialogViewModel(gameId);
             CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
             // in case of desynchronized local data
             CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(gameId);
+            EditDialogVM = new EditDialogViewModel(CurrentCollectionItem);
         }
 
         private void RefreshData(RefreshDataMessage msg)
