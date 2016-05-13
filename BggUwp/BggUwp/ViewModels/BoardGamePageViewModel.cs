@@ -169,6 +169,15 @@ namespace BggUwp.ViewModels
             }
         }
 
+        public DelegateCommand GoToBggCommand => new DelegateCommand(async () =>
+        {
+            if (CurrentBoardGame != null)
+            {
+                Uri Url = new Uri(CurrentBoardGame.VisitURL);
+                var result = await Windows.System.Launcher.LaunchUriAsync(Url);
+            }
+        });
+
         private DelegateCommand _AddCommand;
         public DelegateCommand AddCommand
         {
