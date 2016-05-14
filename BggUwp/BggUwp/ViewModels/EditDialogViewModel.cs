@@ -20,11 +20,13 @@ namespace BggUwp.ViewModels
         public EditDialogViewModel(int gameId)
         {
             EditableCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
+            OriginalCollectionItem = new CollectionDataItem(EditableCollectionItem);
         }
 
         public EditDialogViewModel(CollectionDataItem item)
         {
-            EditableCollectionItem = item;
+            OriginalCollectionItem = new CollectionDataItem(item);
+            EditableCollectionItem = new CollectionDataItem(item);
         }
 
         private CollectionDataItem _EditableCollectionItem;
@@ -37,6 +39,19 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _EditableCollectionItem, value);
+            }
+        }
+
+        private CollectionDataItem _OriginalCollectionItem;
+        public CollectionDataItem OriginalCollectionItem
+        {
+            get
+            {
+                return _OriginalCollectionItem;
+            }
+            set
+            {
+                Set(ref _OriginalCollectionItem, value);
             }
         }
 
