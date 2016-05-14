@@ -76,11 +76,23 @@ namespace BggUwp.Common.Converters
             if (!double.TryParse(value.ToString(), out val))
                 return null;
 
+            double hue = 0.375 * val * val + 5.94166303 * val + 4.383353333, saturation = 42, luminance = 60;
+            Double.TryParse(parameter.ToString(), out luminance);
+
+            if (val == 0)
+            {
+                if (luminance == 36)
+                {
+                    return Windows.UI.Xaml.Application.Current.Resources["DarkerGreyBorder"];
+                }
+                else if (luminance == 90)
+                {
+                    return Windows.UI.Xaml.Application.Current.Resources["BGGGrey"];
+                }
+            }
+
             if (val < 1 || val > 10)
                 return null;
-
-            double hue = 0.375*val*val + 5.94166303*val + 4.383353333, saturation = 42, luminance = 60;
-            Double.TryParse(parameter.ToString(), out luminance);
 
             Color gradeColor = ColorScale.ColorFromHSL(hue, saturation, luminance); // hue(0-360), saturation(0-100), luminosity(0-100)
             return new SolidColorBrush(gradeColor);

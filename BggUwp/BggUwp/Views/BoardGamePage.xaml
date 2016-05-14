@@ -18,6 +18,7 @@
         <cnv:ListToStringConverter x:Name="ListToStringConverter" />
         <cnv:IntToGridStarNotationConverter x:Name="IntToGridStarNotationConverter" />
         <cnv:RatingColorConverter x:Name="RatingColorConverter" />
+        <cnv:NullValueConverter NullString="N/A" x:Name="NullValueConverter" />
         <DataTemplate x:Key="PlayerPollTemplate">
             <Grid Height="12" Margin="0,3">
                 <Grid.ColumnDefinitions>
@@ -141,14 +142,7 @@
 									<LineBreak/>
 									<Run Text="rating"/>
                                 </TextBlock>
-                                <TextBlock x:Name="UserRatingValue" Grid.Row="1" Text="{Binding CurrentCollectionItem.UserRating, FallbackValue=N/A}" FontSize="26.667" Foreground="{Binding CurrentCollectionItem.UserRating, ConverterParameter=30, Converter={StaticResource RatingColorConverter}}" FontWeight="Bold"/>
-                                <Interactivity:Interaction.Behaviors>
-                                    <Core:DataTriggerBehavior Binding="{Binding CurrentCollectionItem.UserRating}" Value="0">
-                                        <Core:ChangePropertyAction TargetObject="{Binding ElementName=UserRatingBorder}" PropertyName="BorderBrush" Value="{StaticResource DarkerGreyBorder}"/>
-                                        <Core:ChangePropertyAction TargetObject="{Binding ElementName=UserRatingGrid}" PropertyName="Background" Value="{StaticResource BGGGrey}"/>
-                                        <Core:ChangePropertyAction TargetObject="{Binding ElementName=UserRatingValue}" PropertyName="Text" Value="N/A"/>
-                                    </Core:DataTriggerBehavior>
-                                </Interactivity:Interaction.Behaviors>
+                                <TextBlock x:Name="UserRatingValue" Grid.Row="1" Text="{Binding CurrentCollectionItem.UserRating, Converter={StaticResource NullValueConverter}}" FontSize="26.667" Foreground="{Binding CurrentCollectionItem.UserRating, ConverterParameter=30, Converter={StaticResource RatingColorConverter}}" FontWeight="Bold"/>
                             </Grid>
                         </Border>
                     </Grid>
