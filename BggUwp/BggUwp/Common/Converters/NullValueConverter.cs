@@ -11,16 +11,15 @@ namespace BggUwp.Common.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value == null)
+            if (String.IsNullOrEmpty(value.ToString()))
                 return NullString;
-
-            if (value.ToString().Length > 0)
-                return value.ToString();
 
             double number = 0;
-            Double.TryParse(value.ToString(), out number);
-            if (number == 0)
-                return NullString;
+            if (Double.TryParse(value.ToString(), out number))
+            {
+                if (number == 0)
+                    return NullString;
+            }
 
             return value;
         }
