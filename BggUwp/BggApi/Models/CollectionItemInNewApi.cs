@@ -115,7 +115,7 @@ namespace BggApi.Models
         public object invlocation { get; set; }
         [JsonIgnore]
         public Textfield textfield { get; set; }
-        public int rating { get; set; }
+        public decimal rating { get; set; }
         public string rating_tstamp { get; set; }
         public string tstamp { get; set; }
         public string postdate { get; set; }
