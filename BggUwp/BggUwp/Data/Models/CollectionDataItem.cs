@@ -67,7 +67,7 @@ namespace BggUwp.Data.Models
         }
 
         private int _CollectionItemId = 0;
-        [Indexed]
+        [PrimaryKey]
         public int CollectionItemId
         {
             get

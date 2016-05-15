@@ -41,9 +41,14 @@ namespace BggUwp.Data
             try
             {
                 var store = await ApplicationData.Current.LocalFolder.GetFileAsync(fileName);
+                if (SettingsService.Instance.DBVersion < 2)
+                {
+                    await store.DeleteAsync();
+                    return false;
+                }
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 return false;
             }
@@ -53,6 +58,7 @@ namespace BggUwp.Data
             if (!CheckFileExists(DbName).Result)
             {
                 CreateDatabase();
+                SettingsService.Instance.DBVersion = 2;
             }
         }
 
@@ -108,7 +114,6 @@ namespace BggUwp.Data
 
         public static void SaveAllCollectionItems(IEnumerable<CollectionDataItem> items)
         {
-            items = items.Distinct();
             int retries = 0;
             while (retries < 15)
             {

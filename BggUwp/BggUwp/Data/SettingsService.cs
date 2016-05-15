@@ -44,5 +44,11 @@ namespace BggUwp.Data
             get { return _helper.Read(nameof(SavedPlayTimeFilter), new PlayTimeFilter()); }
             set { _helper.Write(nameof(SavedPlayTimeFilter), value); }
         }
+
+        public int DBVersion
+        {
+            get { return _helper.Read(nameof(DBVersion), 1); }
+            set { _helper.Write(nameof(DBVersion), value); }
+        }
     }
 }

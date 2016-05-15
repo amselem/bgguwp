@@ -19,7 +19,7 @@ namespace BggUwp.Data.Models.Abstract
         }
 
         private int _BoardGameId = 0;
-        [PrimaryKey]
+        [Indexed]
         public int BoardGameId
         {
             get
