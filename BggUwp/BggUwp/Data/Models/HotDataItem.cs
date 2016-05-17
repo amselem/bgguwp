@@ -19,7 +19,7 @@ namespace BggUwp.Data.Models
 
         private int _BoardGameId = 0;
         [PrimaryKey]
-        public new int BoardGameId
+        public override int BoardGameId
         {
             get
             {
