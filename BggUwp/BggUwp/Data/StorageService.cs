@@ -41,9 +41,13 @@ namespace BggUwp.Data
             try
             {
                 var store = await ApplicationData.Current.LocalFolder.GetFileAsync(fileName);
-                if (SettingsService.Instance.DBVersion < 2)
+                if (SettingsService.Instance.DBVersion < 3)
                 {
-                    await store.DeleteAsync();
+                    using (var db = DbConnection)
+                    {
+                        db.DropTable<CollectionDataItem>();
+                    }
+                    SettingsService.Instance.DBVersion = 3;
                     return false;
                 }
                 return true;
@@ -58,7 +62,6 @@ namespace BggUwp.Data
             if (!CheckFileExists(DbName).Result)
             {
                 CreateDatabase();
-                SettingsService.Instance.DBVersion = 2;
             }
         }
 
