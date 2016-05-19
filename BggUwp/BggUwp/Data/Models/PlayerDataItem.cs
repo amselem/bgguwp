@@ -11,7 +11,11 @@ namespace BggUwp.Data.Models
 {
     public class PlayerDataItem : BindableBase
     {
-        public PlayerDataItem() { }
+        public PlayerDataItem()
+        {
+            ProfileColor = GetRandomHexColor();
+        }
+
         public PlayerDataItem(Player apiPlayer)
         {
             Username = apiPlayer.Username;
