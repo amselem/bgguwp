@@ -201,6 +201,7 @@ namespace BggUwp.ViewModels
             {
                 CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(CurrentBoardGame.BoardGameId);
                 StorageService.SaveCollectionItem(CurrentCollectionItem);
+                EditDialogVM = new EditDialogViewModel(CurrentCollectionItem);
                 Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
                 {
                     RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
