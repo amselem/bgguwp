@@ -22,6 +22,7 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>93DFBE6D628ED04B1AD3D79685CB94801D6AE9F1</PackageCertificateThumbprint>
+    <HockeyAppResourceId>b4b61359773644d4a404d23bda2a9adb</HockeyAppResourceId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -314,7 +315,7 @@
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
-    <SDKReference Include="SQLite.UWP.2015, Version=3.12.2">
+    <SDKReference Include="SQLite.UWP.2015, Version=3.13.0">
       <Name>SQLite for Universal Windows Platform</Name>
     </SDKReference>
     <SDKReference Include="WindowsMobile, Version=10.0.10586.0">

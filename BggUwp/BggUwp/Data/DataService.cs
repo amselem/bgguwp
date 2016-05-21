@@ -236,16 +236,26 @@ namespace BggUwp.Data
             return new BoardGameDataItem(apiBoardGame);
         }
 
-        public CollectionDataItem LoadCollectionItemFromStorage(int gameId)
+        public CollectionDataItem LoadCollectionItemFromStorage(int collectionItemId)
         {
-            return StorageService.LoadCollectionItem(gameId);
+            return StorageService.LoadCollectionItem(collectionItemId);
         }
 
         public async Task<CollectionDataItem> LoadCollectionItemFromWeb(int gameId)
         {
             if (IsUserLoggedIn())
             {
-                return new CollectionDataItem(await Client.LoadCollectionItem(gameId, BGGUsername, BGGUser.BggUserId));
+                return new CollectionDataItem(await Client.LoadCollectionItem(BGGUsername, BGGUser.BggUserId, gameId, 0));
+            }
+
+            return new CollectionDataItem();
+        }
+
+        public async Task<CollectionDataItem> LoadCollectionItemFromWeb(int gameId, int collectionItemId)
+        {
+            if (IsUserLoggedIn())
+            {
+                return new CollectionDataItem(await Client.LoadCollectionItem(BGGUsername, BGGUser.BggUserId, gameId, collectionItemId));
             }
 
             return new CollectionDataItem();

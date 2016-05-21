@@ -134,7 +134,7 @@ namespace BggUwp.ViewModels
         }
 
         public void GoToBoardGamePage(object sender, ItemClickEventArgs e) =>
-            NavigationService.Navigate(typeof(Views.BoardGamePage), ((SearchResultDataItem)e.ClickedItem).Id);
+    NavigationService.Navigate(typeof(Views.BoardGamePage), new Tuple<int, int>(((SearchResultDataItem)e.ClickedItem).Id, 0));
     }
 
 }

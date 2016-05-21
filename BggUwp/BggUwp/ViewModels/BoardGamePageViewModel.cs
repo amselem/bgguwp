@@ -132,10 +132,10 @@ namespace BggUwp.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
-            int gameId = (int)parameter;
+            Tuple<int, int> parameters = (Tuple<int, int>)parameter;
             if (DataService.Instance.IsThereInternetAccess())
             {
-                LoadData(gameId);
+                LoadData(parameters.Item1, parameters.Item2);
             }
             else
             {
@@ -149,15 +149,19 @@ namespace BggUwp.ViewModels
             await Task.CompletedTask;
         }
 
-        private async void LoadData(int gameId)
+        private async void LoadData(int gameId, int collectionId)
         {
             LogPlayDialogVM = new LogPlayViewModel(gameId);
             EditDialogVM = new EditDialogViewModel(gameId);
-            CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
+            CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(collectionId);
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
+            if (!String.IsNullOrEmpty(CurrentCollectionItem.BoardGameName))
+            {
+                CurrentBoardGame.BoardGameName = CurrentCollectionItem.BoardGameName;
+            }
             // in case of desynchronized local data
-            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(gameId);
+            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(gameId, collectionId);
             EditDialogVM = new EditDialogViewModel(CurrentCollectionItem);
         }
 

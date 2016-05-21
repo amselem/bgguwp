@@ -350,7 +350,7 @@ namespace BggApi
             }
         }
 
-        public async Task<CollectionItem> LoadCollectionItem(int boardGameId, string username, int userId)
+        public async Task<CollectionItem> LoadCollectionItem(string username, int userId, int boardGameId, int collectionItemId)
         {
             // https://boardgamegeek.com/api/collections?objectid=187645&objecttype=thing&userid=1221304
             string baseCollIdUrl = "https://boardgamegeek.com/api/collections"; // TODO Set language filter
@@ -364,7 +364,14 @@ namespace BggApi
             {
                 try
                 {
-                    collId = int.Parse(collectionItemData.items.FirstOrDefault().collid);
+                    if (collectionItemId == 0)
+                    {
+                        collId = int.Parse(collectionItemData.items.FirstOrDefault().collid);
+                    }
+                    else
+                    {
+                        collId = collectionItemId;
+                    }
                 }
                 catch (Exception ex)
                 {
