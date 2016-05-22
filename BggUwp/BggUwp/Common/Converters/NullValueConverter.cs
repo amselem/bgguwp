@@ -29,9 +29,16 @@ namespace BggUwp.Common.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
+            if (value == null)
+                return NullValue;
+
+            if (String.IsNullOrEmpty(value.ToString()))
+                return NullValue;
+
             return System.Convert.ChangeType(value, targetType);
         }
 
         public string NullString { get; set; }
+        public int NullValue { get; set; }
     }
 }
