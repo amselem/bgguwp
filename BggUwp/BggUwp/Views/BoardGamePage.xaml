@@ -43,14 +43,14 @@
         <CommandBar>
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="RemoveAppBarButton" Icon="Remove" Label="remove from collection" Command="{Binding RemoveCommand}"/>
+                <AppBarButton x:Name="ViewOnBggAppBarButton" Icon="World" Label="view on BGG" Command="{Binding GoToBggCommand}"/>
             </CommandBar.SecondaryCommands>
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <AppBarButton x:Name="ViewOnBggAppBarButton" Icon="World" Label="view on BGG" Command="{Binding GoToBggCommand}"/>
-            <AppBarButton x:Name="LogPlayAppBarButton" Icon="AddFriend" Label="log play" Click="LogPlay_Click"/>
             <AppBarButton x:Name="AddAppBarButton" Icon="Add" Label="add" Command="{Binding AddCommand}" Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Mode=Self}}"/>
             <AppBarButton x:Name="EditAppBarButton" Icon="Edit" Label="edit" Click="Edit_Click" Visibility="{Binding IsInCollection, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <AppBarButton x:Name="LogPlayAppBarButton" Icon="AddFriend" Label="log play" Click="LogPlay_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
     <ScrollViewer>

@@ -16,7 +16,7 @@ namespace BggUwp.ViewModels
     public class BoardGamePageViewModel : ViewModelBase
     {
         Windows.UI.Core.CoreDispatcher dispatcher;
-
+        
         public BoardGamePageViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
@@ -81,6 +81,20 @@ namespace BggUwp.ViewModels
             set
             {
                 Set(ref _IsInCollection, value);
+                OnStatusChanged();
+            }
+        }
+
+        private bool _IsFullyLoaded = false;
+        public bool IsFullyLoaded
+        {
+            get
+            {
+                return _IsFullyLoaded;
+            }
+            set
+            {
+                Set(ref _IsFullyLoaded, value);
                 OnStatusChanged();
             }
         }
@@ -165,6 +179,7 @@ namespace BggUwp.ViewModels
                 CurrentBoardGame.ImageWebLink = CurrentCollectionItem.ImageWebLink;
             }
             EditDialogVM = new EditDialogViewModel(CurrentCollectionItem);
+            IsFullyLoaded = true;
         }
 
         private void RefreshData(RefreshDataMessage msg)
@@ -226,7 +241,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteAddCommand()
         {
-            return !IsInCollection;
+            return !IsInCollection && IsFullyLoaded;
         }
 
         private DelegateCommand _RemoveCommand;
@@ -270,7 +285,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteRemoveCommand()
         {
-            return IsInCollection;
+            return IsInCollection && IsFullyLoaded;
         }
     }
 }
