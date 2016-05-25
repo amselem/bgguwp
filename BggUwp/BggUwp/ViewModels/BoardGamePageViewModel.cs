@@ -156,12 +156,14 @@ namespace BggUwp.ViewModels
             CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(collectionId);
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
+
+            // in case of desynchronized local data
+            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(gameId, collectionId);
             if (!String.IsNullOrEmpty(CurrentCollectionItem.BoardGameName))
             {
                 CurrentBoardGame.BoardGameName = CurrentCollectionItem.BoardGameName;
+                CurrentBoardGame.ImageWebLink = CurrentCollectionItem.ImageWebLink;
             }
-            // in case of desynchronized local data
-            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(gameId, collectionId);
             EditDialogVM = new EditDialogViewModel(CurrentCollectionItem);
         }
 

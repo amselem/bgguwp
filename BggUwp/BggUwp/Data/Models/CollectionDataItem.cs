@@ -14,6 +14,7 @@ namespace BggUwp.Data.Models
             YearPublished = apiItem.YearPublished;
             BoardGameId = apiItem.BoardGameId;
             ThumbnailPath = apiItem.BoardGameId.ToString() + "_th.jpg";
+            ImageWebLink = apiItem.ImageWeb;
             MinPlayers = apiItem.MinPlayers;
             MaxPlayers = apiItem.MaxPlayers;
             PlayingTime = apiItem.PlayingTime;
@@ -77,6 +78,19 @@ namespace BggUwp.Data.Models
             set
             {
                 Set(ref _CollectionItemId, value);
+            }
+        }
+
+        private string _ImageWebLink = string.Empty;
+        public string ImageWebLink
+        {
+            get
+            {
+                return _ImageWebLink;
+            }
+            set
+            {
+                Set(ref _ImageWebLink, value);
             }
         }
         private bool _Owned = false;

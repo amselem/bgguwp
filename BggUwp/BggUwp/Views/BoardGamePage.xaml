@@ -95,7 +95,7 @@
                         DownsampleToViewSize="False"
                         DownsampleHeight="300"
                         LoadingPlaceholder="SampleCoverPicHD.jpg"
-                        Source="{Binding CurrentBoardGame.ImageWebLink}" />
+                        Source="{Binding CurrentBoardGame.ImageWebLink, Mode=OneWay}" />
                     <Grid Grid.Column="1" HorizontalAlignment="Stretch" Padding="5,0,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
