@@ -9,7 +9,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:BggUwp.ViewModels" 
       xmlns:Behaviors="using:Template10.Behaviors"
-      xmlns:behave="using:BggUwp.Common"
+      xmlns:common="using:BggUwp.Common"
       x:Class="BggUwp.Views.MainPage"
       mc:Ignorable="d"
     >
@@ -67,8 +67,8 @@
                               ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
                               IsItemClickEnabled="True"
                               Margin="0,10,0,0"
-                              behave:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
-                              behave:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
+                              common:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
+                              common:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
                         <GridView.ItemContainerStyle>
                             <Style TargetType="GridViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -87,8 +87,8 @@
                               ItemClick="{x:Bind ViewModel.GoToCollectionItemPage}"
                               IsItemClickEnabled="True"
                               Margin="0,10,0,0"
-                              behave:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
-                              behave:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
+                              common:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
+                              common:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
                         <GridView.ItemContainerStyle>
                             <Style TargetType="GridViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -107,8 +107,8 @@
                               ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
                               IsItemClickEnabled="True"
                               Margin="0,10,0,0"
-                              behave:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
-                              behave:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
+                              common:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
+                              common:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
                         <GridView.ItemContainerStyle>
                             <Style TargetType="GridViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
