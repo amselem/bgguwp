@@ -103,6 +103,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ListViewBehaviour.cs" />
     <Compile Include="Controls\BindableFlyout.cs" />
     <Compile Include="Common\Converters\ChangeTypeConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToDateTimeOffsetConverter.cs" />
