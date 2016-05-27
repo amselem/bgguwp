@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>BggUwp_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>93DFBE6D628ED04B1AD3D79685CB94801D6AE9F1</PackageCertificateThumbprint>
     <HockeyAppResourceId>b4b61359773644d4a404d23bda2a9adb</HockeyAppResourceId>
   </PropertyGroup>

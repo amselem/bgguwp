@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="47119PaweRzepiski.BoardGameGeekApp" Publisher="CN=9586875A-9A5E-4571-85D2-FF081F42E935" Version="1.2.8.0" />
+  <Identity Name="47119PaweRzepiski.BoardGameGeekApp" Publisher="CN=9586875A-9A5E-4571-85D2-FF081F42E935" Version="1.3.0.0" />
   <mp:PhoneIdentity PhoneProductId="4e6e1bbb-179e-4284-9d4c-c1cc99d54476" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>BoardGameGeek Hub</DisplayName>
