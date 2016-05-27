@@ -8,7 +8,8 @@
       xmlns:local="using:BggUwp.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:BggUwp.ViewModels" 
-      xmlns:Behaviors="using:Template10.Behaviors" 
+      xmlns:Behaviors="using:Template10.Behaviors"
+      xmlns:common="using:BggUwp.Common"
       x:Class="BggUwp.Views.MainPage"
       mc:Ignorable="d"
     >
@@ -49,60 +50,96 @@
         </CommandBar>
     </Page.BottomAppBar>
 
+    <Page.Resources>
+        <CollectionViewSource x:Name="PlaysCVS" IsSourceGrouped="True" Source="{Binding PlaysVM.PlaysList}"/>
+        <ItemsPanelTemplate x:Key="MyItemsPanelTemplate">
+            <ItemsStackPanel />
+        </ItemsPanelTemplate>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot x:Name="Menu" SelectionChanged="Menu_SelectionChanged" >
             <PivotItem x:Name="HotItems" Header="Home">
                 <Grid>
-                    <ListView x:Name="HotItemsItems" VerticalAlignment="Top"
+                    <GridView x:Name="HotItemsItems" VerticalAlignment="Top"
                               ItemsSource="{Binding HotItemsVM.HotItemsList}" 
                               ItemTemplate="{StaticResource HotItemsItemTemplate}"
                               ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
                               IsItemClickEnabled="True"
-                              Margin="0,10,0,0">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                              Margin="0,10,0,0"
+                              common:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
+                              common:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
+                        <GridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
                             </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
+                        </GridView.ItemContainerStyle>
+                    </GridView>
                 </Grid>
             </PivotItem>
 
             <PivotItem x:Name="Collection" Header="Games">
                 <Grid>
-                    <ListView x:Name="CollectionItems" VerticalAlignment="Top"
+                    <GridView x:Name="CollectionItems" VerticalAlignment="Top"
                               ItemsSource="{Binding CollectionVM.FilteredCollection}" 
                               ItemTemplate="{StaticResource CollectionItemTemplate}"
-                              ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
+                              ItemClick="{x:Bind ViewModel.GoToCollectionItemPage}"
                               IsItemClickEnabled="True"
-                              Margin="0,10,0,0">
-                        <ListView.ItemContainerTransitions>
-                            <TransitionCollection/>
-                        </ListView.ItemContainerTransitions>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                              Margin="0,10,0,0"
+                              common:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
+                              common:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
+                        <GridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
                             </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
+                        </GridView.ItemContainerStyle>
+                    </GridView>
                 </Grid>
             </PivotItem>
 
             <PivotItem x:Name="Plays" Header="Plays">
                 <Grid>
-                    <ListView x:Name="PlaysItems" VerticalAlignment="Top"
-                              ItemsSource="{Binding PlaysVM.PlaysList}" 
+                    <GridView x:Name="PlaysItems" VerticalAlignment="Top"
+                              ItemsSource="{Binding Source={StaticResource PlaysCVS}}" 
                               ItemTemplate="{StaticResource PlaysItemTemplate}"
                               ItemClick="{x:Bind ViewModel.GoToBoardGamePage}"
                               IsItemClickEnabled="True"
-                              Margin="0,10,0,0">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                              Margin="0,10,0,0"
+                              common:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=280}" 
+                              common:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
+                        <GridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
                             </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
+                        </GridView.ItemContainerStyle>
+                        <GridView.Resources>
+                            <Style x:Key="GridViewHeaderDateItem" TargetType="GridViewHeaderItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="GridViewHeaderItem">
+                                            <StackPanel BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                <Rectangle HorizontalAlignment="Stretch" Height="1" Margin="6,0,6,0" Stroke="{ThemeResource SystemControlForegroundBaseLowBrush}" StrokeThickness="0.5" VerticalAlignment="Bottom"/>
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GridView.Resources>
+                        <GridView.GroupStyle>
+                            <GroupStyle HeaderContainerStyle="{StaticResource GridViewHeaderDateItem}" >
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Key, ConverterParameter=\{0:m\}, Converter={StaticResource StringFormatConverter}, Mode=OneWay}" 
+                                       Style="{StaticResource TitleTextBlockStyle}" FontWeight="Normal" FontSize="16" Padding="6,12,0,2"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </GridView.GroupStyle>
+                    </GridView>
                 </Grid>
             </PivotItem>
         </Pivot>

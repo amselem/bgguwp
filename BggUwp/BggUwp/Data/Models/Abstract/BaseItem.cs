@@ -19,8 +19,8 @@ namespace BggUwp.Data.Models.Abstract
         }
 
         private int _BoardGameId = 0;
-        [PrimaryKey]
-        public int BoardGameId
+        [Indexed]
+        public virtual int BoardGameId
         {
             get
             {

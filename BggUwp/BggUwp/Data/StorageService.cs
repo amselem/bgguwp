@@ -41,9 +41,18 @@ namespace BggUwp.Data
             try
             {
                 var store = await ApplicationData.Current.LocalFolder.GetFileAsync(fileName);
+                if (SettingsService.Instance.DBVersion < 3)
+                {
+                    using (var db = DbConnection)
+                    {
+                        db.DropTable<CollectionDataItem>();
+                    }
+                    SettingsService.Instance.DBVersion = 3;
+                    return false;
+                }
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 return false;
             }
@@ -120,7 +129,10 @@ namespace BggUwp.Data
                     }
                     break;
                 }
-                catch (Exception) { }
+                catch (Exception ex)
+                {
+
+                }
                 Task.Delay(110).Wait();
                 retries++;
             }
@@ -147,12 +159,12 @@ namespace BggUwp.Data
             return results;
         }
 
-        public static CollectionDataItem LoadCollectionItem(int itemId)
+        public static CollectionDataItem LoadCollectionItem(int collectionItemId)
         {
             CollectionDataItem item = new CollectionDataItem();
             using (var db = DbConnection)
             {
-                item = db.Find<CollectionDataItem>(a => a.BoardGameId == itemId);
+                item = db.Find<CollectionDataItem>(a => a.CollectionItemId == collectionItemId);
             }
             return item ?? new CollectionDataItem();
         }

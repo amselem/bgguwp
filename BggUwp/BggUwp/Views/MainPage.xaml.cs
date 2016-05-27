@@ -55,6 +55,8 @@ namespace BggUwp.Views
         private void RefreshBarButton_Click(object sender, RoutedEventArgs e)
         {
             var context = DataContext as MainPageViewModel;
+            var flag = SettingsService.Instance.UpdateDataOnlyOnWiFi;
+            SettingsService.Instance.UpdateDataOnlyOnWiFi = false;
             switch (Menu.SelectedIndex)
             {
                 case 0:
@@ -68,6 +70,7 @@ namespace BggUwp.Views
                     context.PlaysVM.LoadPlays();
                     break;
             }
+            SettingsService.Instance.UpdateDataOnlyOnWiFi = flag;
         }
     }
 }

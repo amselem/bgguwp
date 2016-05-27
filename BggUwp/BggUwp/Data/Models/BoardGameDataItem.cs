@@ -36,17 +36,20 @@ namespace BggUwp.Data.Models
             foreach (string artist in apiItem.Artists)
                 Artists.Add(artist);
 
-            PlayerPollResults = new ObservableCollection<PlayerPollResultDataItem>();
-            foreach (PlayerPollResult result in apiItem.PlayerPollResults.OrderBy(x => x.NumberOfPlayers + (x.NumberOfPlayersIsAndHigher ? 1 : 0))) // add one to 4+ , making it 5 and the highest
+            if (apiItem.PlayerPollResults != null)
             {
-                PlayerPollResults.Add(new PlayerPollResultDataItem()
+                PlayerPollResults = new ObservableCollection<PlayerPollResultDataItem>();
+                foreach (PlayerPollResult result in apiItem.PlayerPollResults.OrderBy(x => x.NumberOfPlayers + (x.NumberOfPlayersIsAndHigher ? 1 : 0))) // add one to 4+ , making it 5 and the highest
                 {
-                    Best = result.Best,
-                    NumberOfPlayers = result.NumberOfPlayers,
-                    NumberOfPlayersIsAndHigher = result.NumberOfPlayersIsAndHigher,
-                    NotRecommended = result.NotRecommended,
-                    Recommended = result.Recommended
-                });
+                    PlayerPollResults.Add(new PlayerPollResultDataItem()
+                    {
+                        Best = result.Best,
+                        NumberOfPlayers = result.NumberOfPlayers,
+                        NumberOfPlayersIsAndHigher = result.NumberOfPlayersIsAndHigher,
+                        NotRecommended = result.NotRecommended,
+                        Recommended = result.Recommended
+                    });
+                }
             }
         }
 

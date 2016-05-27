@@ -14,22 +14,31 @@ namespace BggUwp.Common.Converters
             if (value == null)
                 return NullString;
 
-            if (value.ToString().Length > 0)
-                return value.ToString();
+            if (String.IsNullOrEmpty(value.ToString()))
+                return NullString;
 
             double number = 0;
-            Double.TryParse(value.ToString(), out number);
-            if (number == 0)
-                return NullString;
+            if (Double.TryParse(value.ToString(), out number))
+            {
+                if (number == 0)
+                    return NullString;
+            }
 
             return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
+            if (value == null)
+                return NullValue;
+
+            if (String.IsNullOrEmpty(value.ToString()))
+                return NullValue;
+
             return System.Convert.ChangeType(value, targetType);
         }
 
         public string NullString { get; set; }
+        public int NullValue { get; set; }
     }
 }

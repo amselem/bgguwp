@@ -6,14 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:BggUwp.ViewModels" 
+    xmlns:common="using:BggUwp.Common"
     mc:Ignorable="d">
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Label="Add player" Icon="AddFriend" Click="AddPlayer_Click" x:Name="AddPlayerAppBarButton" />
-            <AppBarButton Label="Select" Icon="List" Click="SelectPlayers" x:Name="SelectAppBarButton"/>
-            <AppBarButton Label="Delete" Icon="Delete" Click="RemovePlayer" x:Name="RemovePlayerAppBarButton" />
-            <AppBarButton Label="Cancel" Icon="Cancel" Click="CancelSelection" x:Name="CancelSelectionAppBarButton"/>
+            <AppBarButton Label="add player" Icon="AddFriend" Click="AddPlayer_Click" x:Name="AddPlayerAppBarButton" />
+            <AppBarButton Label="select" Icon="List" Click="SelectPlayers" x:Name="SelectAppBarButton"/>
+            <AppBarButton Label="delete" Icon="Delete" Click="RemovePlayer" x:Name="RemovePlayerAppBarButton" />
+            <AppBarButton Label="cancel" Icon="Cancel" Click="CancelSelection" x:Name="CancelSelectionAppBarButton"/>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -30,15 +31,18 @@
         <Grid x:Name="Header" Grid.Row="0" Background="{StaticResource BGGHeaderBlue}" Padding="10,0,0,0">
             <TextBlock Text="Players" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="PlayersListView" VerticalAlignment="Top"
+        <GridView Grid.Row="1" x:Name="PlayersGridView" VerticalAlignment="Top"
                               ItemsSource="{Binding PlayersList}" 
                               ItemTemplate="{StaticResource PlayersItemTemplate}"
-                              Margin="0,10,0,0">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                              Margin="0,10,0,0"
+                              common:ListViewBehaviour.MinItemWidth="{Binding FakeBinding, FallbackValue=200}" 
+                              common:ListViewBehaviour.FillBeforeWrap="{Binding FakeBinding, FallbackValue=True}">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+            </GridView.ItemContainerStyle>
+        </GridView>
     </Grid>
 </Page>

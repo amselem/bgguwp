@@ -37,6 +37,10 @@
                 <TextBlock Text="Credits:"/>
                 <TextBlock Text="Tom Alphin - design guidance"/>
                 <TextBlock Text="Till Teenck - icon from Noun Project"/>
+                <TextBlock Margin="0,10">
+                    <Run Text="Version: " />
+                    <Run Text="{Binding VersionData}" />
+                </TextBlock>
             </StackPanel>
         </Grid>
     </Grid>

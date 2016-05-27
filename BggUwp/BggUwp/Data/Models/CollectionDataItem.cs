@@ -1,10 +1,11 @@
 ﻿using BggUwp.Data.Models.Abstract;
 using BggApi.Models;
 using SQLite.Net.Attributes;
+using System;
 
 namespace BggUwp.Data.Models
 {
-    public class CollectionDataItem : BoardGameItem
+    public class CollectionDataItem : BoardGameItem, IEquatable<CollectionDataItem>
     {
         public CollectionDataItem() { }
         public CollectionDataItem(CollectionItem apiItem)
@@ -13,6 +14,7 @@ namespace BggUwp.Data.Models
             YearPublished = apiItem.YearPublished;
             BoardGameId = apiItem.BoardGameId;
             ThumbnailPath = apiItem.BoardGameId.ToString() + "_th.jpg";
+            ImageWebLink = apiItem.ImageWeb;
             MinPlayers = apiItem.MinPlayers;
             MaxPlayers = apiItem.MaxPlayers;
             PlayingTime = apiItem.PlayingTime;
@@ -66,7 +68,7 @@ namespace BggUwp.Data.Models
         }
 
         private int _CollectionItemId = 0;
-        [Indexed]
+        [PrimaryKey]
         public int CollectionItemId
         {
             get
@@ -76,6 +78,19 @@ namespace BggUwp.Data.Models
             set
             {
                 Set(ref _CollectionItemId, value);
+            }
+        }
+
+        private string _ImageWebLink = string.Empty;
+        public string ImageWebLink
+        {
+            get
+            {
+                return _ImageWebLink;
+            }
+            set
+            {
+                Set(ref _ImageWebLink, value);
             }
         }
         private bool _Owned = false;
@@ -259,6 +274,12 @@ namespace BggUwp.Data.Models
             {
                 Set(ref _UserComment, value);
             }
+        }
+
+        public bool Equals(CollectionDataItem other)
+        {
+            if (other == null) return false;
+            return (this.BoardGameId.Equals(other.BoardGameId));
         }
     }
 }

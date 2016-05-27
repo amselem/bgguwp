@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using Windows.ApplicationModel;
 
 namespace BggUwp.ViewModels
 {
@@ -212,6 +213,30 @@ namespace BggUwp.ViewModels
     {
         public AboutPartViewModel()
         {
+            VersionData = GetAppVersion();
+        }
+
+        string _VersionData = string.Empty;
+        public string VersionData
+        {
+            get
+            {
+                return _VersionData;
+            }
+            set
+            {
+                Set(ref _VersionData, value);
+            }
+        }
+
+        public static string GetAppVersion()
+        {
+
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
+
+            return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
         }
     }
 }

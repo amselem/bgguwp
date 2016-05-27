@@ -337,19 +337,20 @@ namespace BggApi
                 "http://boardgamegeek.com/item/weblinks?ajax=1&domain=&filter=%7B%22languagefilter%22:0,%22categoryfilter%22:%222702%22%7D"; // TODO Set language filter
             Uri rulesUrl = new Uri(string.Format(baseRulesUrl + "&objectid={0}&objecttype=thing&pageid=1&showcount={1}&version=v2", boardGameId, 20));
 
-            string data = await ReadJsonData(rulesUrl);
+            try
+            {
+                string data = await ReadJsonData(rulesUrl);
+                RulesItem rulesData = JsonConvert.DeserializeObject<RulesItem>(data);
 
-            if (String.IsNullOrEmpty(data))
-                return string.Format("http://www.boardgamegeek.com/boardgame/{0}", boardGameId);
-
-            RulesItem rulesData = JsonConvert.DeserializeObject<RulesItem>(data);
-            if (rulesData.WebLinks.Count != 0)
                 return rulesData.WebLinks.FindLast(a => a.Categories.Last() == "Rules" && a.Languages.First() == "English").Url;
-
-            return string.Format("http://www.boardgamegeek.com/boardgame/{0}", boardGameId);
+            }
+            catch
+            {
+                return string.Format("http://www.boardgamegeek.com/boardgame/{0}", boardGameId);
+            }
         }
 
-        public async Task<CollectionItem> LoadCollectionItem(int boardGameId, string username, int userId)
+        public async Task<CollectionItem> LoadCollectionItem(string username, int userId, int boardGameId, int collectionItemId)
         {
             // https://boardgamegeek.com/api/collections?objectid=187645&objecttype=thing&userid=1221304
             string baseCollIdUrl = "https://boardgamegeek.com/api/collections"; // TODO Set language filter
@@ -363,7 +364,14 @@ namespace BggApi
             {
                 try
                 {
-                    collId = int.Parse(collectionItemData.items.FirstOrDefault().collid);
+                    if (collectionItemId == 0)
+                    {
+                        collId = int.Parse(collectionItemData.items.FirstOrDefault().collid);
+                    }
+                    else
+                    {
+                        collId = collectionItemId;
+                    }
                 }
                 catch (Exception ex)
                 {

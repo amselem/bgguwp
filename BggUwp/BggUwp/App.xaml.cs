@@ -23,7 +23,11 @@ namespace BggUwp
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
-            HockeyClient.Current.Configure("b4b61359773644d4a404d23bda2a9adb");
+            HockeyClient.Current.Configure("b4b61359773644d4a404d23bda2a9adb",
+             new TelemetryConfiguration()
+             {
+                 DescriptionLoader = (ex) => { return "Message: " + ex.Message; }
+             });
 #endif
             InitializeComponent();
 #if DEBUG

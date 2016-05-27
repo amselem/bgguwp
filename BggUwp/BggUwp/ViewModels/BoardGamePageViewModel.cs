@@ -16,7 +16,7 @@ namespace BggUwp.ViewModels
     public class BoardGamePageViewModel : ViewModelBase
     {
         Windows.UI.Core.CoreDispatcher dispatcher;
-
+        
         public BoardGamePageViewModel()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
@@ -85,6 +85,20 @@ namespace BggUwp.ViewModels
             }
         }
 
+        private bool _IsFullyLoaded = false;
+        public bool IsFullyLoaded
+        {
+            get
+            {
+                return _IsFullyLoaded;
+            }
+            set
+            {
+                Set(ref _IsFullyLoaded, value);
+                OnStatusChanged();
+            }
+        }
+
         private Uri _RulesLink;
         public Uri RulesLink
         {
@@ -132,10 +146,10 @@ namespace BggUwp.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
-            int gameId = (int)parameter;
+            Tuple<int, int> parameters = (Tuple<int, int>)parameter;
             if (DataService.Instance.IsThereInternetAccess())
             {
-                LoadData(gameId);
+                LoadData(parameters.Item1, parameters.Item2);
             }
             else
             {
@@ -149,15 +163,23 @@ namespace BggUwp.ViewModels
             await Task.CompletedTask;
         }
 
-        private async void LoadData(int gameId)
+        private async void LoadData(int gameId, int collectionId)
         {
-            EditDialogVM = new EditDialogViewModel(gameId);
             LogPlayDialogVM = new LogPlayViewModel(gameId);
-            CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(gameId);
+            EditDialogVM = new EditDialogViewModel(gameId);
+            CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(collectionId);
             CurrentBoardGame = await DataService.Instance.LoadBoardGame(gameId);
             RulesLink = new Uri(await DataService.Instance.GetRulesLink(gameId));
+
             // in case of desynchronized local data
-            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(gameId);
+            CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(gameId, collectionId);
+            if (!String.IsNullOrEmpty(CurrentCollectionItem.BoardGameName))
+            {
+                CurrentBoardGame.BoardGameName = CurrentCollectionItem.BoardGameName;
+                CurrentBoardGame.ImageWebLink = CurrentCollectionItem.ImageWebLink;
+            }
+            EditDialogVM = new EditDialogViewModel(CurrentCollectionItem);
+            IsFullyLoaded = true;
         }
 
         private void RefreshData(RefreshDataMessage msg)
@@ -167,6 +189,15 @@ namespace BggUwp.ViewModels
                 CurrentCollectionItem = DataService.Instance.LoadCollectionItemFromStorage(CurrentBoardGame.BoardGameId);
             }
         }
+
+        public DelegateCommand GoToBggCommand => new DelegateCommand(async () =>
+        {
+            if (CurrentBoardGame != null)
+            {
+                Uri Url = new Uri(CurrentBoardGame.VisitURL);
+                var result = await Windows.System.Launcher.LaunchUriAsync(Url);
+            }
+        });
 
         private DelegateCommand _AddCommand;
         public DelegateCommand AddCommand
@@ -191,6 +222,7 @@ namespace BggUwp.ViewModels
             {
                 CurrentCollectionItem = await DataService.Instance.LoadCollectionItemFromWeb(CurrentBoardGame.BoardGameId);
                 StorageService.SaveCollectionItem(CurrentCollectionItem);
+                EditDialogVM = new EditDialogViewModel(CurrentCollectionItem);
                 Messenger.Default.Send<RefreshDataMessage>(new RefreshDataMessage()
                 {
                     RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
@@ -209,7 +241,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteAddCommand()
         {
-            return !IsInCollection;
+            return !IsInCollection && IsFullyLoaded;
         }
 
         private DelegateCommand _RemoveCommand;
@@ -239,7 +271,7 @@ namespace BggUwp.ViewModels
                     RequestedRefreshScope = RefreshDataMessage.RefreshScope.Collection,
                     RequestedRefreshType = RefreshDataMessage.RefreshType.Local
                 });
-                CurrentCollectionItem = null;
+                CurrentCollectionItem = new CollectionDataItem();
             }
             else
             {
@@ -253,7 +285,7 @@ namespace BggUwp.ViewModels
 
         private bool CanExecuteRemoveCommand()
         {
-            return IsInCollection;
+            return IsInCollection && IsFullyLoaded;
         }
     }
 }

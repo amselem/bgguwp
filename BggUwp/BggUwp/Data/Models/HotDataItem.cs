@@ -1,5 +1,6 @@
 ﻿using BggUwp.Data.Models.Abstract;
 using BggApi.Models;
+using SQLite.Net.Attributes;
 
 namespace BggUwp.Data.Models
 {
@@ -14,6 +15,20 @@ namespace BggUwp.Data.Models
             Rank = apiItem.Rank;
             ThumbnailPath = apiItem.BoardGameId.ToString() + "_th.jpg";
             YearPublished = apiItem.YearPublished;
+        }
+
+        private int _BoardGameId = 0;
+        [PrimaryKey]
+        public override int BoardGameId
+        {
+            get
+            {
+                return _BoardGameId;
+            }
+            set
+            {
+                Set(ref _BoardGameId, value);
+            }
         }
 
         private int _YearPublished = 0;

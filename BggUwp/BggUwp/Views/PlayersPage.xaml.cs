@@ -28,7 +28,7 @@ namespace BggUwp.Views
         public PlayersPage()
         {
             this.InitializeComponent();
-            SetCommandsVisibility(PlayersListView);
+            SetCommandsVisibility(PlayersGridView);
         }
 
         private async void AddPlayer_Click(object sender, RoutedEventArgs e)
@@ -37,9 +37,9 @@ namespace BggUwp.Views
             await tmp.ShowAsync();
         }
 
-        private void SetCommandsVisibility(ListView listView)
+        private void SetCommandsVisibility(GridView gridView)
         {
-            if (listView.SelectionMode == ListViewSelectionMode.Multiple || listView.SelectedItems.Count > 1)
+            if (gridView.SelectionMode == ListViewSelectionMode.Multiple || gridView.SelectedItems.Count > 1)
             {
                 SelectAppBarButton.Visibility = Visibility.Collapsed;
                 CancelSelectionAppBarButton.Visibility = Visibility.Visible;
@@ -58,20 +58,20 @@ namespace BggUwp.Views
         }
         private void SelectPlayers(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            PlayersListView.SelectionMode = ListViewSelectionMode.Multiple;
-            SetCommandsVisibility(PlayersListView);
+            PlayersGridView.SelectionMode = ListViewSelectionMode.Multiple;
+            SetCommandsVisibility(PlayersGridView);
         }
 
         private void RemovePlayer(object sender, RoutedEventArgs e)
         {
-            if (PlayersListView.SelectedIndex != -1)
+            if (PlayersGridView.SelectedIndex != -1)
             {
                 // When an item is removed from the underlying collection, the Listview is updated, 
                 // hence the this.SelectedItems is updated as well. 
                 // It's needed to copy the selected items collection to iterate over other collection that 
                 // is not updated.
                 List<PlayerDataItem> selectedItems = new List<PlayerDataItem>();
-                foreach (PlayerDataItem item in PlayersListView.SelectedItems)
+                foreach (PlayerDataItem item in PlayersGridView.SelectedItems)
                 {
                     selectedItems.Add(item);
                 }
@@ -81,22 +81,22 @@ namespace BggUwp.Views
                 {
                     tmp.RemovePlayer(item);
                 }
-                PlayersListView.SelectionMode = ListViewSelectionMode.None;
-                SetCommandsVisibility(PlayersListView);
+                PlayersGridView.SelectionMode = ListViewSelectionMode.None;
+                SetCommandsVisibility(PlayersGridView);
             }
         }
         private void CancelSelection(object sender, RoutedEventArgs e)
         {
             // If the list is multiple selection mode but there is no items selected, 
             // then the list should return to the initial selection mode.
-            if (PlayersListView.SelectedItems.Count == 0)
+            if (PlayersGridView.SelectedItems.Count == 0)
             {
-                PlayersListView.SelectionMode = ListViewSelectionMode.None;
-                SetCommandsVisibility(PlayersListView);
+                PlayersGridView.SelectionMode = ListViewSelectionMode.None;
+                SetCommandsVisibility(PlayersGridView);
             }
             else
             {
-                PlayersListView.SelectedItems.Clear();
+                PlayersGridView.SelectedItems.Clear();
             }
         }
     }
