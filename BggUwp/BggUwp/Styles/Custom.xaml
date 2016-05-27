@@ -34,7 +34,7 @@
 
     <!-- Data Templates -->
     <DataTemplate x:Key="HotItemsItemTemplate">
-        <Grid Height="80" Margin="0,0,0,20" >
+        <Grid Height="80" Margin="20,0,10,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="*"/>
@@ -52,7 +52,7 @@
                         <Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Year Published" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}"  />
                             <TextBlock Grid.Column="1" Text="{Binding YearPublished, Mode=OneWay}" HorizontalAlignment="Right" FontSize="10.667" FontWeight="Bold" />
@@ -63,7 +63,7 @@
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="CollectionItemTemplate">
-        <Grid Height="80" Margin="0,0,0,20" >
+        <Grid Height="80" Margin="20,0,10,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="*"/>
@@ -83,7 +83,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" HorizontalAlignment="Left" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}" Text="BGG Rank" />
                             <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontSize="10.667" Text="{Binding Rank, Mode=OneWay}" Foreground="Black" FontWeight="Bold" />
@@ -110,7 +110,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" HorizontalAlignment="Left" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}" Text="Rating" />
                             <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontSize="10.667" Text="{Binding UserRatingDisplay, Mode=OneWay}" Foreground="Black" FontWeight="Bold" />
@@ -139,7 +139,7 @@
                         <Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="number of plays" FontSize="10.667" Foreground="{StaticResource BGGTextGrey}"/>
                             <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding NumberOfPlays}" FontSize="10.667" FontWeight="Bold"/>
