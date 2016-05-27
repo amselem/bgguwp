@@ -85,6 +85,7 @@
                         <Setter Target="CoverImage.(RelativePanel.AlignRightWithPanel)" Value="True"/>
                         <Setter Target="InfoTable.(RelativePanel.AlignLeftWith)" Value="CoverImage"/>
                         <Setter Target="InfoTable.(RelativePanel.AlignRightWith)" Value="CoverImage"/>
+                        <Setter Target="Cover.(RelativePanel.LeftOf)" Value="RatingBoxes"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -102,13 +103,12 @@
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.Setters>
-                        <Setter Target="RatingBoxes.(RelativePanel.Below)" Value="Cover"/>
                         <Setter Target="RatingBoxes.(StackPanel.Orientation)" Value="Horizontal"/>
                         <Setter Target="RankBorder.(FrameworkElement.Width)" Value="70"/>
                         <Setter Target="AverageRatingBorder.(FrameworkElement.Width)" Value="70"/>
                         <Setter Target="UserRatingBorder.(FrameworkElement.Width)" Value="70"/>
-                        <Setter Target="RatingBoxes.(RelativePanel.AlignLeftWith)" Value="Cover"/>
-                        <Setter Target="RatingBoxes.(RelativePanel.AlignRightWith)" Value="Cover"/>
+                        <Setter Target="RatingBoxes.(RelativePanel.AlignLeftWith)" Value=""/>
+                        <Setter Target="RatingBoxes.(RelativePanel.AlignRightWith)" Value=""/>
                         <Setter Target="RankBorder.(FrameworkElement.Margin)">
                             <Setter.Value>
                                 <Thickness>5,5,5,0</Thickness>
@@ -129,6 +129,9 @@
                                 <Thickness>0,0,10,0</Thickness>
                             </Setter.Value>
                         </Setter>
+                        <Setter Target="RatingBoxes.(RelativePanel.Below)" Value="Cover"/>
+                        <Setter Target="Cover.(RelativePanel.AlignRightWithPanel)" Value="True"/>
+                        <Setter Target="CoverImage.(FrameworkElement.MinWidth)" Value="250"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="900"/>
@@ -151,7 +154,7 @@
 
             <Grid x:Name="Content" Grid.Row="1" Padding="10,10,10,0">
                 <RelativePanel Name="ContentRelative">
-                    <RelativePanel Name="CoverImage">
+                    <RelativePanel Name="CoverImage" MinWidth="330">
                         <!--<Image Name="Cover" HorizontalAlignment="Right" VerticalAlignment="Bottom"  MaxHeight="250">
                             <Image.Source>
                                 <BitmapImage UriSource="{Binding CurrentBoardGame.ImageWebLink, FallbackValue=ms-appx:///Assets/SampleCoverPicHD.jpg}"
@@ -168,8 +171,8 @@
                             DownsampleToViewSize="False"
                             DownsampleHeight="300"
                             LoadingPlaceholder="SampleCoverPicHD.jpg"
-                            Source="{Binding CurrentBoardGame.ImageWebLink, Mode=OneWay, FallbackValue=ms-appx:///Assets/SampleCoverPicHD.jpg}" />
-                        <StackPanel x:Name="RatingBoxes" HorizontalAlignment="Stretch" Padding="5,0,0,0" RelativePanel.RightOf="Cover">
+                            Source="{Binding CurrentBoardGame.ImageWebLink, Mode=OneWay}" />
+                        <StackPanel x:Name="RatingBoxes" HorizontalAlignment="Stretch" Padding="5,0,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
                             <Border x:Name="RankBorder" Height="70" BorderThickness="1" BorderBrush="{StaticResource DarkerGreyBorder}" VerticalAlignment="Bottom" Margin="0,0,0,5">
                                 <Grid Background="{StaticResource BGGGrey}" Padding="5,0">
                                     <Grid.RowDefinitions>
